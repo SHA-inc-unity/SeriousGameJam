@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NPCInteract : MonoBehaviour
 {
@@ -10,5 +11,7 @@ public class NPCInteract : MonoBehaviour
     public void Interact()
     {
         Debug.Log("NPC was touched: " + npcName);
+
+        SceneManager.LoadScene("BattleScene");
     }
 }
