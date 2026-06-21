@@ -10,7 +10,7 @@ public class AttackEffect : WheelSlotEffect
     [Tooltip("Multiplier applied to attacker.attackPower. 1 = normal hit, 2 = crit-style double damage.")]
     public float damageMultiplier = 1f;
 
-    public override void Execute(Combatant attacker, Combatant defender)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager)
     {
         int damage = Mathf.RoundToInt(attacker.attackPower * damageMultiplier);
         defender.TakeDamage(damage);

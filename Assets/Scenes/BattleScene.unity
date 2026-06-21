@@ -533,15 +533,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b4e742a5d72ac4eb1441b62f9ac31e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  playerName: The Knight
-  playerMaxHP: 100
-  playerAttackPower: 15
-  enemyName: Hook-a-Duck Guy
-  enemyMaxHP: 60
-  enemyAttackPower: 10
-  playerWheel: {fileID: 11400000, guid: cd9c516e8a8a31b4394b5ca28e7adfa4, type: 2}
-  enemyWheel: {fileID: 11400000, guid: cd9c516e8a8a31b4394b5ca28e7adfa4, type: 2}
+  testPlayerData: {fileID: 0}
+  testEnemyData: {fileID: 0}
   spinDelaySeconds: 2
+  endBattleDelaySeconds: 2
+  overworldSceneName: OverWorld
 --- !u!4 &1390675038
 Transform:
   m_ObjectHideFlags: 0
