@@ -8,7 +8,7 @@ public class HealEffect : WheelSlotEffect
     [Range(0f, 1f)]
     public float healPercent = 0.2f;
 
-    public override void Execute(Combatant attacker, Combatant defender)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager)
     {
         int healAmount = Mathf.RoundToInt(attacker.maxHP * healPercent);
         attacker.Heal(healAmount);
