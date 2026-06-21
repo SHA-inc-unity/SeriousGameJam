@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 using System;
+using Unity.VisualScripting;
+using UnityEditor.U2D.Tooling.Analyzer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,7 +40,15 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        Load();
+        if(PlayerPrefs.HasKey("SaveFile"))
+        {
+            Load();
+        }
+        else
+        {
+            PlayerPrefs.SetInt("SaveFile", 1);
+            PlayerPrefs.Save();
+        }
     }
 
     void OnDestroy()

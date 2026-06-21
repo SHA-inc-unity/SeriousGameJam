@@ -6,12 +6,19 @@ using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
+    public static SettingsController Instance;
+
     [Header("Sound")]
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private TMP_Text volumeText;
 
     private string pharm = "MasterVolume";
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -26,6 +33,11 @@ public class SettingsController : MonoBehaviour
         volumeSlider.value = saved;
         SetVolume(saved);
         volumeSlider.onValueChanged.AddListener(SetVolume);
+    }
+
+    public void ReSetupVolume()
+    {
+        SetVolume(volumeSlider.value);
     }
 
     public void SetVolume(float value)

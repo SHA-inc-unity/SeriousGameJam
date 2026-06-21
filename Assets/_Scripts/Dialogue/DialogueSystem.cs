@@ -44,16 +44,16 @@ public class DialogueSystem : MonoBehaviour
     private void Update()
     {
         // in a good way, this needs to be redone for an event
-        if (IsActive.isActive)
+        if (IsActive.isInDialogue)
+        {
+            if (obj.activeSelf == false)
+                obj.SetActive(true);
+        }
+        else
         {
             if (obj.activeSelf == true)
                 obj.SetActive(false);
             return;
-        }
-        else
-        {
-            if (obj.activeSelf == false)
-                obj.SetActive(true);
         }
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
@@ -71,7 +71,7 @@ public class DialogueSystem : MonoBehaviour
 
         if (nEnd < 0) nEnd = valuesIn.Count;
 
-        IsActive.isActive = false;
+        IsActive.isInDialogue = true;
 
         this.nEnd = nEnd;
 
@@ -90,7 +90,7 @@ public class DialogueSystem : MonoBehaviour
         }
         else
         {
-            IsActive.isActive = true;
+            IsActive.isInDialogue = false;
             StartCoroutine(DialogueCooldown());
         }
     }
@@ -111,7 +111,7 @@ public class DialogueSystem : MonoBehaviour
         else
         {
             if (n < nEnd - 1) { n++; PlayDialogue(n); }
-            else { IsActive.isActive = true; StartCoroutine(DialogueCooldown()); }
+            else { IsActive.isInDialogue = false; StartCoroutine(DialogueCooldown()); }
         }
     }
 
