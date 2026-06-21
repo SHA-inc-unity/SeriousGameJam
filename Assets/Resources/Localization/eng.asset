@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 006fadb20228e1c49bfc9e79d34509c8, type: 3}
+  m_Name: eng
+  m_EditorClassIdentifier: 
+  font: {fileID: 11400000, guid: 96af25a97da52be4c86a8583a87d7988, type: 2}
+  languageType: 0
+  languagePairs:
+  - Key: Caroline
+    Value: Caroline
+  - Key: Okay bye then
+    Value: Okay bye then
+  - Key: Hi Boy
+    Value: Hi Boy
+  - Key: Hero
+    Value: Hero
+  - Key: Hello
+    Value: Hello
+  - Key: Welcome to the park
+    Value: Welcome to the park
+  - Key: I hope you have fun
+    Value: I hope you have fun
+  - Key: No, I'm serious
+    Value: No, I'm serious
+  - Key: Okay, so what do you need
+    Value: Okay, so what do you need
+  - Key: I WANT A BATTLE
+    Value: I WANT A BATTLE
+  - Key: Nothing
+    Value: Nothing

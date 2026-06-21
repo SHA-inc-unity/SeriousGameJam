@@ -7,6 +7,8 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
+        if (!IsActive.isActive || IsActive.dialogueCooldown) return;
+
         if (Keyboard.current.eKey.wasPressedThisFrame && npcInteract != null)
         {
             npcInteract.Interact();

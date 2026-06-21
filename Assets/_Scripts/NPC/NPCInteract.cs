@@ -5,6 +5,8 @@ public class NPCInteract : MonoBehaviour
 {
     [SerializeField]
     private string npcName;
+    [SerializeField]
+    private DialogueHolder holder;
 
     public string sceneName;
 
@@ -12,8 +14,9 @@ public class NPCInteract : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("NPC was touched: " + npcName);
+        //Debug.Log("NPC was touched: " + npcName);
 
-        SceneManager.LoadScene(sceneName);
+        DialogueSystem.Instance.StartDialogue(holder);
     }
+
 }
