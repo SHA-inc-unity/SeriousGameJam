@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
 
 // Drives the whole battle loop. Lives on an empty GameObject in the Battle
@@ -32,6 +33,12 @@ public class BattleManager : MonoBehaviour
              "Battle scene (useful while you don't have an overworld scene wired up yet).")]
     public string overworldSceneName = "";
 
+    [Tooltip("Key the player presses to spin their wheel on their turn.")]
+    public Key playerSpinKey = Key.Space;
+
+    [Header("UI")]
+    [SerializeField] private BattleCanvas battleCanvas;
+
     public BattleState CurrentState { get; private set; }
 
     private Combatant player;
@@ -39,6 +46,11 @@ public class BattleManager : MonoBehaviour
 
     // Set by EndBattleImmediately() to short-circuit the normal turn flow.
     private bool battleEndedEarly;
+
+    // True while we're waiting for the player to press playerSpinKey.
+    // Set in BeginTurn() (player branch only), checked in Update(),
+    // cleared the moment the key is pressed and the spin happens.
+    private bool waitingForPlayerSpin;
 
     private void Start()
     {
@@ -63,11 +75,24 @@ public class BattleManager : MonoBehaviour
             Debug.LogError($"{enemy.displayName} has no wheel assigned in their CombatantData.");
 
         // TODO once UI/audio exist: use BattleSetup.BattleMusic and
-        // BattleSetup.BattleBackground here to set up the scene's visuals/audio.
+
+        battleCanvas.SetPlayerSprite(playerData.battleSprite);
+        battleCanvas.SetEnemySprite(enemyData.battleSprite);
 
         BattleSetup.Clear(); // consumed - prevents stale data leaking into a future battle
 
         ChangeState(BattleState.Intro);
+    }
+
+    private void Update()
+    {
+        if (!waitingForPlayerSpin) return;
+
+        if (Keyboard.current[playerSpinKey].wasPressedThisFrame)
+        {
+            waitingForPlayerSpin = false;
+            OnPlayerSpinPressed();
+        }
     }
 
     private void ChangeState(BattleState newState)
@@ -117,11 +142,9 @@ public class BattleManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            // In the real game: enable a "Spin" button here and wait for the
-            // player to press it, then call OnPlayerSpinPressed().
-            // For now, auto-spin after a short delay so you can test the loop.
-            Announce($"{player.displayName}'s turn. (Auto-spinning for test purposes)");
-            StartCoroutine(DelayThen(spinDelaySeconds, OnPlayerSpinPressed));
+            // Wait for the player to press playerSpinKey - see Update().
+            Announce($"{player.displayName}'s turn. Press {playerSpinKey} to spin!");
+            waitingForPlayerSpin = true;
         }
         else
         {
@@ -130,7 +153,9 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // Call this from your UI "Spin" button's OnClick.
+    // Call this from your UI "Spin" button's OnClick (if you add one later
+    // alongside/instead of the key press), or it's called automatically
+    // from Update() when playerSpinKey is pressed.
     public void OnPlayerSpinPressed()
     {
         if (CurrentState != BattleState.PlayerTurn) return;
@@ -207,6 +232,7 @@ public class BattleManager : MonoBehaviour
     public void EndBattleImmediately(bool playerWon)
     {
         battleEndedEarly = true;
+        waitingForPlayerSpin = false;
         StopAllCoroutines();
         ChangeState(playerWon ? BattleState.Win : BattleState.Lose);
     }

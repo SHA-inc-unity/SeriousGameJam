@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp::CombatantData
   displayName: Knight
-  battleSprite: {fileID: 0}
+  battleSprite: {fileID: 21300000, guid: 3e75624d4246b704984dc7953595c4aa, type: 3}
   maxHP: 50
   attackPower: 10
   wheel: {fileID: 11400000, guid: cd9c516e8a8a31b4394b5ca28e7adfa4, type: 2}
