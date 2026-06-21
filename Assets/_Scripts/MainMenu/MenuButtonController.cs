@@ -11,7 +11,7 @@ public class MenuButtonController : MonoBehaviour
 
     private void Start()
     {
-        continueBtn.interactable = PlayerPrefs.HasKey("SaveFile");
+        continueBtn.interactable = (PlayerPrefs.HasKey("SaveFile") && PlayerPrefs.HasKey("LastScene"));
     }
 
     public void Quit()
@@ -30,6 +30,6 @@ public class MenuButtonController : MonoBehaviour
 
     public void ContinueGame()
     {
-        SceneManager.LoadScene(newGameSceneName);
+        SceneManager.LoadScene(PlayerPrefs.GetString("LastScene"));
     }
 }

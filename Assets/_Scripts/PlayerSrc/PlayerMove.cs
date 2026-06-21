@@ -1,9 +1,6 @@
-using Newtonsoft.Json;
-using System;
-using Unity.VisualScripting;
-using UnityEditor.U2D.Tooling.Analyzer;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -13,6 +10,8 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     private float speed = 5f;
+
+    private string sceneName;
 
 
     void Update()
@@ -40,7 +39,11 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        if(PlayerPrefs.HasKey("SaveFile"))
+        sceneName = SceneManager.GetActiveScene().name;
+
+        PlayerPrefs.SetString("LastScene", sceneName);
+
+        if (PlayerPrefs.HasKey("SaveFile"))
         {
             Load();
         }
@@ -59,20 +62,20 @@ public class PlayerMove : MonoBehaviour
     private void Save()
     {
         Vector3 p = playerTrans.position;
-        PlayerPrefs.SetFloat("playerX", p.x);
-        PlayerPrefs.SetFloat("playerY", p.y);
-        PlayerPrefs.SetFloat("playerZ", p.z);
+        PlayerPrefs.SetFloat($"playerX/{sceneName}", p.x);
+        PlayerPrefs.SetFloat($"playerY/{sceneName}", p.y);
+        PlayerPrefs.SetFloat($"playerZ/{sceneName}", p.z);
         PlayerPrefs.Save();
     }
 
     private void Load()
     {
-        if (!PlayerPrefs.HasKey("playerX")) return;
+        if (!PlayerPrefs.HasKey($"playerX/{sceneName}")) return;
 
         Vector3 pos = new Vector3(
-            PlayerPrefs.GetFloat("playerX"),
-            PlayerPrefs.GetFloat("playerY"),
-            PlayerPrefs.GetFloat("playerZ"));
+            PlayerPrefs.GetFloat($"playerX/{sceneName}"),
+            PlayerPrefs.GetFloat($"playerY/{sceneName}"),
+            PlayerPrefs.GetFloat($"playerZ/{sceneName}"));
 
         rb.position = pos;
         playerTrans.position = pos;
