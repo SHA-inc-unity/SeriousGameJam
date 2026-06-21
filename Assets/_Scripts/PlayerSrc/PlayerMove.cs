@@ -15,6 +15,8 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if(!IsActive.isActive) return;
+
         Vector3 dir = Vector3.zero;
 
         if (Keyboard.current.wKey.isPressed) dir += playerTrans.forward;
