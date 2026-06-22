@@ -1010,6 +1010,10 @@ PrefabInstance:
       propertyPath: holder
       value: 
       objectReference: {fileID: 11400000, guid: bb0dfc1e0db103642be3a3c6d13b59d9, type: 2}
+    - target: {fileID: 562115905687678195, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+      propertyPath: sceneName
+      value: BattleScene
+      objectReference: {fileID: 0}
     - target: {fileID: 6156147776680738707, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
       propertyPath: m_Name
       value: NPC
@@ -1057,8 +1061,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6156147776680738707, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1320712569682365310}
   m_SourcePrefab: {fileID: 100100000, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+--- !u!1 &1320712569682365309 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6156147776680738707, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+  m_PrefabInstance: {fileID: 1320712569682365308}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1320712569682365310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320712569682365309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
+  playerData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+  enemyData: {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
+  battleMusic: {fileID: 0}
+  battleBackground: {fileID: 0}
+  battleSceneName: BattleScene
 --- !u!1001 &5085003077687545758
 PrefabInstance:
   m_ObjectHideFlags: 0

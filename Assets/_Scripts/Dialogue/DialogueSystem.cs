@@ -26,6 +26,11 @@ public class DialogueSystem : MonoBehaviour
     private Coroutine typingRoutine;
     private string currentText;
 
+    // No longer fetched via GetComponent (that only checked THIS GameObject,
+    // which is wrong - BattleTrigger lives on the NPC, not on DialogueSystem).
+    // Instead, whoever starts the dialogue passes in that NPC's own trigger.
+    private BattleTrigger trigger;
+
     public static DialogueSystem Instance { get; private set; }
 
     private void Awake()
@@ -65,7 +70,11 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueHolder values, int nStart = 0, int nEnd = -1)
+    // NEW PARAM: battleTrigger - pass in the NPC's own BattleTrigger here
+    // (see NPCInteract.cs). Defaults to null so this still compiles fine
+    // anywhere that calls StartDialogue without a trigger (NPCs that never
+    // start a battle don't need one).
+    public void StartDialogue(DialogueHolder values, BattleTrigger battleTrigger = null, int nStart = 0, int nEnd = -1)
     {
         valuesIn = values.GetDialogueLines();
 
@@ -74,6 +83,7 @@ public class DialogueSystem : MonoBehaviour
         IsActive.isInDialogue = true;
 
         this.nEnd = nEnd;
+        trigger = battleTrigger;
 
         n = nStart;
         PlayDialogue(nStart);
@@ -101,12 +111,19 @@ public class DialogueSystem : MonoBehaviour
 
         if (answer.goToBattle)
         {
-            // Will need to add an upload of enemy and character characteristics
-            SceneManager.LoadScene("BattleScene");
+            if (trigger == null)
+            {
+                Debug.LogError("This dialogue answer has goToBattle checked, but no BattleTrigger " +
+                               "was passed in to StartDialogue(). Check NPCInteract has a BattleTrigger assigned.");
+                return;
+            }
+            trigger.StartBattle();
         }
         else if (answer.nextDialogue != null)
         {
-            StartDialogue(answer.nextDialogue);
+            // Pass the same trigger along, in case the NEXT dialogue chunk
+            // also has a goToBattle answer further down the conversation.
+            StartDialogue(answer.nextDialogue, trigger);
         }
         else
         {

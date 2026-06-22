@@ -12,12 +12,22 @@ public class Combatant
     public int attackPower = 10;
     public bool isDefending;
 
-    public Combatant(string name, int maxHP, int attackPower)
+    [Tooltip("Sprite shown for this combatant in the battle scene.")]
+    public Sprite battleSprite;
+
+    [Tooltip("The wheel this combatant spins. Each combatant owns their own wheel " +
+             "reference so the player's equipped wheel and an enemy's wheel can " +
+             "differ and be swapped independently (e.g. wheel unlocks/upgrades).")]
+    public Wheel wheel;
+
+    public Combatant(string name, int maxHP, int attackPower, Sprite battleSprite = null, Wheel wheel = null)
     {
         this.displayName = name;
         this.maxHP = maxHP;
         this.currentHP = maxHP;
         this.attackPower = attackPower;
+        this.battleSprite = battleSprite;
+        this.wheel = wheel;
     }
 
     public bool IsDefeated => currentHP <= 0;
