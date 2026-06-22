@@ -19,12 +19,15 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField]
     private GameObject obj; 
     [SerializeField] 
-    private float charDelay = 0.03f;
+    private float charDelay = 0.03f, timeToReadDelay = 1f;
 
     private List<DialogueLine> valuesIn;
+    private List<BattleDialogueLine> valuesInBattle;
+    private BattleState nextBattleState;
     private int nEnd, n = 0;
     private Coroutine typingRoutine;
     private string currentText;
+    private Coroutine battleStepRoutine = null;
 
     // No longer fetched via GetComponent (that only checked THIS GameObject,
     // which is wrong - BattleTrigger lives on the NPC, not on DialogueSystem).
@@ -48,6 +51,9 @@ public class DialogueSystem : MonoBehaviour
 
     private void Update()
     {
+        if (IsActive.isInBattleCutscene) return;
+        
+
         // in a good way, this needs to be redone for an event
         if (IsActive.isInDialogue)
         {
@@ -63,7 +69,7 @@ public class DialogueSystem : MonoBehaviour
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            if(typingRoutine != null)
+            if (typingRoutine != null)
                 SkipTyping();
             else
                 PlayNextDialogue();
@@ -87,6 +93,84 @@ public class DialogueSystem : MonoBehaviour
 
         n = nStart;
         PlayDialogue(nStart);
+    }
+
+    // Maybe I should have made the battle dialogue system inherit from it, but why bother
+    public void StartDialogue(BattleDialogueHolder battleDialogue)
+    {
+        valuesInBattle = battleDialogue.GetDialogueLines();
+
+        nEnd = valuesInBattle.Count;
+        IsActive.isInDialogue = true;
+        n = 0;
+
+        nextBattleState = valuesInBattle[0].nextBattleState;
+        TriggerPlayDialogue(BattleState.Null);
+    }
+
+    public bool TriggerPlayDialogue(BattleState battleState)
+    {
+        if (nextBattleState == battleState)
+        {
+            if (battleStepRoutine != null) StopCoroutine(battleStepRoutine);
+            battleStepRoutine = StartCoroutine(PlayBattleSteps());
+        }
+
+        return IsActive.isInDialogue;
+    }
+
+    private IEnumerator PlayBattleSteps()
+    {
+        obj.SetActive(true);
+
+        do
+        {
+            PlayNextBattleDialogue();
+
+            yield return new WaitUntil(() => typingRoutine == null);
+
+            if(n < valuesInBattle.Count) nextBattleState = valuesInBattle[n].nextBattleState;
+
+            yield return new WaitForSeconds(timeToReadDelay);
+        }
+        while (nextBattleState == BattleState.Null && IsActive.isInDialogue);
+
+        obj.SetActive(false);
+
+        battleStepRoutine = null;
+    }
+
+    private void PlayNextBattleDialogue()
+    {
+        if (n < valuesInBattle.Count)
+        {
+            PlayBattleDialogue(n);
+            n++;
+        }
+        else
+        {
+            IsActive.isInDialogue = false;
+            obj.SetActive(false);
+        }
+    }
+
+    private void PlayBattleDialogue(int n)
+    {
+        var line = valuesInBattle[n];
+
+        bool isHero = (line.who == heroNameStr);
+        heroName.gameObject.SetActive(isHero);
+        nonHeroName.gameObject.SetActive(!isHero);
+        if (!isHero)
+            nonHeroName.text = line.who;
+
+        foreach (var b in answerButtons)
+            b.gameObject.SetActive(false);
+
+        currentText = line.text;
+
+        if (typingRoutine != null) StopCoroutine(typingRoutine);
+        typingRoutine = StartCoroutine(TypeText());
     }
 
     private void PlayNextDialogue()
