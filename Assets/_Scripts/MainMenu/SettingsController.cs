@@ -9,10 +9,13 @@ public class SettingsController : MonoBehaviour
 
     [Header("Sound")]
     [SerializeField] private AudioMixer mixer;
-    [SerializeField] private Slider volumeSlider;
-    [SerializeField] private TMP_Text volumeText;
 
-    private string pharm = "MasterVolume";
+    [SerializeField] private Slider masterVolumeSlider, effectsVolumeSlider, musicVolumeSlider;
+    [SerializeField] private TMP_Text masterVolumeText, effectsVolumeText, musicVolumeText;
+
+    private const string MasterParam = "MasterVolume";
+    private const string EffectsParam = "EffectsVolume";
+    private const string MusicParam = "MusicVolume";
 
     private void Awake()
     {
@@ -21,33 +24,32 @@ public class SettingsController : MonoBehaviour
 
     void Start()
     {
-        SetupVolume();
+        SetupVolume(masterVolumeSlider, masterVolumeText, MasterParam);
+        SetupVolume(effectsVolumeSlider, effectsVolumeText, EffectsParam);
+        SetupVolume(musicVolumeSlider, musicVolumeText, MusicParam);
     }
 
-    // Volume
-
-    private void SetupVolume()
+    private void SetupVolume(Slider slider, TMP_Text label, string param)
     {
-        float saved = PlayerPrefs.GetFloat(pharm, 0.75f);
-        volumeSlider.value = saved;
-        SetVolume(saved);
-        volumeSlider.onValueChanged.AddListener(SetVolume);
+        float saved = PlayerPrefs.GetFloat(param, 0.75f);
+        slider.value = saved;
+        ApplyVolume(param, label, saved);
+
+        slider.onValueChanged.AddListener(value => ApplyVolume(param, label, value));
+    }
+
+    private void ApplyVolume(string param, TMP_Text label, float value)
+    {
+        float db = (value <= 0f) ? -80f : Mathf.Log10(value) * 20f;
+        mixer.SetFloat(param, db);
+        PlayerPrefs.SetFloat(param, value);
+        label.text = $"{Mathf.RoundToInt(value * 100)}%";
     }
 
     public void ReSetupVolume()
     {
-        SetVolume(volumeSlider.value);
-    }
-
-    public void SetVolume(float value)
-    {
-        float realValue = 0;
-        if (value == 0)
-            realValue = -80;
-        else
-            realValue = Mathf.Log10(value) * 20f;
-        mixer.SetFloat(pharm, realValue);
-        PlayerPrefs.SetFloat(pharm, value);
-        volumeText.text = $"{value*100}%";
+        ApplyVolume(MasterParam, masterVolumeText, masterVolumeSlider.value);
+        ApplyVolume(EffectsParam, effectsVolumeText, effectsVolumeSlider.value);
+        ApplyVolume(MusicParam, musicVolumeText, musicVolumeSlider.value);
     }
 }
