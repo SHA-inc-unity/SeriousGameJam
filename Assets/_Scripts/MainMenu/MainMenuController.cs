@@ -38,14 +38,16 @@ public class MainMenuController : MonoBehaviour
 
     private void InitBoxes()
     {
+        int i = 0;
         foreach (var item in menuBox)
         {
-            if (item.Key == "MainMenu")
+            if (i == 0)
             {
-                nowBox = "MainMenu";
+                nowBox = item.Key;
                 item.Value.SetActive(true);
             }
             else item.Value.SetActive(false);
+            i++;
         }
     }
 }

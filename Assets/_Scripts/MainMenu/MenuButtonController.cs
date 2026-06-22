@@ -6,12 +6,12 @@ public class MenuButtonController : MonoBehaviour
 {
     [SerializeField]
     private Button continueBtn;
-    private bool saveExist = false;
+    [SerializeField]
+    private string newGameSceneName;
 
     private void Start()
     {
-        // I DO NOT KNOW HOW TO DO THIS WITHOUT A SAVE SYSTEM
-        continueBtn.interactable = saveExist;
+        continueBtn.interactable = (PlayerPrefs.HasKey("SaveFile") && PlayerPrefs.HasKey("LastScene"));
     }
 
     public void Quit()
@@ -22,6 +22,14 @@ public class MenuButtonController : MonoBehaviour
     public void StartNewGame()
     {
         PlayerPrefs.DeleteAll();
-        SceneManager.LoadScene("DialogScene");
+        SettingsController.Instance.ReSetupVolume();
+
+        SceneManager.LoadScene(newGameSceneName);
+    }
+
+
+    public void ContinueGame()
+    {
+        SceneManager.LoadScene(PlayerPrefs.GetString("LastScene"));
     }
 }
