@@ -5,14 +5,32 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+    //camera
+    [SerializeField] private Camera cam;
+
+    [SerializeField] private float zoom;
+
+    [SerializeField] private float zoomMultiplier;
+    [SerializeField] private float minZoom;
+    [SerializeField] private float velocity;
+    public float zoomSpeed;
+
+    //
+
     [SerializeField]
     private Transform playerTrans;
     [SerializeField]
     private Rigidbody rb;
     [SerializeField]
     private float speed = 5f;
+    [SerializeField]
+    private Animator anim;
 
-
+    void Start()
+    {
+        zoom = cam.fieldOfView;
+        Load();
+    }
     void Update()
     {
         Vector3 dir = Vector3.zero;
@@ -26,18 +44,35 @@ public class PlayerMove : MonoBehaviour
         dir.Normalize();
 
         rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
+
+        if (dir != Vector3.zero)
+        {
+            cam.fieldOfView = 60;
+            zoom = 60;
+            velocity = 0f;
+
+            Debug.Log("iswalking");
+            anim.SetBool("isWalking", true);
+            anim.SetFloat("InputX", dir.x);
+            anim.SetFloat("InputZ", dir.z);
+
+        }
+        else if (dir == Vector3.zero)
+        {
+            anim.SetBool("isWalking", false);
+            anim.SetFloat("LastInputX", dir.x);
+            anim.SetFloat("LastInputZ", dir.z);
+
+            zoom -= zoomMultiplier;
+            zoom = Mathf.Clamp(zoom, minZoom, 60);
+            cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
+        }
+
+
     }
-
-
 
 
     // Rewrite this shit plz
-
-
-    void Start()
-    {
-        Load();
-    }
 
     void OnDestroy()
     {
