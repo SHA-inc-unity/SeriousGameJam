@@ -4,6 +4,8 @@ public class Door : MonoBehaviour
 {
     [SerializeField]
     private string nextSceneName;
+    [SerializeField]
+    private Transform tpPos;
 
     private void OnTriggerStay(Collider other)
     {
@@ -16,11 +18,11 @@ public class Door : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         if (IsActive.ExitDoorCooldown && PlayerPrefs.GetString("LastScene") == nextSceneName)
         {
-            FindAnyObjectByType<PlayerMove>().transform.position = transform.position;
+            FindAnyObjectByType<PlayerMove>().EnterTheDoor(tpPos.position);
         }
     }
 }

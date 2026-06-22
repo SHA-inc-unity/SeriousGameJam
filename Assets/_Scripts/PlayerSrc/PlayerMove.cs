@@ -12,6 +12,8 @@ public class PlayerMove : MonoBehaviour
     private float speed = 5f;
 
     private string sceneName;
+    private bool isEnterDoor;
+    private Vector3 posDoor;
 
 
     void Update()
@@ -31,6 +33,12 @@ public class PlayerMove : MonoBehaviour
         rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
     }
 
+    public void EnterTheDoor(Vector3 pos)
+    {
+        isEnterDoor = true;
+        posDoor = pos;
+    }
+
 
 
 
@@ -43,14 +51,21 @@ public class PlayerMove : MonoBehaviour
 
         PlayerPrefs.SetString("LastScene", sceneName);
 
-        if (PlayerPrefs.HasKey("SaveFile"))
+        if (isEnterDoor)
         {
-            Load();
+            transform.position = posDoor;
         }
         else
         {
-            PlayerPrefs.SetInt("SaveFile", 1);
-            PlayerPrefs.Save();
+            if (PlayerPrefs.HasKey("SaveFile"))
+            {
+                Load();
+            }
+            else
+            {
+                PlayerPrefs.SetInt("SaveFile", 1);
+                PlayerPrefs.Save();
+            }
         }
     }
 
