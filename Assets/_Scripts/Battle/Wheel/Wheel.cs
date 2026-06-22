@@ -26,6 +26,12 @@ public class Wheel : ScriptableObject
         [Min(0f)] public float weight;
     }
 
+    [Header("Visual")]
+    [Tooltip("The actual wheel graphic shown in battle (the pie-chart image with " +
+             "this wheel's slots drawn on it). Set dynamically onto WheelSpinUI " +
+             "when the battle starts - see BattleManager.Start().")]
+    public Sprite wheelSprite;
+
     [Tooltip("How many wedges this wheel is divided into (e.g. 3, 6, 8). " +
              "The 'slots' list below should have exactly this many entries.")]
     [Min(1)]
@@ -33,6 +39,11 @@ public class Wheel : ScriptableObject
 
     [Tooltip("One entry per wedge on the wheel. Length should match slotCount.")]
     public WheelSlot[] slots;
+    
+    [Header("Timing")]
+    [Tooltip("Seconds the owner must wait after this wheel finishes spinning before they can spin again.")]
+    [Min(0f)]
+    public float spinCooldown = 2f;
 
     /// <summary>
     /// Spins the wheel and returns the chosen slot's effect, based on weights.
@@ -40,6 +51,19 @@ public class Wheel : ScriptableObject
     /// </summary>
     public WheelSlotEffect Spin()
     {
+        return SpinWithIndex(out _);
+    }
+
+    /// <summary>
+    /// Same as Spin(), but also outputs which slot index won. Use this when
+    /// you need to animate a wheel visual to a specific slot (see WheelSpinUI) -
+    /// the result is decided here FIRST, then the animation is just made to
+    /// visually match it.
+    /// </summary>
+    public WheelSlotEffect SpinWithIndex(out int winningIndex)
+    {
+        winningIndex = -1;
+
         if (slots == null || slots.Length == 0)
         {
             Debug.LogWarning($"Wheel '{name}' has no slots configured.");
@@ -59,15 +83,19 @@ public class Wheel : ScriptableObject
         float roll = UnityEngine.Random.Range(0f, totalWeight);
         float cumulative = 0f;
 
-        foreach (var slot in slots)
+        for (int i = 0; i < slots.Length; i++)
         {
-            cumulative += slot.weight;
+            cumulative += slots[i].weight;
             if (roll <= cumulative)
-                return slot.effect;
+            {
+                winningIndex = i;
+                return slots[i].effect;
+            }
         }
 
         // Fallback in case of floating point edge cases
-        return slots[slots.Length - 1].effect;
+        winningIndex = slots.Length - 1;
+        return slots[winningIndex].effect;
     }
 
 #if UNITY_EDITOR

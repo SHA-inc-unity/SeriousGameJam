@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b968bc72742be8a448f6a0cabf0ae414, type: 3}
   m_Name: Basic Wheel
   m_EditorClassIdentifier: Assembly-CSharp::Wheel
+  wheelSprite: {fileID: 1768044493, guid: 84de9dc3ca1cff043995b9ad75e883ed, type: 3}
   slotCount: 4
   slots:
   - effect: {fileID: 11400000, guid: 862b5fa804f90eb4784174f1c8757fde, type: 2}
