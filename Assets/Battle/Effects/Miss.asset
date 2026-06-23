@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2032da8788d5042a2f954eafc4037e, type: 3}
   m_Name: Miss
   m_EditorClassIdentifier: Assembly-CSharp::MissEffect
+  sliceSprite: {fileID: 21300000, guid: 7406ef671f06b0a43a1c692b36d354ec, type: 3}

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0c5bb2b9b9635b40a440ca39d54f586, type: 3}
   m_Name: Normal Block
   m_EditorClassIdentifier: Assembly-CSharp::DefendEffect
+  sliceSprite: {fileID: 21300000, guid: 7770e4a43adf8c04ca16e92a3d4aee87, type: 3}

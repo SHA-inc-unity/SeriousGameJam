@@ -12,7 +12,7 @@ public class BattleManager : MonoBehaviour
     [Header("Tuning")]
     public float endBattleDelaySeconds = 2.0f;
     public string overworldSceneName = "";
-    
+
     public Key playerSpinKey = Key.Space;
 
     [Header("UI")]
@@ -27,13 +27,12 @@ public class BattleManager : MonoBehaviour
     private bool playerOnCooldown;
 
     private Dictionary<Combatant, int> pendingDamageReductions = new Dictionary<Combatant, int>();
-    
-    private HashSet<Combatant> pendingDeflects = new HashSet<Combatant>();
-    
+    private HashSet<Combatant> pendingDeflects                 = new HashSet<Combatant>();
+
     public StatusEffectManager StatusEffects { get; private set; }
-    private Dictionary<Combatant, WheelSpinUI> combatantWheelUI = new Dictionary<Combatant, WheelSpinUI>();
-    private HashSet<Combatant> stunnedCombatants = new HashSet<Combatant>();
-    private Dictionary<Combatant, float> spinDurationMultipliers = new Dictionary<Combatant, float>();
+    private Dictionary<Combatant, WheelSpinUI> combatantWheelUI    = new Dictionary<Combatant, WheelSpinUI>();
+    private HashSet<Combatant> stunnedCombatants                    = new HashSet<Combatant>();
+    private Dictionary<Combatant, float> spinDurationMultipliers    = new Dictionary<Combatant, float>();
 
     private void Start()
     {
@@ -51,23 +50,23 @@ public class BattleManager : MonoBehaviour
 
         player = playerData.CreateRuntimeCombatant();
         enemy  = enemyData.CreateRuntimeCombatant();
-        
+
         StatusEffects = gameObject.AddComponent<StatusEffectManager>();
         StatusEffects.Init(this);
         StatusEffects.Register(player);
         StatusEffects.Register(enemy);
 
         combatantWheelUI[player] = battleCanvas.PlayerWheelUI;
-        combatantWheelUI[enemy] = battleCanvas.EnemyWheelUI;
+        combatantWheelUI[enemy]  = battleCanvas.EnemyWheelUI;
         spinDurationMultipliers[player] = 1f;
         spinDurationMultipliers[enemy]  = 1f;
 
         battleCanvas.SetPlayerSprite(playerData.battleSprite);
         battleCanvas.SetEnemySprite(enemyData.battleSprite);
 
-        if (player.wheel != null) battleCanvas.SetPlayerWheel(player.wheel.wheelSprite);
-        if (enemy.wheel  != null) battleCanvas.SetEnemyWheel(enemy.wheel.wheelSprite);
-        
+        if (player.wheel != null) battleCanvas.BuildPlayerWheel(player.wheel);
+        if (enemy.wheel  != null) battleCanvas.BuildEnemyWheel(enemy.wheel);
+
         battleCanvas.InitPlayerHP(player.maxHP);
         battleCanvas.InitEnemyHP(enemy.maxHP);
 
@@ -89,12 +88,10 @@ public class BattleManager : MonoBehaviour
             StartCoroutine(PlayerSpin());
     }
 
-    // --- Player ---
-
     private IEnumerator PlayerSpin()
     {
         playerOnCooldown = true;
-        CurrentState = BattleState.PlayerTurn;
+        CurrentState     = BattleState.PlayerTurn;
 
         if (stunnedCombatants.Contains(player))
         {
@@ -104,16 +101,27 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        WheelSlotEffect effect = SpinWheel(player, out int winningIndex);
+        // intendedIndex is just the spin's aim target now — the slot actually used for
+        // gameplay is whatever the collider overlap confirms once the wheel stops, so the
+        // effect resolved always matches what's on screen.
+        ChooseIntendedSlot(player, out int intendedIndex);
 
-        bool animDone = false;
-        float duration = player.wheel.spinCooldown * spinDurationMultipliers[player];
-        battleCanvas.PlayPlayerWheelSpin(winningIndex, player.wheel.slotCount, () => animDone = true, duration);
+        bool animDone        = false;
+        int  confirmedIndex  = intendedIndex;
+        float duration       = player.wheel.spinCooldown * spinDurationMultipliers[player];
+
+        battleCanvas.PlayPlayerWheelSpin(intendedIndex, player.wheel.slots.Length, (resultIndex) =>
+        {
+            confirmedIndex = resultIndex;
+            animDone = true;
+        }, duration);
+
         yield return new WaitUntil(() => animDone);
 
         if (battleOver) yield break;
 
         StatusEffects.NotifySpinCompleted(player);
+        WheelSlotEffect effect = player.wheel.slots[confirmedIndex].effect;
         ResolveEffect(effect, attacker: player, defender: enemy);
 
         if (CheckBattleOver()) yield break;
@@ -123,9 +131,6 @@ public class BattleManager : MonoBehaviour
         Announce($"Press {playerSpinKey} to spin again!");
     }
 
-    // --- Enemy ---
-
-    // Replace EnemyLoop()'s spin section similarly:
     private IEnumerator EnemyLoop()
     {
         yield return new WaitForSeconds(enemy.wheel.spinCooldown);
@@ -142,16 +147,24 @@ public class BattleManager : MonoBehaviour
             }
 
             Announce($"{enemy.displayName} spins!");
-            WheelSlotEffect effect = SpinWheel(enemy, out int winningIndex);
+            ChooseIntendedSlot(enemy, out int intendedIndex);
 
-            bool animDone = false;
-            float duration = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
-            battleCanvas.PlayEnemyWheelSpin(winningIndex, enemy.wheel.slotCount, () => animDone = true, duration);
+            bool animDone       = false;
+            int  confirmedIndex = intendedIndex;
+            float duration      = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
+
+            battleCanvas.PlayEnemyWheelSpin(intendedIndex, enemy.wheel.slots.Length, (resultIndex) =>
+            {
+                confirmedIndex = resultIndex;
+                animDone = true;
+            }, duration);
+
             yield return new WaitUntil(() => animDone);
 
             if (battleOver) yield break;
 
             StatusEffects.NotifySpinCompleted(enemy);
+            WheelSlotEffect effect = enemy.wheel.slots[confirmedIndex].effect;
             ResolveEffect(effect, attacker: enemy, defender: player);
 
             if (CheckBattleOver()) yield break;
@@ -159,22 +172,25 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(enemy.wheel.spinCooldown);
         }
     }
-    
-    private WheelSlotEffect SpinWheel(Combatant combatant, out int winningIndex)
+
+    /// <summary>
+    /// Picks which slot the spin should AIM for (rigged or random). This is no longer the
+    /// final word on which effect resolves — see confirmedIndex in PlayerSpin/EnemyLoop —
+    /// but it's still what determines the odds, since the animation targets this slot and
+    /// should land on it almost all the time.
+    /// </summary>
+    private void ChooseIntendedSlot(Combatant combatant, out int intendedIndex)
     {
         RiggedStatus rigged = StatusEffects.Get<RiggedStatus>(combatant);
 
         if (rigged != null && Random.value < 0.5f)
         {
-            winningIndex = rigged.riggedSlotIndex;
-            StatusEffects.NotifySpinCompleted(combatant); // ticks rigged duration
-            return combatant.wheel.slots[winningIndex].effect;
+            intendedIndex = rigged.riggedSlotIndex;
+            return;
         }
 
-        return combatant.wheel.SpinWithIndex(out winningIndex);
+        combatant.wheel.SpinWithIndex(out intendedIndex);
     }
-
-    // --- Resolution ---
 
     private void ResolveEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
     {
@@ -204,14 +220,12 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
     }
 
-    // --- Public hooks for effects ---
-
     public Combatant GetPlayer() => player;
     public Combatant GetEnemy()  => enemy;
 
     public void ApplyEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
         => ResolveEffect(effect, attacker, defender);
-    
+
     public void SetStunned(Combatant combatant, bool stunned)
     {
         if (stunned) stunnedCombatants.Add(combatant);
@@ -240,7 +254,6 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        // Vulnerable: double damage, consumed immediately
         if (StatusEffects.Has<VulnerableStatus>(defender))
         {
             rawDamage *= 2;
@@ -259,14 +272,30 @@ public class BattleManager : MonoBehaviour
                  $"{defender.displayName} HP: {defender.currentHP}/{defender.maxHP}");
     }
 
+    public void NotifyHPChanged(Combatant combatant)
+    {
+        if (combatant == player)
+            battleCanvas.UpdatePlayerHP(player.currentHP, player.overhealth);
+        else
+            battleCanvas.UpdateEnemyHP(enemy.currentHP, enemy.overhealth);
+    }
+
     public void SetPendingDamageReduction(Combatant defender, int amount)
         => pendingDamageReductions[defender] = amount;
+
+    public bool HasPendingDamageReduction(Combatant combatant)
+        => pendingDamageReductions.ContainsKey(combatant);
+
+    public void SetPendingDeflect(Combatant combatant)
+        => pendingDeflects.Add(combatant);
+
+    public bool HasPendingDeflect(Combatant combatant)
+        => pendingDeflects.Contains(combatant);
+
 
     public void EndBattleImmediately(bool playerWon) => EndBattle(playerWon);
 
     public void Announce(string message) => Debug.Log(message);
-
-    // --- Helpers ---
 
     private void ReturnToOverworld()
     {
@@ -283,20 +312,4 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         action?.Invoke();
     }
-    
-    public void NotifyHPChanged(Combatant combatant)
-    {
-        if (combatant == player)
-            battleCanvas.UpdatePlayerHP(player.currentHP, player.overhealth);
-        else
-            battleCanvas.UpdateEnemyHP(enemy.currentHP, enemy.overhealth);
-    }
-    
-    public bool HasPendingDamageReduction(Combatant combatant)
-        => pendingDamageReductions.ContainsKey(combatant);
-    public void SetPendingDeflect(Combatant combatant)
-        => pendingDeflects.Add(combatant);
-
-    public bool HasPendingDeflect(Combatant combatant)
-        => pendingDeflects.Contains(combatant);
 }

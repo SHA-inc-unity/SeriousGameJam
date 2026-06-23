@@ -20,5 +20,8 @@ public abstract class WheelSlotEffect : ScriptableObject
     /// "battle" gives access to Announce(), ApplyEffect(), EndBattleImmediately(),
     /// and GetPlayer()/GetEnemy() for anything fancier.
     /// </summary>
+    ///
+    [Tooltip("The wedge sprite shown on the wheel for this effect slot.")]
+    public Sprite sliceSprite;
     public abstract void Execute(Combatant attacker, Combatant defender, BattleManager battle);
 }
