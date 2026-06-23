@@ -47,8 +47,8 @@ public class PlayerMove : MonoBehaviour
 
         if (dir != Vector3.zero)
         {
-            cam.fieldOfView = 60;
-            zoom = 60;
+            cam.fieldOfView = 80;
+            zoom = 80;
             velocity = 0f;
 
             Debug.Log("iswalking");
@@ -64,7 +64,7 @@ public class PlayerMove : MonoBehaviour
             anim.SetFloat("LastInputZ", dir.z);
 
             zoom -= zoomMultiplier;
-            zoom = Mathf.Clamp(zoom, minZoom, 60);
+            zoom = Mathf.Clamp(zoom, minZoom, 80);
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
         }
 
