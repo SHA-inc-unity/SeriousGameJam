@@ -16,6 +16,8 @@ public struct DialogueLine
     public string who;
     public string text;
 
+    public AudioClip voice;
+
     public List<DialogueAnswer> answers;
 }
 
@@ -26,28 +28,6 @@ public class DialogueHolder : ScriptableObject
     private List<DialogueLine> dialogue;
 
     public List<DialogueLine> GetDialogueLines()
-    {
-        return dialogue;
-    }
-}
-
-[Serializable]
-public struct BattleDialogueLine
-{
-    public string who;
-    public string text;
-
-    [SerializeField]
-    public BattleState nextBattleState;
-}
-
-[CreateAssetMenu(fileName = "BattleDialogue", menuName = "Dialogue/BattleDialogueHolder")]
-public class BattleDialogueHolder : ScriptableObject
-{
-    [SerializeField]
-    private List<BattleDialogueLine> dialogue;
-
-    public List<BattleDialogueLine> GetDialogueLines()
     {
         return dialogue;
     }

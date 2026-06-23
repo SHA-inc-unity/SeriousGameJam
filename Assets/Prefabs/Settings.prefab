@@ -1584,11 +1584,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SettingsController
   mixer: {fileID: 24100000, guid: 76219847798e214428a59bc582b1fcff, type: 2}
   masterVolumeSlider: {fileID: 3669285951605186537}
-  effectsVolumeSlider: {fileID: 1596511931367213226}
-  musicVolumeSlider: {fileID: 7924969249742548845}
+  effectsVolumeSlider: {fileID: 7924969249742548845}
+  musicVolumeSlider: {fileID: 1596511931367213226}
   masterVolumeText: {fileID: 4609065698029876912}
-  effectsVolumeText: {fileID: 5633666077745608479}
-  musicVolumeText: {fileID: 2291957226824536558}
+  effectsVolumeText: {fileID: 2291957226824536558}
+  musicVolumeText: {fileID: 5633666077745608479}
 --- !u!1 &4298154686417304582
 GameObject:
   m_ObjectHideFlags: 0

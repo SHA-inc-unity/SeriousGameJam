@@ -23,6 +23,9 @@ public class CombatantData : ScriptableObject
     [Tooltip("The wheel this combatant spins in battle.")]
     public Wheel wheel;
 
+    [Header("Audio")]
+    public BattleSoundSet soundSet;
+
     /// <summary>
     /// Builds a fresh runtime Combatant from this data. Call this when a
     /// battle actually starts - never mutate the asset's own fields at runtime.

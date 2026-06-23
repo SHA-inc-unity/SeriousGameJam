@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Base class for "what happens when a wheel lands on this slot".
@@ -20,5 +21,7 @@ public abstract class WheelSlotEffect : ScriptableObject
     /// "battle" gives access to Announce(), ApplyEffect(), EndBattleImmediately(),
     /// and GetPlayer()/GetEnemy() for anything fancier.
     /// </summary>
+    /// 
+
     public abstract void Execute(Combatant attacker, Combatant defender, BattleManager battle);
 }
