@@ -43,6 +43,7 @@ public class BattleManager : MonoBehaviour
 
     private Combatant player;
     private Combatant enemy;
+    private BattleDialogueHolder battleDialogue = null;
 
     // Set by EndBattleImmediately() to short-circuit the normal turn flow.
     private bool battleEndedEarly;
@@ -56,6 +57,9 @@ public class BattleManager : MonoBehaviour
     {
         CombatantData playerData = BattleSetup.IsConfigured ? BattleSetup.PlayerData : testPlayerData;
         CombatantData enemyData = BattleSetup.IsConfigured ? BattleSetup.EnemyData : testEnemyData;
+        battleDialogue = BattleSetup.BattleDialogue;
+        IsActive.isInBattleCutscene = (battleDialogue != null);
+        if (IsActive.isInBattleCutscene) StartDialogue();
 
         if (!BattleSetup.IsConfigured)
             Debug.LogWarning("BattleSetup wasn't configured (scene opened directly?). Using Test Fallback data instead.");
@@ -99,6 +103,7 @@ public class BattleManager : MonoBehaviour
     {
         CurrentState = newState;
         Debug.Log($"[Battle] State -> {newState}");
+        if(IsActive.isInBattleCutscene) IsActive.isInBattleCutscene = CheckDialogue(newState);
 
         switch (newState)
         {
@@ -262,5 +267,15 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         action?.Invoke();
+    }
+
+    private void StartDialogue()
+    {
+        DialogueSystem.Instance.StartDialogue(battleDialogue);
+    }
+
+    private bool CheckDialogue(BattleState battleState)
+    {
+        return DialogueSystem.Instance.TriggerPlayDialogue(battleState);
     }
 }

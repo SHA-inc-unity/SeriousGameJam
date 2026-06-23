@@ -28,6 +28,10 @@ public class BattleTrigger : MonoBehaviour
              "and the scene must be added to Build Settings.")]
     public string battleSceneName = "Battle";
 
+    [Header("Dialogue")]
+    [Tooltip("Can be null")]
+    public BattleDialogueHolder dialogue;
+
     /// <summary>
     /// Call this to start the battle - fills in BattleSetup, then loads the Battle scene.
     /// </summary>
@@ -49,6 +53,7 @@ public class BattleTrigger : MonoBehaviour
         BattleSetup.EnemyData = enemyData;
         BattleSetup.BattleMusic = battleMusic;
         BattleSetup.BattleBackground = battleBackground;
+        BattleSetup.BattleDialogue = dialogue;
 
         SceneManager.LoadScene(battleSceneName);
     }

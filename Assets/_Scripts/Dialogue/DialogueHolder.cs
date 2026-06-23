@@ -30,3 +30,25 @@ public class DialogueHolder : ScriptableObject
         return dialogue;
     }
 }
+
+[Serializable]
+public struct BattleDialogueLine
+{
+    public string who;
+    public string text;
+
+    [SerializeField]
+    public BattleState nextBattleState;
+}
+
+[CreateAssetMenu(fileName = "BattleDialogue", menuName = "Dialogue/BattleDialogueHolder")]
+public class BattleDialogueHolder : ScriptableObject
+{
+    [SerializeField]
+    private List<BattleDialogueLine> dialogue;
+
+    public List<BattleDialogueLine> GetDialogueLines()
+    {
+        return dialogue;
+    }
+}

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: TUTORIAL
+  m_EditorClassIdentifier: Assembly-CSharp::BattleDialogueHolder
+  dialogue:
+  - who: Splingo
+    text: Yip yip! Spin! Spin! Spin! The wheel goes round and rooooound!
+    nextBattleState: 2
+  - who: Splingo
+    text: The rule of this land is spin to win! The wheel shall decide our fates!!
+    nextBattleState: 0
+  - who: Sirius
+    text: Foolish wretch, only Sir Lady Sirius shall decide her fate.
+    nextBattleState: 2
+  - who: Splingo
+    text: "Yip yip! That\u2019s the spirit friend!"
+    nextBattleState: 0
+  - who: Splingo
+    text: We all have a say in how fate can twiiiist and turn, but in the end, all
+      things one must earn!!
+    nextBattleState: 0
+  - who: Sirius
+    text: Quit thine blabbering rhymes, for I am pressed for time
+    nextBattleState: 2
+  - who: Sirius
+    text: I shall end it thus, pest.
+    nextBattleState: 0

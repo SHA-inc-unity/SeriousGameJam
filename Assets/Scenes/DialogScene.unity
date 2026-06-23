@@ -1088,6 +1088,7 @@ MonoBehaviour:
   battleMusic: {fileID: 0}
   battleBackground: {fileID: 0}
   battleSceneName: BattleScene
+  dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
 --- !u!1001 &5085003077687545758
 PrefabInstance:
   m_ObjectHideFlags: 0

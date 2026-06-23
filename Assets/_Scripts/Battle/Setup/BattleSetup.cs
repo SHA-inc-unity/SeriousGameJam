@@ -21,6 +21,7 @@ public static class BattleSetup
     public static CombatantData EnemyData;
     public static AudioClip BattleMusic;
     public static Sprite BattleBackground;
+    public static BattleDialogueHolder BattleDialogue;
 
     /// <summary>True if all required fields are set. BattleManager checks this
     /// on Start() to fail loudly if the Battle scene was opened without a
@@ -35,5 +36,6 @@ public static class BattleSetup
         EnemyData = null;
         BattleMusic = null;
         BattleBackground = null;
+        BattleDialogue = null;
     }
 }
