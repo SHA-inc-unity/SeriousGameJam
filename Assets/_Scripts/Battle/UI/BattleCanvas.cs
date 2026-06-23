@@ -48,6 +48,13 @@ public class BattleCanvas : MonoBehaviour
     public WheelSpinUI PlayerWheelUI => playerWheel;
     public WheelSpinUI EnemyWheelUI  => enemyWheel;
 
+    // Exposed so other screens (e.g. the upgrade picker) can build a wheel with the exact
+    // same visual layout without duplicating the icon-placement math.
+    public float WheelSize             => wheelSize;
+    public float IconDistanceFromCenter => iconDistanceFromCenter;
+    public float IconSizeRatio          => iconSize;
+    public float SlotZeroOffsetDegrees  => slotZeroOffsetDegrees;
+
     public void InitPlayerHP(int maxHP)
     {
         playerHP = Instantiate(hpDisplayPrefab);
@@ -89,56 +96,15 @@ public class BattleCanvas : MonoBehaviour
             Debug.LogWarning($"BattleCanvas: no pointer Transform assigned for wheel on '{anchor.name}'. " +
                               "Spin results will fall back to the intended winningIndex.");
 
-        // Root — everything is a child of this so it all spins together
         GameObject root        = new GameObject("WheelRoot", typeof(RectTransform));
         root.transform.SetParent(anchor, worldPositionStays: false);
         RectTransform rootRect = root.GetComponent<RectTransform>();
         rootRect.sizeDelta        = new Vector2(wheelSize, wheelSize);
         rootRect.anchoredPosition = Vector2.zero;
 
-        // Layer 1: red base circle
-        CreateImage("Base", root.transform, wheel.backgroundSprite, wheelSize);
+        List<RectTransform> slotIcons = WheelLayout.BuildWheelVisual(
+            root.transform, wheel, wheelSize, iconDistanceFromCenter, iconSize, slotZeroOffsetDegrees);
 
-        // Layer 2: black and white slice divider overlay
-        CreateImage("SliceOverlay", root.transform, wheel.overlaySprite, wheelSize);
-
-        // Layer 3: icons, positioned and rotated per slot
-        float iconDist   = wheelSize * iconDistanceFromCenter;
-        float iconSizePx = wheelSize * iconSize;
-        int   slotCount  = wheel.slots.Length;
-
-        // One entry per slot index, null where there's no icon (e.g. no effect assigned).
-        // Keeping nulls in place (instead of skipping) means slot index i in this list
-        // always corresponds to wheel.slots[i] - no renumbering for callers to get wrong.
-        var slotIcons = new List<RectTransform>(new RectTransform[slotCount]);
-
-        for (int i = 0; i < slotCount; i++)
-        {
-            WheelSlotEffect effect = wheel.slots[i].effect;
-            if (effect == null || effect.sliceSprite == null) continue;
-
-            GameObject iconGO  = new GameObject($"Icon_{i}", typeof(RectTransform), typeof(Image));
-            iconGO.transform.SetParent(root.transform, worldPositionStays: false);
-
-            RectTransform iconRect = iconGO.GetComponent<RectTransform>();
-            iconRect.sizeDelta     = new Vector2(iconSizePx, iconSizePx);
-            iconRect.pivot         = new Vector2(0.5f, 0.5f);
-
-            float angleDeg = 90f + slotZeroOffsetDegrees - (i * (360f / slotCount));
-            float angleRad = angleDeg * Mathf.Deg2Rad;
-
-            iconRect.anchoredPosition = new Vector2(
-                Mathf.Cos(angleRad) * iconDist,
-                Mathf.Sin(angleRad) * iconDist
-            );
-
-            iconRect.localEulerAngles = new Vector3(0f, 0f, angleDeg - 90f);
-            iconGO.GetComponent<Image>().sprite = effect.sliceSprite;
-
-            slotIcons[i] = iconRect;
-        }
-
-        // Spinner lives on the root
         WheelSpinUI spinner           = root.AddComponent<WheelSpinUI>();
         spinner.spinDuration          = spinDuration;
         spinner.extraFullSpins        = extraFullSpins;
@@ -151,25 +117,6 @@ public class BattleCanvas : MonoBehaviour
         return spinner;
     }
 
-    private Image CreateImage(string goName, Transform parent, Sprite sprite, float size)
-    {
-        GameObject go       = new GameObject(goName, typeof(RectTransform), typeof(Image));
-        go.transform.SetParent(parent, worldPositionStays: false);
-
-        RectTransform rt    = go.GetComponent<RectTransform>();
-        rt.sizeDelta        = new Vector2(size, size);
-        rt.anchoredPosition = Vector2.zero;
-        rt.pivot            = new Vector2(0.5f, 0.5f);
-
-        Image img           = go.GetComponent<Image>();
-        img.sprite          = sprite;
-        return img;
-    }
-
-    /// <summary>
-    /// onComplete receives the slot actually closest to the pointer when the spin stops -
-    /// callers should use that index, not the one they passed in, to resolve gameplay effects.
-    /// </summary>
     public void PlayPlayerWheelSpin(int winningIndex, int slotCount, System.Action<int> onComplete, float durationOverride = -1f)
         => playerWheel.PlaySpin(winningIndex, slotCount, onComplete, durationOverride);
 

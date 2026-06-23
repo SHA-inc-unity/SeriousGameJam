@@ -17,11 +17,13 @@ public class BattleManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private BattleCanvas battleCanvas;
+    [SerializeField] private WheelUpgradeScreen upgradeScreen;
 
     public BattleState CurrentState { get; private set; }
 
     private Combatant player;
     private Combatant enemy;
+    private CombatantData playerSourceData;
 
     private bool battleOver;
     private bool playerOnCooldown;
@@ -50,6 +52,7 @@ public class BattleManager : MonoBehaviour
 
         player = playerData.CreateRuntimeCombatant();
         enemy  = enemyData.CreateRuntimeCombatant();
+        playerSourceData = playerData;
 
         StatusEffects = gameObject.AddComponent<StatusEffectManager>();
         StatusEffects.Init(this);
@@ -102,8 +105,8 @@ public class BattleManager : MonoBehaviour
         }
 
         // intendedIndex is just the spin's aim target now — the slot actually used for
-        // gameplay is whatever the collider overlap confirms once the wheel stops, so the
-        // effect resolved always matches what's on screen.
+        // gameplay is whichever icon ends up closest to the pointer once the wheel stops,
+        // so the effect resolved always matches what's on screen.
         ChooseIntendedSlot(player, out int intendedIndex);
 
         bool animDone        = false;
@@ -217,7 +220,20 @@ public class BattleManager : MonoBehaviour
         Announce(playerWon
             ? $"{player.displayName} wins! {enemy.displayName} is defeated."
             : $"{player.displayName} has been defeated...");
-        StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
+
+        if (playerWon && upgradeScreen != null && WheelUpgradeScreen.HasAnyUpgradeAvailable(playerSourceData))
+        {
+            StartCoroutine(DelayThen(endBattleDelaySeconds, ShowUpgradeScreen));
+        }
+        else
+        {
+            StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
+        }
+    }
+
+    private void ShowUpgradeScreen()
+    {
+        upgradeScreen.Show(playerSourceData, onComplete: ReturnToOverworld);
     }
 
     public Combatant GetPlayer() => player;
