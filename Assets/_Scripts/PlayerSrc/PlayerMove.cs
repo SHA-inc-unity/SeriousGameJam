@@ -1,7 +1,7 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -32,13 +32,29 @@ public class PlayerMove : MonoBehaviour
     private PlayerAudioManager audioManager;
     private AudioClip lastStep;
 
+    private string sceneName;
+    private bool isEnterDoor;
+    private Vector3 posDoor;
+
     void Start()
     {
         audioManager = GetComponent<PlayerAudioManager>();
 
         currentFOV = cam.fieldOfView;
         zoom = cam.fieldOfView;
-        Load();
+
+        sceneName = SceneManager.GetActiveScene().name;
+        PlayerPrefs.SetString("LastScene", sceneName);
+
+        if (isEnterDoor)
+        {
+            rb.position = posDoor;
+            playerTrans.position = posDoor;
+        }
+        else
+        {
+            Load();
+        }
     }
 
     void Update()
@@ -77,6 +93,12 @@ public class PlayerMove : MonoBehaviour
             zoom = Mathf.Clamp(zoom, minZoom, currentFOV);
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
         }
+    }
+
+    public void EnterTheDoor(Vector3 pos)
+    {
+        isEnterDoor = true;
+        posDoor = pos;
     }
 
     private void PlayFootstep()

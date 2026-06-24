@@ -23,5 +23,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MusicDialogScene.unity
     guid: 281ead8d15541204faa16cbc6b215f94
+  - enabled: 1
+    path: Assets/Scenes/Audio Fix/X0.unity
+    guid: 46ea526b571a27a4bb439be7c0882488
+  - enabled: 1
+    path: Assets/Scenes/Audio Fix/X1.unity
+    guid: 4b10a3013cdb40f4fa6850d7db534332
+  - enabled: 1
+    path: Assets/Scenes/Audio Fix/X2.unity
+    guid: d02fc8108197db7408a6571f79962579
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

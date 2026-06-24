@@ -22,8 +22,7 @@ public class Door : MonoBehaviour
     {
         if (IsActive.ExitDoorCooldown && PlayerPrefs.GetString("LastScene") == nextSceneName)
         {
-            // Fix it later
-            //FindAnyObjectByType<PlayerMove>().EnterTheDoor(tpPos.position);
+            FindAnyObjectByType<PlayerMove>().EnterTheDoor(tpPos.position);
         }
     }
 }
