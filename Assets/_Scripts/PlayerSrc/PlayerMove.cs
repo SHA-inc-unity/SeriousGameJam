@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
-using System;
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,13 +26,21 @@ public class PlayerMove : MonoBehaviour
     private float speed = 5f;
     [SerializeField]
     private Animator anim;
+    [SerializeField]
+    private List<AudioClip> footstepClips;
+
+    private PlayerAudioManager audioManager;
+    private AudioClip lastStep;
 
     void Start()
     {
+        audioManager = GetComponent<PlayerAudioManager>();
+
         currentFOV = cam.fieldOfView;
         zoom = cam.fieldOfView;
         Load();
     }
+
     void Update()
     {
         Vector3 dir = Vector3.zero;
@@ -53,11 +61,11 @@ public class PlayerMove : MonoBehaviour
             zoom = currentFOV;
             velocity = 0f;
 
-            Debug.Log("iswalking");
             anim.SetBool("isWalking", true);
             anim.SetFloat("InputX", dir.x);
             anim.SetFloat("InputZ", dir.z);
 
+            PlayFootstep();
         }
         else if (dir == Vector3.zero)
         {
@@ -69,12 +77,32 @@ public class PlayerMove : MonoBehaviour
             zoom = Mathf.Clamp(zoom, minZoom, currentFOV);
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
         }
-
-
     }
 
+    private void PlayFootstep()
+    {
+        if (footstepClips == null || footstepClips.Count == 0) return;
+        if (audioManager == null) return;
+        if (audioManager.IsPlaying) return;
 
-    // Rewrite this shit plz
+        AudioClip clip = PickStep();
+        audioManager.PlayStep(clip);
+    }
+
+    private AudioClip PickStep()
+    {
+        if (footstepClips.Count == 1) return footstepClips[0];
+
+        AudioClip next;
+        do
+        {
+            next = footstepClips[UnityEngine.Random.Range(0, footstepClips.Count)];
+        }
+        while (next == lastStep);
+
+        lastStep = next;
+        return next;
+    }
 
     void OnDestroy()
     {

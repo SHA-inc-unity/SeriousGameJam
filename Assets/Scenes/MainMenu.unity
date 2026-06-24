@@ -984,7 +984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuButtonController
   continueBtn: {fileID: 857449941}
-  newGameSceneName: MusicDialogScene
+  newGameSceneName: DialogScene
 --- !u!1 &638209084
 GameObject:
   m_ObjectHideFlags: 0

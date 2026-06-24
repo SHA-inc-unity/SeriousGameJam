@@ -9,6 +9,11 @@ public class PlayerAudioManager : MonoBehaviour
 
     private AudioSource source;
 
+    public bool IsPlaying
+    {
+        get { return source.isPlaying; }
+    }
+
     private void Awake()
     {
         source = GetComponent<AudioSource>();
@@ -20,5 +25,12 @@ public class PlayerAudioManager : MonoBehaviour
     public void Play(AudioClip clip)
     {
         if (clip != null) source.PlayOneShot(clip);
+    }
+
+    public void PlayStep(AudioClip clip)
+    {
+        if (clip == null) return;
+        source.clip = clip;
+        source.Play();
     }
 }

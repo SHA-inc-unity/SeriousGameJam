@@ -155,8 +155,15 @@ MonoBehaviour:
   rb: {fileID: 1423669751902441384}
   speed: 5
   anim: {fileID: 8881228634629538824}
-  footstepClips: []
-  stepInterval: 0.4
+  footstepClips:
+  - {fileID: 8300000, guid: 17dfe2ede7889ff4aa9b33d274fd12cf, type: 3}
+  - {fileID: 8300000, guid: 66172475ebfcd3043bc06523c17f9bbf, type: 3}
+  - {fileID: 8300000, guid: eed9b38acc82f3f4e80adcbf41c10ea1, type: 3}
+  - {fileID: 8300000, guid: 2f2bfb1105ab26548917e0026687425d, type: 3}
+  - {fileID: 8300000, guid: 25842071e3b98164da9bf7247fad354a, type: 3}
+  - {fileID: 8300000, guid: de1122c9a23d88d42a1209357b9d610c, type: 3}
+  - {fileID: 8300000, guid: 8a2caa36822fb5a4dbad51e67fe3344a, type: 3}
+  - {fileID: 8300000, guid: 3ec02ebe73057b14484d7f122c4b717a, type: 3}
 --- !u!54 &1423669751902441384
 Rigidbody:
   m_ObjectHideFlags: 0

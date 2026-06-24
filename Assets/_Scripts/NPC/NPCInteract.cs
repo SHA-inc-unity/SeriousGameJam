@@ -1,41 +1,57 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class NPCInteract : MonoBehaviour
 {
     [SerializeField]
     private string npcName;
+    [SerializeField]
+    private DialogueHolder holder;
 
-    public string sceneName;
+    // What is it and why is it public
+    [SerializeField]
+    private bool isDefeated;
+    [SerializeField]
+    private GameObject NPCBooth;
+    [SerializeField]
+    private GameObject NPC;
+    [SerializeField]
+    private List<Sprite> ObjectStates;
 
-    public bool isDefeated;
-    public GameObject NPCBooth;
-    public GameObject NPC;
-    public List<Sprite> ObjectStates;
+    private BattleTrigger battleTrigger;
 
     public string NpcName { get => npcName; }
 
     private void Start()
     {
-        NPCBooth.GetComponent<SpriteRenderer>().sprite = ObjectStates[0];
+        if (GetComponent<BattleTrigger>())
+            battleTrigger = GetComponent<BattleTrigger>();
+
+        if (NPCBooth != null && ObjectStates != null && ObjectStates.Count > 0)
+            NPCBooth.GetComponent<SpriteRenderer>().sprite = ObjectStates[0];
     }
 
     public void Interact()
     {
-        Debug.Log("NPC was touched: " + npcName);
+        if (DialogueSystem.Instance == null)
+        {
+            Debug.LogError("DialogueSystem.Instance is null - is the DialogueSystem GameObject in this scene and active?");
+            return;
+        }
 
-        SceneManager.LoadScene(sceneName);
+        if (battleTrigger)
+            DialogueSystem.Instance.StartDialogue(holder, battleTrigger);
+        else
+            DialogueSystem.Instance.StartDialogue(holder);
     }
 
     private void Update()
     {
-        if (isDefeated == true)
+        if (isDefeated && NPCBooth != null && ObjectStates != null && ObjectStates.Count > 1)
         {
             NPCBooth.GetComponent<SpriteRenderer>().sprite = ObjectStates[1];
-            NPC.GetComponent<Animator>().SetBool("hasDefeated", true);
-
+            if (NPC != null)
+                NPC.GetComponent<Animator>().SetBool("hasDefeated", true);
         }
     }
-
 }
