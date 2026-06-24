@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Camera cam;
 
     [SerializeField] private float zoom;
+    private float currentFOV;
 
     [SerializeField] private float zoomMultiplier;
     [SerializeField] private float minZoom;
@@ -28,6 +29,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        currentFOV = cam.fieldOfView;
         zoom = cam.fieldOfView;
         Load();
     }
@@ -47,8 +49,8 @@ public class PlayerMove : MonoBehaviour
 
         if (dir != Vector3.zero)
         {
-            cam.fieldOfView = 80;
-            zoom = 80;
+            cam.fieldOfView = currentFOV;
+            zoom = currentFOV;
             velocity = 0f;
 
             Debug.Log("iswalking");
@@ -64,7 +66,7 @@ public class PlayerMove : MonoBehaviour
             anim.SetFloat("LastInputZ", dir.z);
 
             zoom -= zoomMultiplier;
-            zoom = Mathf.Clamp(zoom, minZoom, 80);
+            zoom = Mathf.Clamp(zoom, minZoom, currentFOV);
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
         }
 
