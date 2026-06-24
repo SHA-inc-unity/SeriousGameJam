@@ -14,12 +14,14 @@ public class DialogueSystem : MonoBehaviour
     private string heroNameStr;
     [SerializeField]
     private TMP_Text heroName, nonHeroName;
-    [SerializeField] 
+    [SerializeField]
     private Button[] answerButtons;
     [SerializeField]
-    private GameObject obj; 
-    [SerializeField] 
+    private GameObject obj;
+    [SerializeField]
     private float charDelay = 0.03f, timeToReadDelay = 1f;
+
+    public bool IsBattleStepActive { get => battleStepRoutine != null; }
 
     private List<DialogueLine> valuesIn;
     private List<BattleDialogueLine> valuesInBattle;
@@ -27,11 +29,9 @@ public class DialogueSystem : MonoBehaviour
     private int nEnd, n = 0;
     private Coroutine typingRoutine;
     private string currentText;
+    private AudioClip currentClip;
     private Coroutine battleStepRoutine = null;
 
-    // No longer fetched via GetComponent (that only checked THIS GameObject,
-    // which is wrong - BattleTrigger lives on the NPC, not on DialogueSystem).
-    // Instead, whoever starts the dialogue passes in that NPC's own trigger.
     private BattleTrigger trigger;
 
     public static DialogueSystem Instance { get; private set; }
@@ -52,9 +52,7 @@ public class DialogueSystem : MonoBehaviour
     private void Update()
     {
         if (IsActive.isInBattleCutscene) return;
-        
 
-        // in a good way, this needs to be redone for an event
         if (IsActive.isInDialogue)
         {
             if (obj.activeSelf == false)
@@ -76,10 +74,6 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    // NEW PARAM: battleTrigger - pass in the NPC's own BattleTrigger here
-    // (see NPCInteract.cs). Defaults to null so this still compiles fine
-    // anywhere that calls StartDialogue without a trigger (NPCs that never
-    // start a battle don't need one).
     public void StartDialogue(DialogueHolder values, BattleTrigger battleTrigger = null, int nStart = 0, int nEnd = -1)
     {
         valuesIn = values.GetDialogueLines();
@@ -95,7 +89,6 @@ public class DialogueSystem : MonoBehaviour
         PlayDialogue(nStart);
     }
 
-    // Maybe I should have made the battle dialogue system inherit from it, but why bother
     public void StartDialogue(BattleDialogueHolder battleDialogue)
     {
         valuesInBattle = battleDialogue.GetDialogueLines();
@@ -129,7 +122,7 @@ public class DialogueSystem : MonoBehaviour
 
             yield return new WaitUntil(() => typingRoutine == null);
 
-            if(n < valuesInBattle.Count) nextBattleState = valuesInBattle[n].nextBattleState;
+            if (n < valuesInBattle.Count) nextBattleState = valuesInBattle[n].nextBattleState;
 
             yield return new WaitForSeconds(timeToReadDelay);
         }
@@ -168,6 +161,7 @@ public class DialogueSystem : MonoBehaviour
             b.gameObject.SetActive(false);
 
         currentText = line.text;
+        currentClip = line.voice;
 
         if (typingRoutine != null) StopCoroutine(typingRoutine);
         typingRoutine = StartCoroutine(TypeText());
@@ -205,8 +199,6 @@ public class DialogueSystem : MonoBehaviour
         }
         else if (answer.nextDialogue != null)
         {
-            // Pass the same trigger along, in case the NEXT dialogue chunk
-            // also has a goToBattle answer further down the conversation.
             StartDialogue(answer.nextDialogue, trigger);
         }
         else
@@ -242,6 +234,7 @@ public class DialogueSystem : MonoBehaviour
         }
 
         currentText = line.text;
+        currentClip = line.voice;
 
         if (typingRoutine != null) StopCoroutine(typingRoutine);
         typingRoutine = StartCoroutine(TypeText());
@@ -250,10 +243,20 @@ public class DialogueSystem : MonoBehaviour
     private IEnumerator TypeText()
     {
         text.text = "";
+
+        float delay = charDelay;
+
+        if (currentClip != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayDialogueClip(currentClip);
+            if (currentText.Length > 0)
+                delay = currentClip.length / currentText.Length;
+        }
+
         foreach (char c in currentText)
         {
             text.text += c;
-            yield return new WaitForSeconds(charDelay);
+            yield return new WaitForSeconds(delay);
         }
         typingRoutine = null;
     }
@@ -263,5 +266,8 @@ public class DialogueSystem : MonoBehaviour
         StopCoroutine(typingRoutine);
         typingRoutine = null;
         text.text = currentText;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopDialogueClip();
     }
 }

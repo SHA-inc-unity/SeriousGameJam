@@ -17,3 +17,4 @@ MonoBehaviour:
   maxHP: 50
   attackPower: 10
   wheel: {fileID: 11400000, guid: cd9c516e8a8a31b4394b5ca28e7adfa4, type: 2}
+  soundSet: {fileID: 11400000, guid: cb71f5ef54495394ebbfa12041c551a2, type: 2}

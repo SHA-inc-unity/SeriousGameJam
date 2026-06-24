@@ -2,18 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-// Drives the whole battle loop. Lives on an empty GameObject in the Battle
-// scene. Normally gets its combatants from BattleSetup (filled in by a
-// BattleTrigger in the overworld before the scene loads) - see Setup/.
-//
-// EDITOR TESTING: if you hit Play directly on the Battle scene without going
-// through an overworld trigger first, BattleSetup won't be configured. In
-// that case this falls back to the "Test Fallback" fields below, so you can
-// still iterate on the Battle scene in isolation.
-//
-// HOOK UP UI LATER: replace Announce() to also push text to a UI element
-// instead of (or alongside) Debug.Log. Nothing else needs to change -
-// every effect already calls through Announce().
 public class BattleManager : MonoBehaviour
 {
     [Header("Test Fallback (used only if BattleSetup isn't configured)")]
@@ -29,6 +17,9 @@ public class BattleManager : MonoBehaviour
     [Tooltip("Seconds to show the Win/Lose message before returning to the overworld.")]
     public float endBattleDelaySeconds = 2.0f;
 
+    public float wheelSpinDuration = 3.0f;
+    public float enemyTurnEndPause = 3.0f;
+
     [Tooltip("Scene to return to after the battle ends. Leave blank to stay on the " +
              "Battle scene (useful while you don't have an overworld scene wired up yet).")]
     public string overworldSceneName = "";
@@ -39,18 +30,18 @@ public class BattleManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private BattleCanvas battleCanvas;
 
+    [Header("Audio")]
+    [SerializeField] private BattleAudio battleAudio;
+    private BattleSoundSet playerSounds;
+    private BattleSoundSet enemySounds;
+
     public BattleState CurrentState { get; private set; }
 
     private Combatant player;
     private Combatant enemy;
     private BattleDialogueHolder battleDialogue = null;
 
-    // Set by EndBattleImmediately() to short-circuit the normal turn flow.
     private bool battleEndedEarly;
-
-    // True while we're waiting for the player to press playerSpinKey.
-    // Set in BeginTurn() (player branch only), checked in Update(),
-    // cleared the moment the key is pressed and the spin happens.
     private bool waitingForPlayerSpin;
 
     private void Start()
@@ -58,6 +49,13 @@ public class BattleManager : MonoBehaviour
         CombatantData playerData = BattleSetup.IsConfigured ? BattleSetup.PlayerData : testPlayerData;
         CombatantData enemyData = BattleSetup.IsConfigured ? BattleSetup.EnemyData : testEnemyData;
         battleDialogue = BattleSetup.BattleDialogue;
+
+        playerSounds = playerData.soundSet;
+        enemySounds = enemyData.soundSet;
+
+        if (BattleSetup.BattleMusic != null && BGMusicManager.Instance != null)
+            BGMusicManager.Instance.PlayForcedBattleTrack(BattleSetup.BattleMusic);
+
         IsActive.isInBattleCutscene = (battleDialogue != null);
         if (IsActive.isInBattleCutscene) StartDialogue();
 
@@ -78,12 +76,10 @@ public class BattleManager : MonoBehaviour
         if (enemy.wheel == null)
             Debug.LogError($"{enemy.displayName} has no wheel assigned in their CombatantData.");
 
-        // TODO once UI/audio exist: use BattleSetup.BattleMusic and
-
         battleCanvas.SetPlayerSprite(playerData.battleSprite);
         battleCanvas.SetEnemySprite(enemyData.battleSprite);
 
-        BattleSetup.Clear(); // consumed - prevents stale data leaking into a future battle
+        BattleSetup.Clear();
 
         ChangeState(BattleState.Intro);
     }
@@ -91,6 +87,7 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         if (!waitingForPlayerSpin) return;
+        if (IsDialoguePlaying()) return;
 
         if (Keyboard.current[playerSpinKey].wasPressedThisFrame)
         {
@@ -99,11 +96,18 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private bool IsDialoguePlaying()
+    {
+        return DialogueSystem.Instance != null && DialogueSystem.Instance.IsBattleStepActive;
+    }
+
     private void ChangeState(BattleState newState)
     {
         CurrentState = newState;
         Debug.Log($"[Battle] State -> {newState}");
-        if(IsActive.isInBattleCutscene) IsActive.isInBattleCutscene = CheckDialogue(newState);
+        if (IsActive.isInBattleCutscene) IsActive.isInBattleCutscene = CheckDialogue(newState);
+
+        StartCoroutine(PlayStateSoundAfterDialogue(newState));
 
         switch (newState)
         {
@@ -117,7 +121,6 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case BattleState.PlayerResolve:
-                // handled directly in OnPlayerSpinPressed -> ResolveEffect
                 break;
 
             case BattleState.EnemyTurn:
@@ -125,7 +128,6 @@ public class BattleManager : MonoBehaviour
                 break;
 
             case BattleState.EnemyResolve:
-                // handled directly in OnEnemySpin -> ResolveEffect
                 break;
 
             case BattleState.Win:
@@ -140,14 +142,18 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // Runs at the start of EVERY turn (player or enemy) before any spin happens.
+    private IEnumerator PlayStateSoundAfterDialogue(BattleState state)
+    {
+        yield return new WaitUntil(() => !IsDialoguePlaying());
+        PlayStateSound(state);
+    }
+
     private void BeginTurn(Combatant actor, Combatant opponent, bool isPlayerTurn)
     {
-        actor.isDefending = false; // reset defend flag each turn
+        actor.isDefending = false;
 
         if (isPlayerTurn)
         {
-            // Wait for the player to press playerSpinKey - see Update().
             Announce($"{player.displayName}'s turn. Press {playerSpinKey} to spin!");
             waitingForPlayerSpin = true;
         }
@@ -158,50 +164,62 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // Call this from your UI "Spin" button's OnClick (if you add one later
-    // alongside/instead of the key press), or it's called automatically
-    // from Update() when playerSpinKey is pressed.
     public void OnPlayerSpinPressed()
     {
         if (CurrentState != BattleState.PlayerTurn) return;
 
-        WheelSlotEffect effect = player.wheel.Spin();
-
-        ChangeState(BattleState.PlayerResolve);
-        ResolveEffect(effect, attacker: player, defender: enemy);
-        if (battleEndedEarly) return;
-
-        if (enemy.IsDefeated)
-        {
-            ChangeState(BattleState.Win);
-            return;
-        }
-
-        ChangeState(BattleState.EnemyTurn);
+        StartCoroutine(SpinThenResolve(player, enemy, playerSounds, isPlayerTurn: true));
     }
 
     private void OnEnemySpin()
     {
         if (CurrentState != BattleState.EnemyTurn) return;
 
-        WheelSlotEffect effect = enemy.wheel.Spin();
-
-        ChangeState(BattleState.EnemyResolve);
-        ResolveEffect(effect, attacker: enemy, defender: player);
-        if (battleEndedEarly) return;
-
-        if (player.IsDefeated)
-        {
-            ChangeState(BattleState.Lose);
-            return;
-        }
-
-        ChangeState(BattleState.PlayerTurn);
+        StartCoroutine(SpinThenResolve(enemy, player, enemySounds, isPlayerTurn: false));
     }
 
-    // Runs whatever effect the wheel landed on. Each effect type knows its
-    // own logic (see the Effects/ folder) - this method just delegates.
-    // Adding a brand new slot type never requires touching this method.
+    private IEnumerator SpinThenResolve(Combatant actor, Combatant opponent, BattleSoundSet actorSounds, bool isPlayerTurn)
+    {
+        yield return new WaitUntil(() => !IsDialoguePlaying());
+
+        if (battleAudio != null) battleAudio.StartWheelSpin(actorSounds);
+
+        yield return new WaitForSeconds(wheelSpinDuration);
+
+        if (battleAudio != null) battleAudio.StopWheelSpin();
+
+        WheelSlotEffect effect = actor.wheel.Spin();
+
+        if (isPlayerTurn)
+            ChangeState(BattleState.PlayerResolve);
+        else
+            ChangeState(BattleState.EnemyResolve);
+
+        ResolveEffect(effect, actor, opponent);
+        if (battleEndedEarly) yield break;
+
+        yield return new WaitUntil(() => !IsDialoguePlaying());
+
+        if (opponent.IsDefeated)
+        {
+            if (isPlayerTurn)
+                ChangeState(BattleState.Win);
+            else
+                ChangeState(BattleState.Lose);
+            yield break;
+        }
+
+        if (isPlayerTurn)
+        {
+            ChangeState(BattleState.EnemyTurn);
+        }
+        else
+        {
+            yield return new WaitForSeconds(enemyTurnEndPause);
+            ChangeState(BattleState.PlayerTurn);
+        }
+    }
+
     private void ResolveEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
     {
         if (effect == null)
@@ -210,43 +228,29 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
+        PlayEffectSound(effect, attacker);
+
         effect.Execute(attacker, defender, this);
     }
 
-    // ---- Public hooks for effects to call (see Effects/) ----
-
-    /// <summary>Read-only access to the player combatant.</summary>
     public Combatant GetPlayer() => player;
 
-    /// <summary>Read-only access to the enemy combatant.</summary>
     public Combatant GetEnemy() => enemy;
 
-    /// <summary>
-    /// Lets one WheelSlotEffect trigger another effect's logic directly
-    /// (e.g. "this slot has a 50% chance to also apply Attack_Crit").
-    /// </summary>
     public void ApplyEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
     {
         ResolveEffect(effect, attacker, defender);
     }
 
-    /// <summary>
-    /// Ends the battle right now, skipping any further turns. Use for
-    /// effects that should win/lose the fight outright (rare gimmick slots, etc).
-    /// </summary>
     public void EndBattleImmediately(bool playerWon)
     {
         battleEndedEarly = true;
         waitingForPlayerSpin = false;
         StopAllCoroutines();
+        if (battleAudio != null) battleAudio.StopWheelSpin();
         ChangeState(playerWon ? BattleState.Win : BattleState.Lose);
     }
 
-    /// <summary>
-    /// Central logging hook. Every effect should call this instead of
-    /// Debug.Log directly - this is the one seam to extend later for UI text,
-    /// floating combat text, etc, without touching every effect file again.
-    /// </summary>
     public void Announce(string message)
     {
         Debug.Log(message);
@@ -277,5 +281,36 @@ public class BattleManager : MonoBehaviour
     private bool CheckDialogue(BattleState battleState)
     {
         return DialogueSystem.Instance.TriggerPlayDialogue(battleState);
+    }
+
+    private void PlayEffectSound(WheelSlotEffect effect, Combatant attacker)
+    {
+        if (battleAudio == null) return;
+
+        BattleSoundSet set;
+        if (attacker == player)
+            set = playerSounds;
+        else
+            set = enemySounds;
+
+        AudioClip clip = set != null ? set.GetClip(effect) : null;
+        if (clip != null)
+            battleAudio.PlayClip(clip);
+    }
+
+    private void PlayStateSound(BattleState state)
+    {
+        if (battleAudio == null) return;
+
+        BattleSoundSet set = GetSoundSetForState(state);
+        battleAudio.PlayState(set, state);
+    }
+
+    private BattleSoundSet GetSoundSetForState(BattleState state)
+    {
+        if (state == BattleState.PlayerTurn || state == BattleState.PlayerResolve) return playerSounds;
+        if (state == BattleState.EnemyTurn || state == BattleState.EnemyResolve) return enemySounds;
+
+        return playerSounds;
     }
 }

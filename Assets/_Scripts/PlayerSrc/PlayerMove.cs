@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerAudioManager))]
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
@@ -11,14 +13,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float speed = 5f;
 
+    [SerializeField] private List<AudioClip> footstepClips;
+    [SerializeField] private float stepInterval = 0.4f;
+
+    private PlayerAudioManager audioManager;
+    private float stepTimer;
+    private AudioClip lastStep;
+
     private string sceneName;
     private bool isEnterDoor;
     private Vector3 posDoor;
 
-
     void Update()
     {
-        if(!IsActive.isActive) return;
+        if (!IsActive.isActive) return;
 
         Vector3 dir = Vector3.zero;
 
@@ -31,6 +39,47 @@ public class PlayerMove : MonoBehaviour
         dir.Normalize();
 
         rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
+
+        HandleFootsteps(dir);
+    }
+
+    private void HandleFootsteps(Vector3 dir)
+    {
+        if (dir == Vector3.zero)
+        {
+            stepTimer = 0f;
+            return;
+        }
+
+        stepTimer -= Time.deltaTime;
+        if (stepTimer <= 0f)
+        {
+            PlayFootstep();
+            stepTimer = stepInterval;
+        }
+    }
+
+    private void PlayFootstep()
+    {
+        if (footstepClips == null || footstepClips.Count == 0) return;
+
+        AudioClip clip = PickStep();
+        audioManager.Play(clip);
+    }
+
+    private AudioClip PickStep()
+    {
+        if (footstepClips.Count == 1) return footstepClips[0];
+
+        AudioClip next;
+        do
+        {
+            next = footstepClips[Random.Range(0, footstepClips.Count)];
+        }
+        while (next == lastStep);
+
+        lastStep = next;
+        return next;
     }
 
     public void EnterTheDoor(Vector3 pos)
@@ -39,14 +88,10 @@ public class PlayerMove : MonoBehaviour
         posDoor = pos;
     }
 
-
-
-
-    // Rewrite this shit plz
-
-
     void Start()
     {
+        audioManager = GetComponent<PlayerAudioManager>();
+
         sceneName = SceneManager.GetActiveScene().name;
 
         PlayerPrefs.SetString("LastScene", sceneName);
