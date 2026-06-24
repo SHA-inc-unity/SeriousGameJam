@@ -1,33 +1,48 @@
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(PlayerAudioManager))]
 public class PlayerMove : MonoBehaviour
 {
+    //camera
+    [SerializeField] private Camera cam;
+
+    [SerializeField] private float zoom;
+    private float currentFOV;
+
+    [SerializeField] private float zoomMultiplier;
+    [SerializeField] private float minZoom;
+    [SerializeField] private float velocity;
+    public float zoomSpeed;
+
+    //
+
     [SerializeField]
     private Transform playerTrans;
     [SerializeField]
     private Rigidbody rb;
     [SerializeField]
     private float speed = 5f;
-
-    [SerializeField] private List<AudioClip> footstepClips;
-    [SerializeField] private float stepInterval = 0.4f;
+    [SerializeField]
+    private Animator anim;
+    [SerializeField]
+    private List<AudioClip> footstepClips;
 
     private PlayerAudioManager audioManager;
-    private float stepTimer;
     private AudioClip lastStep;
 
-    private string sceneName;
-    private bool isEnterDoor;
-    private Vector3 posDoor;
+    void Start()
+    {
+        audioManager = GetComponent<PlayerAudioManager>();
+
+        currentFOV = cam.fieldOfView;
+        zoom = cam.fieldOfView;
+        Load();
+    }
 
     void Update()
     {
-        if (!IsActive.isActive) return;
-
         Vector3 dir = Vector3.zero;
 
         if (Keyboard.current.wKey.isPressed) dir += playerTrans.forward;
@@ -40,31 +55,38 @@ public class PlayerMove : MonoBehaviour
 
         rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
 
-        HandleFootsteps(dir);
-    }
-
-    private void HandleFootsteps(Vector3 dir)
-    {
-        if (dir == Vector3.zero)
+        if (dir != Vector3.zero)
         {
-            stepTimer = 0f;
-            return;
-        }
+            cam.fieldOfView = currentFOV;
+            zoom = currentFOV;
+            velocity = 0f;
 
-        stepTimer -= Time.deltaTime;
-        if (stepTimer <= 0f)
-        {
+            anim.SetBool("isWalking", true);
+            anim.SetFloat("InputX", dir.x);
+            anim.SetFloat("InputZ", dir.z);
+
             PlayFootstep();
-            stepTimer = stepInterval;
+        }
+        else if (dir == Vector3.zero)
+        {
+            anim.SetBool("isWalking", false);
+            anim.SetFloat("LastInputX", dir.x);
+            anim.SetFloat("LastInputZ", dir.z);
+
+            zoom -= zoomMultiplier;
+            zoom = Mathf.Clamp(zoom, minZoom, currentFOV);
+            cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
         }
     }
 
     private void PlayFootstep()
     {
         if (footstepClips == null || footstepClips.Count == 0) return;
+        if (audioManager == null) return;
+        if (audioManager.IsPlaying) return;
 
         AudioClip clip = PickStep();
-        audioManager.Play(clip);
+        audioManager.PlayStep(clip);
     }
 
     private AudioClip PickStep()
@@ -74,44 +96,12 @@ public class PlayerMove : MonoBehaviour
         AudioClip next;
         do
         {
-            next = footstepClips[Random.Range(0, footstepClips.Count)];
+            next = footstepClips[UnityEngine.Random.Range(0, footstepClips.Count)];
         }
         while (next == lastStep);
 
         lastStep = next;
         return next;
-    }
-
-    public void EnterTheDoor(Vector3 pos)
-    {
-        isEnterDoor = true;
-        posDoor = pos;
-    }
-
-    void Start()
-    {
-        audioManager = GetComponent<PlayerAudioManager>();
-
-        sceneName = SceneManager.GetActiveScene().name;
-
-        PlayerPrefs.SetString("LastScene", sceneName);
-
-        if (isEnterDoor)
-        {
-            transform.position = posDoor;
-        }
-        else
-        {
-            if (PlayerPrefs.HasKey("SaveFile"))
-            {
-                Load();
-            }
-            else
-            {
-                PlayerPrefs.SetInt("SaveFile", 1);
-                PlayerPrefs.Save();
-            }
-        }
     }
 
     void OnDestroy()
@@ -122,20 +112,20 @@ public class PlayerMove : MonoBehaviour
     private void Save()
     {
         Vector3 p = playerTrans.position;
-        PlayerPrefs.SetFloat($"playerX/{sceneName}", p.x);
-        PlayerPrefs.SetFloat($"playerY/{sceneName}", p.y);
-        PlayerPrefs.SetFloat($"playerZ/{sceneName}", p.z);
+        PlayerPrefs.SetFloat("playerX", p.x);
+        PlayerPrefs.SetFloat("playerY", p.y);
+        PlayerPrefs.SetFloat("playerZ", p.z);
         PlayerPrefs.Save();
     }
 
     private void Load()
     {
-        if (!PlayerPrefs.HasKey($"playerX/{sceneName}")) return;
+        if (!PlayerPrefs.HasKey("playerX")) return;
 
         Vector3 pos = new Vector3(
-            PlayerPrefs.GetFloat($"playerX/{sceneName}"),
-            PlayerPrefs.GetFloat($"playerY/{sceneName}"),
-            PlayerPrefs.GetFloat($"playerZ/{sceneName}"));
+            PlayerPrefs.GetFloat("playerX"),
+            PlayerPrefs.GetFloat("playerY"),
+            PlayerPrefs.GetFloat("playerZ"));
 
         rb.position = pos;
         playerTrans.position = pos;
