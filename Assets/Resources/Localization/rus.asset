@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 006fadb20228e1c49bfc9e79d34509c8, type: 3}
+  m_Name: rus
+  m_EditorClassIdentifier: 
+  font: {fileID: 11400000, guid: 96af25a97da52be4c86a8583a87d7988, type: 2}
+  languageType: 1
+  languagePairs:
+  - Key: Caroline
+    Value: Caroline
+  - Key: Okay bye then
+    Value: Ну тогда пока
+  - Key: Hi Boy
+    Value: Привет, мальчик
+  - Key: Hero
+    Value: Hero
+  - Key: Hello
+    Value: Привет
+  - Key: Welcome to the park
+    Value: Добро пожаловать в парк
+  - Key: I hope you have fun
+    Value: Надеюсь, тебе будет весело
+  - Key: No, I'm serious
+    Value: Нет, я серьёзно
+  - Key: Okay, so what do you need
+    Value: Ладно, так что тебе нужно
+  - Key: I WANT A BATTLE
+    Value: Я ХОЧУ БИТВУ
+  - Key: Nothing
+    Value: Ничего
