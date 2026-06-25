@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
   tracks:
   - clip: {fileID: 8300000, guid: 0be40cc3fe8cbc74d9465bb9b0839150, type: 3}
-    usage: 2
-  - clip: {fileID: 8300000, guid: 65de717ac2e27b04a8248f7a5d05100b, type: 3}
-    usage: 1
+    usage: -1
+    loopMarker: 35
+    enemyNames: []
