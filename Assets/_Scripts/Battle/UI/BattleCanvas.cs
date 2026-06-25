@@ -40,6 +40,9 @@ public class BattleCanvas : MonoBehaviour
     [SerializeField] private Transform enemyHPAnchor;
     [SerializeField] private HPDisplay hpDisplayPrefab;
 
+    [Header("BG")]
+    [SerializeField] private Image background;
+
     private HPDisplay  playerHP;
     private HPDisplay  enemyHP;
     private WheelSpinUI playerWheel;
@@ -58,14 +61,14 @@ public class BattleCanvas : MonoBehaviour
     public void InitPlayerHP(int maxHP)
     {
         playerHP = Instantiate(hpDisplayPrefab);
-        playerHP.Init(maxHP, playerHPAnchor);
+        playerHP.Init(maxHP, playerHPAnchor, isHero: true);
         playerHP.UpdateHP(maxHP);
     }
 
     public void InitEnemyHP(int maxHP)
     {
         enemyHP = Instantiate(hpDisplayPrefab);
-        enemyHP.Init(maxHP, enemyHPAnchor);
+        enemyHP.Init(maxHP, enemyHPAnchor, isHero: false);
         enemyHP.UpdateHP(maxHP);
     }
 
@@ -83,6 +86,7 @@ public class BattleCanvas : MonoBehaviour
 
     public void SetPlayerSprite(Sprite sprite) => playerSprite.sprite = sprite;
     public void SetEnemySprite(Sprite sprite)  => enemySprite.sprite  = sprite;
+    public void SetBackground(Sprite sprite) => background.sprite = sprite;
 
     public void BuildPlayerWheel(Wheel wheel)
         => playerWheel = BuildWheel(wheel, playerWheelAnchor, playerPointerAngle, playerPointer);
