@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9006867223738713810}
   - component: {fileID: 8977187638698499154}
   - component: {fileID: 1459812216143935413}
+  - component: {fileID: 9035087643123740662}
   m_Layer: 0
   m_Name: Chara
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3529066773041394362}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.8536248, z: -1.8384776}
+  m_LocalPosition: {x: 0, y: 1.798, z: -1.894}
   m_LocalScale: {x: 2, y: 2.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115,6 +116,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9035087643123740662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529066773041394362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d752805a0f8b81e469b7a3527e64f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSorter
+  sr:
+  - {fileID: 8977187638698499154}
+  precision: 100
 --- !u!1 &4849065089688158458
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2412596700968782084}
   - component: {fileID: 6551819547268529437}
+  - component: {fileID: 1238524017858505793}
   m_Layer: 0
   m_Name: booth
   m_TagString: Untagged
@@ -207,6 +224,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1238524017858505793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849065089688158458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d752805a0f8b81e469b7a3527e64f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSorter
+  sr:
+  - {fileID: 6551819547268529437}
+  precision: 100
 --- !u!1001 &945620273154771851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -275,7 +307,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 642261305383768808, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
     m_RemovedGameObjects:
     - {fileID: 4814782459990560256, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
     - {fileID: 5075251593500339685, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}

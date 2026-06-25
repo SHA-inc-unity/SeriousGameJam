@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2287069557890331832}
   - component: {fileID: 8751221520882997186}
   - component: {fileID: 241414122110375034}
+  - component: {fileID: 886090978871071924}
   m_Layer: 0
   m_Name: Chara
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3553017176415982715}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7536244, z: -1.8384777}
+  m_LocalPosition: {x: 0, y: 1.7536244, z: -1.894}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115,6 +116,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &886090978871071924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3553017176415982715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d752805a0f8b81e469b7a3527e64f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSorter
+  sr:
+  - {fileID: 8751221520882997186}
+  precision: 100
 --- !u!1 &8672427604365496463
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 146144595511260133}
   - component: {fileID: 1155973438576330257}
+  - component: {fileID: 1955088620649875976}
   m_Layer: 0
   m_Name: booth
   m_TagString: Untagged
@@ -207,6 +224,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1955088620649875976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672427604365496463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d752805a0f8b81e469b7a3527e64f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSorter
+  sr:
+  - {fileID: 1155973438576330257}
+  precision: 100
 --- !u!1001 &6861845407589152523
 PrefabInstance:
   m_ObjectHideFlags: 0
