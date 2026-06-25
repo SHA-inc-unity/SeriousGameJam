@@ -15,4 +15,13 @@ MonoBehaviour:
   dialogue:
   - who: Caroline
     text: Okay bye then
-    answers: []
+    voice: {fileID: 0}
+    answers:
+    - text: ATC
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
+    - text: nnn
+      nextDialogue: {fileID: 0}
+      goToBattle: 0
+  triggerBattleOnEnd: 0
+  canRepeat: 1
