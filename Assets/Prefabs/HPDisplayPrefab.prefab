@@ -91,8 +91,9 @@ MonoBehaviour:
   horizontalSpacing: 50
   verticalSpacing: 50
   lightSize: 30
-  colorOn: {r: 0, g: 1, b: 0, a: 1}
-  colorOff: {r: 1, g: 0, b: 0, a: 1}
-  colorOverhealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  spriteHero: {fileID: 21300000, guid: 42c3cb454ee39214e92290a7311082ce, type: 3}
-  spriteEnemy: {fileID: 21300000, guid: e7e01675b34ce32449ec942e26f13c83, type: 3}
+  heroOnSprite: {fileID: 21300000, guid: 2d47962768a2dbf4d8ad16c13a9d12a4, type: 3}
+  heroOffSprite: {fileID: 21300000, guid: 020fe0bf4b191534c838825de02c6c67, type: 3}
+  heroOverhealthSprite: {fileID: 21300000, guid: b2ded53fbdc99894eb12ea8acd69f95e, type: 3}
+  enemyOnSprite: {fileID: 21300000, guid: e2659e65e9e475b43b01b647a3225b0b, type: 3}
+  enemyOffSprite: {fileID: 21300000, guid: 908c8753dd31f174bb3732e3a0088d5c, type: 3}
+  enemyOverhealthSprite: {fileID: 21300000, guid: 56f92084f943fe2449dfe0da95c59cf2, type: 3}

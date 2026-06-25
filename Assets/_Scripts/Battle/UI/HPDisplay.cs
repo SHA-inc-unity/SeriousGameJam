@@ -8,18 +8,22 @@ public class HPDisplay : MonoBehaviour
     public float verticalSpacing = 50f;
     public float lightSize = 30f;
 
-    [Header("Colors")]
-    public Color colorOn       = Color.green;
-    public Color colorOff      = Color.red;
-    public Color colorOverhealth = Color.yellow;
+    [Header("Hero Sprites")]
+    [SerializeField] private Sprite heroOnSprite;
+    [SerializeField] private Sprite heroOffSprite;
+    [SerializeField] private Sprite heroOverhealthSprite;
 
-    [SerializeField]
-    private Sprite spriteHero, spriteEnemy;
+    [Header("Enemy Sprites")]
+    [SerializeField] private Sprite enemyOnSprite;
+    [SerializeField] private Sprite enemyOffSprite;
+    [SerializeField] private Sprite enemyOverhealthSprite;
 
     private Image[] lights;
+    private bool isHeroDisplay;
 
     public void Init(int maxHP, Transform parent, bool isHero)
     {
+        isHeroDisplay = isHero;
         transform.SetParent(parent, worldPositionStays: false);
         lights = new Image[maxHP];
         Vector2[] positions = GetPositions(maxHP);
@@ -42,8 +46,7 @@ public class HPDisplay : MonoBehaviour
             rt.offsetMax = Vector2.zero;
 
             Image img = go.GetComponent<Image>();
-            img.color = colorOn;
-            img.sprite = isHero ? spriteHero : spriteEnemy;
+            img.sprite = isHero ? heroOnSprite : enemyOnSprite; // default "on" state
             lights[i] = img;
         }
     }
@@ -51,23 +54,29 @@ public class HPDisplay : MonoBehaviour
     // Normal HP update, no overhealth
     public void UpdateHP(int currentHP)
     {
+        Sprite onSprite  = isHeroDisplay ? heroOnSprite  : enemyOnSprite;
+        Sprite offSprite = isHeroDisplay ? heroOffSprite : enemyOffSprite;
+
         for (int i = 0; i < lights.Length; i++)
-            lights[i].color = i < currentHP ? colorOn : colorOff;
+            lights[i].sprite = i < currentHP ? onSprite : offSprite;
     }
 
     // Call this when overhealth is involved.
-    // overhealth slots light up yellow, starting from the leftmost light.
-    // e.g. maxHP=3, currentHP=2, overhealth=1 -> [yellow, green, red]
+    // overhealth slots use the overhealth sprite, starting from the leftmost light.
     public void UpdateHPWithOverhealth(int currentHP, int overhealth)
     {
+        Sprite onSprite          = isHeroDisplay ? heroOnSprite          : enemyOnSprite;
+        Sprite offSprite         = isHeroDisplay ? heroOffSprite         : enemyOffSprite;
+        Sprite overhealthSprite  = isHeroDisplay ? heroOverhealthSprite  : enemyOverhealthSprite;
+
         for (int i = 0; i < lights.Length; i++)
         {
             if (i < overhealth)
-                lights[i].color = colorOverhealth;  // yellow, leftmost first
+                lights[i].sprite = overhealthSprite;
             else if (i < overhealth + currentHP)
-                lights[i].color = colorOn;           // green
+                lights[i].sprite = onSprite;
             else
-                lights[i].color = colorOff;          // red
+                lights[i].sprite = offSprite;
         }
     }
 
