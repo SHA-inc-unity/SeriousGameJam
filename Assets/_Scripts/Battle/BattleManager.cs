@@ -40,21 +40,21 @@ public class BattleManager : MonoBehaviour
     private bool playerOnCooldown;
 
     private Dictionary<Combatant, int> pendingDamageReductions = new Dictionary<Combatant, int>();
-    private HashSet<Combatant> pendingDeflects                 = new HashSet<Combatant>();
+    private HashSet<Combatant> pendingDeflects = new HashSet<Combatant>();
 
     public StatusEffectManager StatusEffects { get; private set; }
-    private Dictionary<Combatant, WheelSpinUI> combatantWheelUI    = new Dictionary<Combatant, WheelSpinUI>();
-    private HashSet<Combatant> stunnedCombatants                    = new HashSet<Combatant>();
-    private Dictionary<Combatant, float> spinDurationMultipliers    = new Dictionary<Combatant, float>();
+    private Dictionary<Combatant, WheelSpinUI> combatantWheelUI = new Dictionary<Combatant, WheelSpinUI>();
+    private HashSet<Combatant> stunnedCombatants = new HashSet<Combatant>();
+    private Dictionary<Combatant, float> spinDurationMultipliers = new Dictionary<Combatant, float>();
 
     private void Start()
     {
         CombatantData playerData = BattleSetup.IsConfigured ? BattleSetup.PlayerData : testPlayerData;
-        CombatantData enemyData  = BattleSetup.IsConfigured ? BattleSetup.EnemyData  : testEnemyData;
+        CombatantData enemyData = BattleSetup.IsConfigured ? BattleSetup.EnemyData : testEnemyData;
         battleDialogue = BattleSetup.BattleDialogue;
 
         playerSounds = playerData.soundSet;
-        enemySounds  = enemyData.soundSet;
+        enemySounds = enemyData.soundSet;
 
         if (BattleSetup.BattleMusic != null && BGMusicManager.Instance != null)
             BGMusicManager.Instance.PlayForcedBattleTrack(BattleSetup.BattleMusic);
@@ -72,7 +72,7 @@ public class BattleManager : MonoBehaviour
         }
 
         player = playerData.CreateRuntimeCombatant();
-        enemy  = enemyData.CreateRuntimeCombatant();
+        enemy = enemyData.CreateRuntimeCombatant();
         playerSourceData = playerData;
 
         StatusEffects = gameObject.AddComponent<StatusEffectManager>();
@@ -81,16 +81,16 @@ public class BattleManager : MonoBehaviour
         StatusEffects.Register(enemy);
 
         combatantWheelUI[player] = battleCanvas.PlayerWheelUI;
-        combatantWheelUI[enemy]  = battleCanvas.EnemyWheelUI;
+        combatantWheelUI[enemy] = battleCanvas.EnemyWheelUI;
         spinDurationMultipliers[player] = 1f;
-        spinDurationMultipliers[enemy]  = 1f;
+        spinDurationMultipliers[enemy] = 1f;
 
         battleCanvas.SetPlayerSprite(playerData.battleSprite);
         battleCanvas.SetEnemySprite(enemyData.battleSprite);
         battleCanvas.SetBackground(BattleSetup.BattleBackground);
 
         if (player.wheel != null) battleCanvas.BuildPlayerWheel(player.wheel);
-        if (enemy.wheel  != null) battleCanvas.BuildEnemyWheel(enemy.wheel);
+        if (enemy.wheel != null) battleCanvas.BuildEnemyWheel(enemy.wheel);
 
         battleCanvas.InitPlayerHP(player.maxHP);
         battleCanvas.InitEnemyHP(enemy.maxHP);
@@ -116,13 +116,25 @@ public class BattleManager : MonoBehaviour
 
     private bool IsDialoguePlaying()
     {
-        return DialogueSystem.Instance != null && DialogueSystem.Instance.IsBattleStepActive;
+        return DialogueSystemBattle.Instance != null && DialogueSystemBattle.Instance.IsBattleStepActive;
+    }
+
+    private IEnumerator SetStateAndPlayDialogue(BattleState state)
+    {
+        CurrentState = state;
+
+        if (IsActive.isInBattleCutscene)
+            CheckDialogue(state);
+
+        yield return new WaitUntil(() => !IsDialoguePlaying());
     }
 
     private IEnumerator PlayerSpin()
     {
         playerOnCooldown = true;
-        CurrentState     = BattleState.PlayerTurn;
+
+        yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerTurn));
+        if (battleOver) yield break;
 
         if (stunnedCombatants.Contains(player))
         {
@@ -137,9 +149,11 @@ public class BattleManager : MonoBehaviour
         // so the effect resolved always matches what's on screen.
         ChooseIntendedSlot(player, out int intendedIndex);
 
-        bool animDone        = false;
-        int  confirmedIndex  = intendedIndex;
-        float duration       = player.wheel.spinCooldown * spinDurationMultipliers[player];
+        yield return new WaitUntil(() => !IsDialoguePlaying());
+
+        bool animDone = false;
+        int confirmedIndex = intendedIndex;
+        float duration = player.wheel.spinCooldown * spinDurationMultipliers[player];
 
         battleCanvas.PlayPlayerWheelSpin(intendedIndex, player.wheel.slots.Length, (resultIndex) =>
         {
@@ -154,6 +168,10 @@ public class BattleManager : MonoBehaviour
         StatusEffects.NotifySpinCompleted(player);
         WheelSlotEffect effect = player.wheel.slots[confirmedIndex].effect;
         PlayEffectSound(effect, player);
+
+        yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerResolve));
+        if (battleOver) yield break;
+
         ResolveEffect(effect, attacker: player, defender: enemy);
 
         if (CheckBattleOver()) yield break;
@@ -169,7 +187,8 @@ public class BattleManager : MonoBehaviour
 
         while (!battleOver)
         {
-            CurrentState = BattleState.EnemyTurn;
+            yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyTurn));
+            if (battleOver) yield break;
 
             if (stunnedCombatants.Contains(enemy))
             {
@@ -181,9 +200,11 @@ public class BattleManager : MonoBehaviour
             Announce($"{enemy.displayName} spins!");
             ChooseIntendedSlot(enemy, out int intendedIndex);
 
-            bool animDone       = false;
-            int  confirmedIndex = intendedIndex;
-            float duration      = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
+            yield return new WaitUntil(() => !IsDialoguePlaying());
+
+            bool animDone = false;
+            int confirmedIndex = intendedIndex;
+            float duration = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
 
             battleCanvas.PlayEnemyWheelSpin(intendedIndex, enemy.wheel.slots.Length, (resultIndex) =>
             {
@@ -198,6 +219,10 @@ public class BattleManager : MonoBehaviour
             StatusEffects.NotifySpinCompleted(enemy);
             WheelSlotEffect effect = enemy.wheel.slots[confirmedIndex].effect;
             PlayEffectSound(effect, enemy);
+
+            yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyResolve));
+            if (battleOver) yield break;
+
             ResolveEffect(effect, attacker: enemy, defender: player);
 
             if (CheckBattleOver()) yield break;
@@ -238,7 +263,7 @@ public class BattleManager : MonoBehaviour
 
     private bool CheckBattleOver()
     {
-        if (enemy.IsDefeated)  { EndBattle(playerWon: true);  return true; }
+        if (enemy.IsDefeated) { EndBattle(playerWon: true); return true; }
         if (player.IsDefeated) { EndBattle(playerWon: false); return true; }
         return false;
     }
@@ -249,6 +274,10 @@ public class BattleManager : MonoBehaviour
         StopAllCoroutines();
         if (battleAudio != null) battleAudio.StopWheelSpin();
         CurrentState = playerWon ? BattleState.Win : BattleState.Lose;
+
+        if (IsActive.isInBattleCutscene)
+            CheckDialogue(CurrentState);
+
         Announce(playerWon
             ? $"{player.displayName} wins! {enemy.displayName} is defeated."
             : $"{player.displayName} has been defeated...");
@@ -269,7 +298,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public Combatant GetPlayer() => player;
-    public Combatant GetEnemy()  => enemy;
+    public Combatant GetEnemy() => enemy;
 
     public void ApplyEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
         => ResolveEffect(effect, attacker, defender);
@@ -277,7 +306,7 @@ public class BattleManager : MonoBehaviour
     public void SetStunned(Combatant combatant, bool stunned)
     {
         if (stunned) stunnedCombatants.Add(combatant);
-        else         stunnedCombatants.Remove(combatant);
+        else stunnedCombatants.Remove(combatant);
     }
 
     public void MultiplySpinDuration(Combatant combatant, float multiplier)
@@ -362,12 +391,12 @@ public class BattleManager : MonoBehaviour
 
     private void StartDialogue()
     {
-        DialogueSystem.Instance.StartDialogue(battleDialogue);
+        DialogueSystemBattle.Instance.StartDialogue(battleDialogue);
     }
 
     private bool CheckDialogue(BattleState battleState)
     {
-        return DialogueSystem.Instance.TriggerPlayDialogue(battleState);
+        return DialogueSystemBattle.Instance.TriggerPlayDialogue(battleState);
     }
 
     private void PlayEffectSound(WheelSlotEffect effect, Combatant attacker)

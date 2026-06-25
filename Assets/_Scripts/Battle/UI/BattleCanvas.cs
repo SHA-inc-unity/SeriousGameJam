@@ -61,14 +61,14 @@ public class BattleCanvas : MonoBehaviour
     public void InitPlayerHP(int maxHP)
     {
         playerHP = Instantiate(hpDisplayPrefab);
-        playerHP.Init(maxHP, playerHPAnchor);
+        playerHP.Init(maxHP, playerHPAnchor, isHero: true);
         playerHP.UpdateHP(maxHP);
     }
 
     public void InitEnemyHP(int maxHP)
     {
         enemyHP = Instantiate(hpDisplayPrefab);
-        enemyHP.Init(maxHP, enemyHPAnchor);
+        enemyHP.Init(maxHP, enemyHPAnchor, isHero: false);
         enemyHP.UpdateHP(maxHP);
     }
 

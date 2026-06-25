@@ -13,9 +13,12 @@ public class HPDisplay : MonoBehaviour
     public Color colorOff      = Color.red;
     public Color colorOverhealth = Color.yellow;
 
+    [SerializeField]
+    private Sprite spriteHero, spriteEnemy;
+
     private Image[] lights;
 
-    public void Init(int maxHP, Transform parent)
+    public void Init(int maxHP, Transform parent, bool isHero)
     {
         transform.SetParent(parent, worldPositionStays: false);
         lights = new Image[maxHP];
@@ -30,8 +33,17 @@ public class HPDisplay : MonoBehaviour
             rt.sizeDelta        = new Vector2(lightSize, lightSize);
             rt.anchoredPosition = positions[i];
 
+            float percent = (180f / 1920f) * -i;
+            if (!isHero) percent = -percent;
+
+            rt.anchorMin = new Vector2(0f + percent, 0f);
+            rt.anchorMax = new Vector2(1f + percent, 1f);
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+
             Image img = go.GetComponent<Image>();
             img.color = colorOn;
+            img.sprite = isHero ? spriteHero : spriteEnemy;
             lights[i] = img;
         }
     }
