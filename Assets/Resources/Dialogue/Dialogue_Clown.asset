@@ -19,11 +19,11 @@ MonoBehaviour:
     answers: []
   - who: Sirius
     text: I should cut you down on the spot, but my liege would have me hung.
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: 51ff288df92909c4aa329ded13185ba8, type: 3}
     answers: []
   - who: Sirius
     text: "Why are you not at my liege\u2019s side, jester?"
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: 6d5c0da4a861a1b4ca5e036251292a90, type: 3}
     answers: []
   - who: Gamez
     text: Honk honk! Ohoho? I LOOOOVE roleplay :o)
@@ -36,7 +36,7 @@ MonoBehaviour:
   - who: Sirius
     text: "Curious\u2026 I will have to inform Her Majesty about this\u2026 AND ENOUGH
       HONKING FOOL!"
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: bfd78e444a89164469c46ff157fe1f30, type: 3}
     answers: []
   - who: Gamez
     text: Honk honk honk honk! Ah-hyuck, ah-hyuck! Enough fwordplay!
@@ -49,12 +49,9 @@ MonoBehaviour:
     answers: []
   - who: Sirius
     text: "Enough jesting, let\u2019s get to it fool."
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: 51ff288df92909c4aa329ded13185ba8, type: 3}
     answers: []
   - who: Gamez
     text: "Honk Honk Honk Honk Honk! LET\u2019S GET OUR GAMEZ ON!!!"
     voice: {fileID: 0}
-    answers:
-    - text: BATTLE
-      nextDialogue: {fileID: 0}
-      goToBattle: 1
+    answers: []
