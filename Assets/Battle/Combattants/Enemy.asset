@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatantData
   displayName: Clown
   battleSprite: {fileID: 21300000, guid: 3eb52a5f0065aff46a6c100bbc09c329, type: 3}
-  maxHP: 50
+  maxHP: 3
   attackPower: 10
   wheel: {fileID: 11400000, guid: cd9c516e8a8a31b4394b5ca28e7adfa4, type: 2}
   soundSet: {fileID: 11400000, guid: f6d2b0cd49298c347be5629c2a98dfb1, type: 2}

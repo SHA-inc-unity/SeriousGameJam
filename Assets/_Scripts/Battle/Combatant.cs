@@ -1,45 +1,63 @@
 using UnityEngine;
 
-// Minimal combatant data. Used for both the player knight and enemies
-// (the duck-stall guy, etc). Keep this lean for jam purposes -
-// add fields only when a system actually needs them.
 [System.Serializable]
 public class Combatant
 {
     public string displayName;
     public int maxHP;
     public int currentHP;
-    public int attackPower = 10;
-    public bool isDefending;
+    public int overhealth;
 
     [Tooltip("Sprite shown for this combatant in the battle scene.")]
     public Sprite battleSprite;
 
-    [Tooltip("The wheel this combatant spins. Each combatant owns their own wheel " +
-             "reference so the player's equipped wheel and an enemy's wheel can " +
-             "differ and be swapped independently (e.g. wheel unlocks/upgrades).")]
+    [Tooltip("The wheel this combatant spins.")]
     public Wheel wheel;
 
-    public Combatant(string name, int maxHP, int attackPower, Sprite battleSprite = null, Wheel wheel = null)
+    public Combatant(string name, int maxHP, Sprite battleSprite = null, Wheel wheel = null)
     {
-        this.displayName = name;
-        this.maxHP = maxHP;
-        this.currentHP = maxHP;
-        this.attackPower = attackPower;
+        this.displayName  = name;
+        this.maxHP        = maxHP;
+        this.currentHP    = maxHP;
+        this.overhealth   = 0;
         this.battleSprite = battleSprite;
-        this.wheel = wheel;
+        this.wheel        = wheel;
     }
 
-    public bool IsDefeated => currentHP <= 0;
+    public bool IsDefeated => currentHP <= 0 && overhealth <= 0;
 
     public void TakeDamage(int amount)
     {
-        int finalDamage = isDefending ? Mathf.RoundToInt(amount * 0.5f) : amount;
-        currentHP = Mathf.Max(0, currentHP - finalDamage);
+        // Drain overhealth first
+        if (overhealth > 0)
+        {
+            int absorbed = Mathf.Min(overhealth, amount);
+            overhealth  -= absorbed;
+            amount      -= absorbed;
+        }
+
+        if (amount > 0)
+            currentHP = Mathf.Max(0, currentHP - amount);
     }
 
     public void Heal(int amount)
     {
         currentHP = Mathf.Min(maxHP, currentHP + amount);
+    }
+
+    public void HealWithOverhealth(int amount)
+    {
+        int hpNeeded = maxHP - currentHP;
+
+        if (amount <= hpNeeded)
+        {
+            currentHP += amount;
+        }
+        else
+        {
+            currentHP   = maxHP;
+            int excess  = amount - hpNeeded;
+            overhealth  = Mathf.Min(overhealth + excess, maxHP); // never exceeds maxHP
+        }
     }
 }

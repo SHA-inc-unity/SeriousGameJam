@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 // Base class for "what happens when a wheel lands on this slot".
@@ -21,7 +20,17 @@ public abstract class WheelSlotEffect : ScriptableObject
     /// "battle" gives access to Announce(), ApplyEffect(), EndBattleImmediately(),
     /// and GetPlayer()/GetEnemy() for anything fancier.
     /// </summary>
-    /// 
+    ///
+    [Tooltip("The wedge sprite shown on the wheel for this effect slot.")]
+    public Sprite sliceSprite;
+
+    [Header("Upgrade")]
+    [Tooltip("The effect this slot upgrades into, if the player picks it on the post-battle " +
+             "upgrade screen. Leave empty if this effect has no upgrade (e.g. Miss). " +
+             "Same pattern as BombEffect.revealedEffect - just generalized to every effect.")]
+    public WheelSlotEffect upgradedVersion;
+
+    public bool HasUpgrade => upgradedVersion != null;
 
     public abstract void Execute(Combatant attacker, Combatant defender, BattleManager battle);
 }
