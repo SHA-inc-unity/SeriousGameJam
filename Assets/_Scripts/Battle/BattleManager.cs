@@ -56,8 +56,8 @@ public class BattleManager : MonoBehaviour
         playerSounds = playerData.soundSet;
         enemySounds = enemyData.soundSet;
 
-        if (BattleSetup.BattleMusic != null && BGMusicManager.Instance != null)
-            BGMusicManager.Instance.PlayForcedBattleTrack(BattleSetup.BattleMusic);
+        if (BGMusicManager.Instance != null)
+            BGMusicManager.Instance.PlayTrackForEnemy(enemy.displayName);
 
         IsActive.isInBattleCutscene = (battleDialogue != null);
         if (IsActive.isInBattleCutscene) StartDialogue();

@@ -20,7 +20,6 @@ public class BattleTrigger : MonoBehaviour
     public CombatantData enemyData;
 
     [Header("Presentation")]
-    public AudioClip battleMusic;
     public Sprite battleBackground;
 
     [Header("Scene")]
@@ -51,7 +50,6 @@ public class BattleTrigger : MonoBehaviour
 
         BattleSetup.PlayerData = playerData;
         BattleSetup.EnemyData = enemyData;
-        BattleSetup.BattleMusic = battleMusic;
         BattleSetup.BattleBackground = battleBackground;
         BattleSetup.BattleDialogue = dialogue;
 
