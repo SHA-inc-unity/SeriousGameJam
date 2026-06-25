@@ -124,30 +124,59 @@ public class BGMusicManager : MonoBehaviour
     private void StartEntry(MusicEntry entry)
     {
         if (hasEntry && currentEntry.clip == entry.clip && active.isPlaying)
+        {
+            Debug.Log($"[Music] StartEntry SKIP (same clip already playing): {entry.clip.name}");
             return;
+        }
+
+        Debug.Log($"[Music] StartEntry: {entry.clip.name}. Stopping both sources. A.playing={sourceA.isPlaying}, B.playing={sourceB.isPlaying}");
 
         currentEntry = entry;
         hasEntry = true;
 
         if (loopRoutine != null) StopCoroutine(loopRoutine);
+
+        sourceA.Stop();
+        sourceB.Stop();
+        active = sourceA;
+
         loopRoutine = StartCoroutine(PlayWithSeamlessLoop(entry));
     }
 
     private IEnumerator PlayWithSeamlessLoop(MusicEntry entry)
     {
+        if (entry.loopMarker <= 0f || entry.loopMarker >= entry.clip.length)
+        {
+            Debug.LogWarning($"[Music] invalid marker, simple loop. marker={entry.loopMarker}, len={entry.clip.length}");
+            active.clip = entry.clip;
+            active.volume = maxVolume;
+            active.loop = true;
+            active.Play();
+            yield break;
+        }
+
+        Debug.Log($"[Music] seamless start: {entry.clip.name}, marker={entry.loopMarker}, len={entry.clip.length}");
+
         active.clip = entry.clip;
         active.volume = maxVolume;
+        active.loop = false;
         active.Play();
 
         while (true)
         {
+            AudioSource current = active;
+
             yield return new WaitUntil(() =>
-                !active.isPlaying || active.time >= entry.loopMarker);
+                !current.isPlaying || current.time >= entry.loopMarker);
 
-            AudioSource next = (active == sourceA) ? sourceB : sourceA;
+            AudioSource next = (current == sourceA) ? sourceB : sourceA;
 
+            Debug.Log($"[Music] LOOP SWITCH at time={current.time:F2}. {(current == sourceA ? "A" : "B")}→{(next == sourceA ? "A" : "B")}");
+
+            next.Stop();
             next.clip = entry.clip;
             next.volume = maxVolume;
+            next.loop = false;
             next.Play();
 
             active = next;

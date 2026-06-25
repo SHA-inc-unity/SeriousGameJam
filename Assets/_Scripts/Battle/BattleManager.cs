@@ -56,9 +56,6 @@ public class BattleManager : MonoBehaviour
         playerSounds = playerData.soundSet;
         enemySounds = enemyData.soundSet;
 
-        if (BGMusicManager.Instance != null)
-            BGMusicManager.Instance.PlayTrackForEnemy(enemy.displayName);
-
         IsActive.isInBattleCutscene = (battleDialogue != null);
         if (IsActive.isInBattleCutscene) StartDialogue();
 
@@ -74,6 +71,9 @@ public class BattleManager : MonoBehaviour
         player = playerData.CreateRuntimeCombatant();
         enemy = enemyData.CreateRuntimeCombatant();
         playerSourceData = playerData;
+
+        if (BGMusicManager.Instance != null)
+            BGMusicManager.Instance.PlayTrackForEnemy(enemy.displayName);
 
         StatusEffects = gameObject.AddComponent<StatusEffectManager>();
         StatusEffects.Init(this);

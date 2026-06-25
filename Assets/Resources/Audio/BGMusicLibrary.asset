@@ -15,3 +15,5 @@ MonoBehaviour:
   tracks:
   - clip: {fileID: 8300000, guid: 0be40cc3fe8cbc74d9465bb9b0839150, type: 3}
     usage: -1
+    loopMarker: 35
+    enemyNames: []

@@ -143,4 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGMusicManager
   musicGroup: {fileID: -3800980054747753042, guid: 76219847798e214428a59bc582b1fcff, type: 2}
-  defaultTrack: {fileID: 8300000, guid: 0be40cc3fe8cbc74d9465bb9b0839150, type: 3}
+  library: {fileID: 11400000, guid: 6ec80c158e0109141ad2f03a45567d3e, type: 2}
+  maxVolume: 1
+  menuSceneName: MainMenu
