@@ -287,7 +287,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7617056332604815953, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5252887891299409264}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6156147776680738707, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 208519658577931757}
   m_SourcePrefab: {fileID: 100100000, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
 --- !u!4 &4976284567717787911 stripped
 Transform:
@@ -299,3 +302,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8598425607683297141, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
   m_PrefabInstance: {fileID: 3223002910981817174}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8779046035130596549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6156147776680738707, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+  m_PrefabInstance: {fileID: 3223002910981817174}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &208519658577931757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779046035130596549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
+  playerData: {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
+  enemyData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+  battleMusic: {fileID: 8300000, guid: 8ad69ae8b24d9a7448fe217fa601f04d, type: 3}
+  battleBackground: {fileID: 21300000, guid: f89342ac528c04941a1c4aba4492846f, type: 3}
+  battleSceneName: BattleScene
+  dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
