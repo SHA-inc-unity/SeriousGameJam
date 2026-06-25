@@ -87,6 +87,7 @@ public class BattleManager : MonoBehaviour
 
         battleCanvas.SetPlayerSprite(playerData.battleSprite);
         battleCanvas.SetEnemySprite(enemyData.battleSprite);
+        battleCanvas.SetBackground(BattleSetup.BattleBackground);
 
         if (player.wheel != null) battleCanvas.BuildPlayerWheel(player.wheel);
         if (enemy.wheel  != null) battleCanvas.BuildEnemyWheel(enemy.wheel);
@@ -377,5 +378,25 @@ public class BattleManager : MonoBehaviour
         AudioClip clip = set != null ? set.GetClip(effect) : null;
         if (clip != null)
             battleAudio.PlayClip(clip);
+    }
+
+
+    // I'm not sure how the skills work
+    public void UseSkill(int skillIndex)
+    {
+        switch (skillIndex)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+
     }
 }

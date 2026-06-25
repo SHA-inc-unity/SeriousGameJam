@@ -15,6 +15,7 @@ public class WheelSpinUI : MonoBehaviour
     [Range(1, 8)]     public int   extraFullSpins = 4;
     public AnimationCurve easeCurve                = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public float slotZeroOffsetDegrees             = 0f;
+    public float scale = 2.4f;
 
     [Tooltip("Angle in degrees used only to choose which way to spin toward at the start " +
              "(0 = right, 90 = top, 180 = left, 270 = bottom). The actual winner is read " +
@@ -40,6 +41,7 @@ public class WheelSpinUI : MonoBehaviour
         rect             = rootRect;
         pointerTransform = pointer;
         currentAngle     = 0f;
+        gameObject.transform.localScale = new Vector3(scale, scale, scale);
     }
 
     /// <summary>
