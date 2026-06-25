@@ -31,6 +31,7 @@ public class DialogueSystem : MonoBehaviour
     private string currentText;
     private AudioClip currentClip;
     private Coroutine battleStepRoutine = null;
+    private DialogueHolder currentHolder;
 
     private BattleTrigger trigger;
 
@@ -76,6 +77,10 @@ public class DialogueSystem : MonoBehaviour
 
     public void StartDialogue(DialogueHolder values, BattleTrigger battleTrigger = null, int nStart = 0, int nEnd = -1)
     {
+        // Respect the canRepeat flag — bail out silently if already played
+        if (!values.canRepeat && values.hasPlayed) return;
+
+        currentHolder = values;
         valuesIn = values.GetDialogueLines();
 
         if (nEnd < 0) nEnd = valuesIn.Count;
@@ -179,6 +184,20 @@ public class DialogueSystem : MonoBehaviour
         else
         {
             IsActive.isInDialogue = false;
+
+            if (currentHolder != null)
+                currentHolder.hasPlayed = true;
+
+            // Trigger battle on end if flagged — requires a BattleTrigger to have been passed in
+            if (currentHolder != null && currentHolder.triggerBattleOnEnd)
+            {
+                if (trigger != null)
+                    trigger.StartBattle();
+                else
+                    Debug.LogError($"DialogueHolder '{currentHolder.name}' has triggerBattleOnEnd set " +
+                                   "but no BattleTrigger was passed into StartDialogue().");
+            }
+
             StartCoroutine(DialogueCooldown());
         }
     }
