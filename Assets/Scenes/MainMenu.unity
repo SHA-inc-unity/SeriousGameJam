@@ -1256,7 +1256,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<size=120%><b>COMPOSER</b></size>
+  m_text: '<size=120%><b>WRITER</b></size>
+
+    Bloodyellie :3
+
+
+
+    <size=120%><b>COMPOSER</b></size>
 
     AmoebaGirl
 
@@ -1284,13 +1290,7 @@ MonoBehaviour:
     <size=120%><b>PROGRAMMERS</b></size>
 
     Djoaieuh,
-    SHAinc
-
-
-
-    <size=120%><b>DESIGNER</b></size>
-
-    BloodDEllie'
+    <shake> SHAinc </shake>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2728,6 +2728,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1912523499046174550, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299614312514363914, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4252370379489260522, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
@@ -2740,23 +2744,23 @@ PrefabInstance:
       objectReference: {fileID: 1728991564}
     - target: {fileID: 5660986328797529121, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5844413110414142769, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6312040880207797121, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6785074183987319724, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6869721816265187752, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
