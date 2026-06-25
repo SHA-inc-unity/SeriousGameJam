@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: Dialogue_Clown
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Gamez
+    text: "Honk! Hello there, rust bucket! I\u2019m Gamez the Clown! ;oD"
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: I should cut you down on the spot, but my liege would have me hung.
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: "Why are you not at my liege\u2019s side, jester?"
+    voice: {fileID: 0}
+    answers: []
+  - who: Gamez
+    text: Honk honk! Ohoho? I LOOOOVE roleplay :o)
+    voice: {fileID: 0}
+    answers: []
+  - who: Gamez
+    text: "Honk honk honk! Didn\u2019t you know? Today's my day off! :o)"
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: "Curious\u2026 I will have to inform Her Majesty about this\u2026 AND ENOUGH
+      HONKING FOOL!"
+    voice: {fileID: 0}
+    answers: []
+  - who: Gamez
+    text: Honk honk honk honk! Ah-hyuck, ah-hyuck! Enough fwordplay!
+    voice: {fileID: 0}
+    answers: []
+  - who: Gamez
+    text: Would you like to play a (totally not rigged) game? Get a prize if you
+      win! ;o)
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: "Enough jesting, let\u2019s get to it fool."
+    voice: {fileID: 0}
+    answers: []
+  - who: Gamez
+    text: "Honk Honk Honk Honk Honk! LET\u2019S GET OUR GAMEZ ON!!!"
+    voice: {fileID: 0}
+    answers:
+    - text: BATTLE
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
