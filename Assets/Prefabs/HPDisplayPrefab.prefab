@@ -88,9 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12304e0ce61ec2649b930f44b31e1ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPDisplay
-  horizontalSpacing: 50
-  verticalSpacing: 50
-  lightSize: 30
+  totalWidth: 400
+  verticalSpacing: 100
+  lightSize: 150
+  twoRowSizeMultiplier: 0.75
   heroOnSprite: {fileID: 21300000, guid: 2d47962768a2dbf4d8ad16c13a9d12a4, type: 3}
   heroOffSprite: {fileID: 21300000, guid: 020fe0bf4b191534c838825de02c6c67, type: 3}
   heroOverhealthSprite: {fileID: 21300000, guid: b2ded53fbdc99894eb12ea8acd69f95e, type: 3}
