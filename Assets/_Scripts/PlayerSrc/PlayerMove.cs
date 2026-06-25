@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,12 +42,24 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if (IsActive.isInDialogue || IsActive.isInBattleCutscene)
+        {
+            anim.SetBool("isWalking", false);
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
+
         Vector3 dir = Vector3.zero;
 
-        if (Keyboard.current.wKey.isPressed) dir += playerTrans.forward;
-        if (Keyboard.current.sKey.isPressed) dir -= playerTrans.forward;
-        if (Keyboard.current.dKey.isPressed) dir += playerTrans.right;
-        if (Keyboard.current.aKey.isPressed) dir -= playerTrans.right;
+        bool up    = Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
+        bool down  = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+        bool right = Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed;
+        bool left  = Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed;
+
+        if (up)    dir += playerTrans.forward;
+        if (down)  dir -= playerTrans.forward;
+        if (right) dir += playerTrans.right;
+        if (left)  dir -= playerTrans.right;
 
         dir.y = 0f;
         dir.Normalize();
@@ -67,7 +78,7 @@ public class PlayerMove : MonoBehaviour
 
             PlayFootstep();
         }
-        else if (dir == Vector3.zero)
+        else
         {
             anim.SetBool("isWalking", false);
             anim.SetFloat("LastInputX", dir.x);

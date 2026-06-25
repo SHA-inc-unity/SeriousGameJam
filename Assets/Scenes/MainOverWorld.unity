@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
   npcName: Caroline
-  sceneName: BattleScene
+  holder: {fileID: 0}
   isDefeated: 0
   NPCBooth: {fileID: 183484622}
   NPC: {fileID: 1390145168}
@@ -771,6 +771,7 @@ GameObject:
   - component: {fileID: 237942523}
   - component: {fileID: 237942522}
   - component: {fileID: 237942521}
+  - component: {fileID: 237942525}
   m_Layer: 0
   m_Name: Twins
   m_TagString: Untagged
@@ -823,8 +824,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  npcName: Caroline
-  sceneName: BattleScene
+  npcName: Twins
+  holder: {fileID: 11400000, guid: e224a8e22dbc446409fc0506e18e29da, type: 2}
   isDefeated: 0
   NPCBooth: {fileID: 663076184}
   NPC: {fileID: 320640486}
@@ -868,6 +869,24 @@ MonoBehaviour:
   - {fileID: 773015500}
   - {fileID: 1317953734}
   precision: 100
+--- !u!114 &237942525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237942519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
+  playerData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+  enemyData: {fileID: 0}
+  battleMusic: {fileID: 0}
+  battleBackground: {fileID: 0}
+  battleSceneName: Battle
+  dialogue: {fileID: 0}
 --- !u!1001 &291884716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1352,7 +1371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
   npcName: Caroline
-  sceneName: BattleScene
+  holder: {fileID: 0}
   isDefeated: 0
   NPCBooth: {fileID: 1561827112}
   NPC: {fileID: 658932397}
