@@ -14,10 +14,6 @@ public class BattleManager : MonoBehaviour
     public float wheelSpinDuration = 3.0f;
     public float enemyTurnEndPause = 3.0f;
 
-    [Tooltip("Scene to return to after the battle ends. Leave blank to stay on the " +
-             "Battle scene (useful while you don't have an overworld scene wired up yet).")]
-    public string overworldSceneName = "";
-
     public Key playerSpinKey = Key.Space;
 
     [Header("UI")]
@@ -213,12 +209,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Picks which slot the spin should AIM for (rigged or random). This is no longer the
-    /// final word on which effect resolves — see confirmedIndex in PlayerSpin/EnemyLoop —
-    /// but it's still what determines the odds, since the animation targets this slot and
-    /// should land on it almost all the time.
-    /// </summary>
     private void ChooseIntendedSlot(Combatant combatant, out int intendedIndex)
     {
         RiggedStatus rigged = StatusEffects.Get<RiggedStatus>(combatant);
@@ -265,21 +255,22 @@ public class BattleManager : MonoBehaviour
         Announce(playerWon
             ? $"{player.displayName} wins! {enemy.displayName} is defeated."
             : $"{player.displayName} has been defeated...");
-        
+
         if (playerWon)
         {
             BattleSetup.OnBattleWon?.Invoke();
             BattleSetup.OnBattleWon = null;
         }
-
-        if (playerWon && upgradeScreen != null && WheelUpgradeScreen.HasAnyUpgradeAvailable(playerSourceData))
-        {
-            StartCoroutine(DelayThen(endBattleDelaySeconds, ShowUpgradeScreen));
-        }
         else
         {
-            StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
+            BattleSetup.OnBattleLost?.Invoke();
+            BattleSetup.OnBattleLost = null;
         }
+
+        if (playerWon && upgradeScreen != null && WheelUpgradeScreen.HasAnyUpgradeAvailable(playerSourceData))
+            StartCoroutine(DelayThen(endBattleDelaySeconds, ShowUpgradeScreen));
+        else
+            StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
     }
 
     private void ShowUpgradeScreen()
@@ -373,12 +364,20 @@ public class BattleManager : MonoBehaviour
 
     private void ReturnToOverworld()
     {
-        if (string.IsNullOrEmpty(overworldSceneName))
+        string scene = CurrentState == BattleState.Win
+            ? BattleSetup.WinSceneName
+            : BattleSetup.LoseSceneName;
+
+        if (string.IsNullOrEmpty(scene))
         {
-            Announce("(overworldSceneName not set - staying on Battle scene.)");
+            Announce("(scene name not set - staying on Battle scene.)");
             return;
         }
-        UnityEngine.SceneManagement.SceneManager.LoadScene(overworldSceneName);
+
+        if (FadeManager.Instance != null)
+            FadeManager.Instance.FadeToScene(scene);
+        else
+            UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
     }
 
     private IEnumerator DelayThen(float seconds, System.Action action)
@@ -417,21 +416,15 @@ public class BattleManager : MonoBehaviour
             battleAudio.PlayClip(clip);
     }
 
-
     public void UseSkill(int skillIndex)
     {
         switch (skillIndex)
         {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            default:
-                break;
+            case 0: break;
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            default: break;
         }
     }
 }
