@@ -24,6 +24,10 @@ public class DialogueSystemBattle : DialogueSystemBase
 
     private void Awake()
     {
+        IsActive.isInBattleCutscene = false;
+        IsActive.isInDialogue = false;
+        IsActive.isInPause = false;
+        IsActive.dialogueCooldown = false;
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
