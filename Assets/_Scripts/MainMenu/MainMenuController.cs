@@ -90,4 +90,9 @@ public class MainMenuController : MonoBehaviour
             i++;
         }
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
