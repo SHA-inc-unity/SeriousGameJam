@@ -497,13 +497,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7267737038357477568, guid: 5aba5c3756fbc5c4bbe54179469ec724, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 237619872}
+    - targetCorrespondingSourceObject: {fileID: 7267737038357477568, guid: 5aba5c3756fbc5c4bbe54179469ec724, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 237619871}
   m_SourcePrefab: {fileID: 100100000, guid: 5aba5c3756fbc5c4bbe54179469ec724, type: 3}
 --- !u!4 &237619869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8095416592936721915, guid: 5aba5c3756fbc5c4bbe54179469ec724, type: 3}
   m_PrefabInstance: {fileID: 237619868}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &237619870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7267737038357477568, guid: 5aba5c3756fbc5c4bbe54179469ec724, type: 3}
+  m_PrefabInstance: {fileID: 237619868}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &237619871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237619870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
+  playerData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+  enemyData: {fileID: 11400000, guid: 17123fbf13dc4c144b977298b6619641, type: 2}
+  battleBackground: {fileID: 21300000, guid: e323bf633e79f70429a77c794162b357, type: 3}
+  battleSceneName: BattleScene
+  dialogue: {fileID: 0}
+--- !u!114 &237619872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237619870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
+  holder: {fileID: 0}
+  forwardHelperDistance: 1.5
+  npcName: Otter
+  isDefeated: 0
+  NPCBooth: {fileID: 0}
+  NPC: {fileID: 0}
+  ObjectStates: []
 --- !u!1 &249231584
 GameObject:
   m_ObjectHideFlags: 0
