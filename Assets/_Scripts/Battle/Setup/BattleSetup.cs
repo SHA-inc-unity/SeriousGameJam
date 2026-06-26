@@ -23,6 +23,9 @@ public static class BattleSetup
     public static Sprite BattleBackground;
     public static BattleDialogueHolder BattleDialogue;
     public static System.Action OnBattleWon;
+    public static System.Action OnBattleLost;
+    public static string WinSceneName;
+    public static string LoseSceneName;
 
     /// <summary>True if all required fields are set. BattleManager checks this
     /// on Start() to fail loudly if the Battle scene was opened without a
@@ -39,5 +42,8 @@ public static class BattleSetup
         BattleBackground = null;
         BattleDialogue = null;
         OnBattleWon = null;
+        OnBattleLost = null;
+        WinSceneName = null;
+        LoseSceneName = null;
     }
 }

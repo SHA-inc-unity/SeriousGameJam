@@ -12,6 +12,10 @@ public class BattleTrigger : MonoBehaviour
 
     [Header("Scene")]
     public string battleSceneName = "Battle";
+    [Tooltip("Scene to go to if the player wins.")]
+    public string winSceneName = "";
+    [Tooltip("Scene to return to if the player loses.")]
+    public string loseSceneName = "";
 
     [Header("Dialogue")]
     [Tooltip("Can be null")]
@@ -44,8 +48,14 @@ public class BattleTrigger : MonoBehaviour
         BattleSetup.BattleBackground = battleBackground;
         BattleSetup.BattleDialogue = dialogue;
         BattleSetup.OnBattleWon = OnWon;
+        BattleSetup.OnBattleLost = OnLost;
+        BattleSetup.WinSceneName = winSceneName;
+        BattleSetup.LoseSceneName = loseSceneName;
 
-        SceneManager.LoadScene(battleSceneName);
+        if (FadeManager.Instance != null)
+            FadeManager.Instance.FadeToScene(battleSceneName);
+        else
+            SceneManager.LoadScene(battleSceneName);
     }
 
     private void OnWon()
@@ -65,5 +75,10 @@ public class BattleTrigger : MonoBehaviour
         }
 
         Debug.LogWarning($"BattleTrigger on '{gameObject.name}': no Miss slot found to replace.");
+    }
+
+    private void OnLost()
+    {
+        defeated = false;
     }
 }
