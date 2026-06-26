@@ -8,7 +8,8 @@ public enum MusicUsage
     None = 0,
     Overworld = 1 << 0,
     Battle = 1 << 1,
-    Menu = 1 << 2
+    Menu = 1 << 2,
+    Cinematic = 2 << 3
 }
 
 [Serializable]
