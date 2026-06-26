@@ -531,6 +531,8 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 17123fbf13dc4c144b977298b6619641, type: 2}
   battleBackground: {fileID: 21300000, guid: e323bf633e79f70429a77c794162b357, type: 3}
   battleSceneName: BattleScene
+  winSceneName: SplashScreen
+  loseSceneName: BossBattle
   dialogue: {fileID: 0}
   replacementEffect: {fileID: 0}
   defeated: 0
