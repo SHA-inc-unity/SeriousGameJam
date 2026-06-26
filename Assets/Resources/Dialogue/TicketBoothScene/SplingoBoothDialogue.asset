@@ -15,28 +15,28 @@ MonoBehaviour:
   dialogue:
   - who: Splingo
     text: Yip Yip Yip! It's ma first day on the job!
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: a64ad393ad06a4044bfaae6ce6f94a07, type: 3}
     answers: []
   - who: Sirius
-    text: NY THE GODDESS WHAT ARE YOU???
-    voice: {fileID: 0}
+    text: BY THE GODDESS WHAT ARE YOU???
+    voice: {fileID: 8300000, guid: dd0dd4c1fe8d5024fb923c5a4ec7fdf4, type: 3}
     answers: []
   - who: Splingo
     text: Hello friend!! My name is Splingo! What is your name?
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: a64ad393ad06a4044bfaae6ce6f94a07, type: 3}
     answers: []
   - who: Sirius
     text: You stand before Sir Lady Sirius, THE UNRELENTING! State your purpose FIEND!!
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: 6d5c0da4a861a1b4ca5e036251292a90, type: 3}
     answers: []
   - who: Splingo
     text: Thank you for asking friend!! :D i'm here to greet new arrivals to our
       amazing carnival!
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: a64ad393ad06a4044bfaae6ce6f94a07, type: 3}
     answers: []
   - who: Splingo
     text: Yip Yip! Let me show you around, friend!!!
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: a64ad393ad06a4044bfaae6ce6f94a07, type: 3}
     answers: []
   - who: Sirius
     text: You wish to challenge Sir Lady Sirius the unrelenting!?
@@ -44,7 +44,7 @@ MonoBehaviour:
     answers: []
   - who: Sirius
     text: Prepare to feel my unrelenting fury, knave!!
-    voice: {fileID: 0}
+    voice: {fileID: 8300000, guid: 51ff288df92909c4aa329ded13185ba8, type: 3}
     answers:
     - text: BATTLE
       nextDialogue: {fileID: 0}
