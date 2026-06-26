@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 30585470}
   - component: {fileID: 30585469}
   - component: {fileID: 30585468}
+  - component: {fileID: 30585471}
   m_Layer: 0
   m_Name: Dawg
   m_TagString: Untagged
@@ -214,6 +215,22 @@ MonoBehaviour:
   sr:
   - {fileID: 1727261025}
   precision: 100
+--- !u!114 &30585471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30585466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ec8dad2481d354f8b080f3b851f278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DogGuard
+  battles:
+  - {fileID: 236392072}
+  - {fileID: 480857315}
+  - {fileID: 237942525}
 --- !u!4 &42797186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5816983714487296470, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
@@ -802,7 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 4958a7368c0d8c747971fc25becb5e79, type: 2}
   forwardHelperDistance: 1.5
   npcName: Caroline
   isDefeated: 0
@@ -865,6 +882,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 62b417ca5c606c34283ef113651ce339, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!1 &237942519
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +1013,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 12aa7dc561a835f4a9af6b8c031b8116, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!1 &320640486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 2afc214440557854894f4668938a74ca, type: 2}
   forwardHelperDistance: 1.5
   npcName: Caroline
   isDefeated: 0
@@ -1657,6 +1678,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 325e069b471e287488163cd6afac6928, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!1 &500336783
 GameObject:
   m_ObjectHideFlags: 0

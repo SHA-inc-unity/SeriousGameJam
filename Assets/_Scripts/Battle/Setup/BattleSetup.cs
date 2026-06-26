@@ -22,6 +22,7 @@ public static class BattleSetup
     public static AudioClip BattleMusic;
     public static Sprite BattleBackground;
     public static BattleDialogueHolder BattleDialogue;
+    public static System.Action OnBattleWon;
 
     /// <summary>True if all required fields are set. BattleManager checks this
     /// on Start() to fail loudly if the Battle scene was opened without a
@@ -37,5 +38,6 @@ public static class BattleSetup
         BattleMusic = null;
         BattleBackground = null;
         BattleDialogue = null;
+        OnBattleWon = null;
     }
 }
