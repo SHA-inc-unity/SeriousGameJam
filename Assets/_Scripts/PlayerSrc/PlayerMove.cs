@@ -30,10 +30,12 @@ public class PlayerMove : MonoBehaviour
 
     private PlayerAudioManager audioManager;
     private AudioClip lastStep;
+    private Vector3 startScenePos;
 
     void Start()
     {
         audioManager = GetComponent<PlayerAudioManager>();
+        startScenePos = transform.position;
 
         currentFOV = cam.fieldOfView;
         zoom = cam.fieldOfView;
@@ -88,6 +90,11 @@ public class PlayerMove : MonoBehaviour
             zoom = Mathf.Clamp(zoom, minZoom, currentFOV);
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, minZoom, ref velocity, zoomSpeed);
         }
+    }
+
+    public void BackToStart()
+    {
+        transform.position = startScenePos;
     }
 
     private void PlayFootstep()
