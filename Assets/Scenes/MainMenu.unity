@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuButtonController
   continueBtn: {fileID: 857449941}
-  newGameSceneName: DialogScene
+  newGameSceneName: DawgTutorial
 --- !u!1 &638209084
 GameObject:
   m_ObjectHideFlags: 0
@@ -3026,10 +3026,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3299614312514363914, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2330093853215825834, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3044,6 +3040,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2330093853215825834, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299614312514363914, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4252370379489260522, guid: 98013105d03b6bc42b81c92f943c8297, type: 3}

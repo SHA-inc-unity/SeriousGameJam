@@ -241,6 +241,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8744649300248157178, guid: d20ce1a973f2bcc4caa6c5f221e977ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2080211078866796070, guid: d20ce1a973f2bcc4caa6c5f221e977ca, type: 3}
@@ -471,6 +475,10 @@ PrefabInstance:
     - target: {fileID: 796008626749601832, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
       propertyPath: m_Name
       value: colourful tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 796008626749601832, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5816983714487296470, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1267,7 +1275,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
   playerData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
   enemyData: {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
-  battleMusic: {fileID: 8300000, guid: 0be40cc3fe8cbc74d9465bb9b0839150, type: 3}
   battleBackground: {fileID: 0}
   battleSceneName: BattleScene
   dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
@@ -1299,8 +1306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  npcName: Caroline
   holder: {fileID: 11400000, guid: bb0dfc1e0db103642be3a3c6d13b59d9, type: 2}
+  forwardHelperDistance: 1.5
+  npcName: Caroline
   isDefeated: 0
   NPCBooth: {fileID: 384873212}
   NPC: {fileID: 532090083}
@@ -1616,6 +1624,10 @@ PrefabInstance:
     - target: {fileID: 796008626749601832, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
       propertyPath: m_Name
       value: colourful tree (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 796008626749601832, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5816983714487296470, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3105,6 +3117,10 @@ PrefabInstance:
     - target: {fileID: 8744649300248157178, guid: d20ce1a973f2bcc4caa6c5f221e977ca, type: 3}
       propertyPath: m_Name
       value: tree (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8744649300248157178, guid: d20ce1a973f2bcc4caa6c5f221e977ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
