@@ -5,11 +5,11 @@ using UnityEngine.UI;
 public class BackManager : MonoBehaviour
 {
     [SerializeField] private float fadeDuration = 0.5f;
-    [SerializeField] private DialogueSystem dialogueSystem;
     [SerializeField] private DialogueHolder dialogueHolder;
 
     public bool isFading;
 
+    private DialogueSystem dialogueSystem;
     private Image fadeImage;
 
     public IEnumerator FadeAndTeleport(PlayerMove player)
@@ -20,6 +20,7 @@ public class BackManager : MonoBehaviour
 
         player.BackToStart();
         yield return new WaitForSeconds(0.1f);
+        if (dialogueSystem == null) dialogueSystem = FindAnyObjectByType<DialogueSystem>();
         dialogueSystem.StartDialogue(dialogueHolder);
 
         yield return StartCoroutine(Fade(1f, 0f));
