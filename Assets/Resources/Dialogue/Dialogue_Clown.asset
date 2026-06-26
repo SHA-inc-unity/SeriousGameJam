@@ -55,3 +55,5 @@ MonoBehaviour:
     text: "Honk Honk Honk Honk Honk! LET\u2019S GET OUR GAMEZ ON!!!"
     voice: {fileID: 8300000, guid: 98df188576af1af4785254890c171158, type: 3}
     answers: []
+  triggerBattleOnEnd: 1
+  canRepeat: 1
