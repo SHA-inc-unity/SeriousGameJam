@@ -3,35 +3,29 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private NPCInteract npcInteract;
+    private ObjectInteract interactable;
+
+    private ObjectInteract Interactable { get => interactable; set { interactable = value; InteractHelper.Instance.SetObj(value); } }
 
     private void Update()
     {
         if (!IsActive.isActive || IsActive.dialogueCooldown) return;
 
-        if (Keyboard.current.eKey.wasPressedThisFrame && npcInteract != null)
-        {
-            npcInteract.Interact();
-        }
+        if (Keyboard.current.eKey.wasPressedThisFrame && Interactable != null)
+            Interactable.Interact();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var npc = other.GetComponent<NPCInteract>();
-        if (npc != null)
-        {
-            npcInteract = npc;
-            Debug.Log("Interacted with NPC: " + npc.NpcName);
-        }
+        var target = other.GetComponent<ObjectInteract>();
+        if (target != null)
+            Interactable = target;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var npc = other.GetComponent<NPCInteract>();
-        if (npc != null && npc == npcInteract)
-        {
-            npcInteract = null;
-            Debug.Log("Stopped interacting with NPC: " + npc.NpcName);
-        }
+        var target = other.GetComponent<ObjectInteract>();
+        if (target != null && target == Interactable)
+            Interactable = null;
     }
 }

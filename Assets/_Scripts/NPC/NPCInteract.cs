@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCInteract : MonoBehaviour
+public class NPCInteract : ObjectInteract
 {
     [SerializeField]
     private string npcName;
-    [SerializeField]
-    private DialogueHolder holder;
 
-    // What is it and why is it public
     [SerializeField]
     private bool isDefeated;
     [SerializeField]
@@ -31,7 +28,7 @@ public class NPCInteract : MonoBehaviour
             NPCBooth.GetComponent<SpriteRenderer>().sprite = ObjectStates[0];
     }
 
-    public void Interact()
+    public override void Interact()
     {
         if (DialogueSystem.Instance == null)
         {

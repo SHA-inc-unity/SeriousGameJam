@@ -1,26 +1,16 @@
 using UnityEngine;
 
-// The AUTHORED data for a combatant - one asset per character (the Knight,
-// Hook-a-Duck Guy, any future enemy). This is what you'd tweak in the
-// Inspector. It is NOT the same as the Combatant class in Combatant.cs -
-// that's the RUNTIME object (tracks current HP, active statuses, etc) that
-// gets built FROM this data when a battle actually starts.
-//
-// Create via: right-click in Project window -> Create -> Battle -> Combatant Data
 [CreateAssetMenu(fileName = "NewCombatantData", menuName = "Battle/Combatant Data")]
 public class CombatantData : ScriptableObject
 {
     [Header("Identity")]
     public string displayName;
-    [Tooltip("Shown in the battle scene for this combatant.")]
     public Sprite battleSprite;
 
     [Header("Stats")]
-    public int maxHP = 50;
-    public int attackPower = 10;
+    public int maxHP = 3;
 
     [Header("Wheel")]
-    [Tooltip("The wheel this combatant spins in battle.")]
     public Wheel wheel;
 
     [Header("Audio")]
@@ -32,6 +22,10 @@ public class CombatantData : ScriptableObject
     /// </summary>
     public Combatant CreateRuntimeCombatant()
     {
-        return new Combatant(displayName, maxHP, attackPower, battleSprite, wheel);
+        // Clone the wheel so any runtime mutations (e.g. BombEffect replacing
+        // a slot) affect only this battle's copy, never the original asset.
+        Wheel runtimeWheel = Instantiate(wheel);
+
+        return new Combatant(displayName, maxHP, battleSprite, runtimeWheel);
     }
 }

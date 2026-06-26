@@ -12,13 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b968bc72742be8a448f6a0cabf0ae414, type: 3}
   m_Name: Basic Wheel
   m_EditorClassIdentifier: Assembly-CSharp::Wheel
-  slotCount: 4
+  backgroundSprite: {fileID: 21300000, guid: ff8e95d6b3158594bb753a521f0a1a26, type: 3}
+  overlaySprite: {fileID: 21300000, guid: c478d7654fd85394997e5b5c15685694, type: 3}
+  slotCount: 6
   slots:
   - effect: {fileID: 11400000, guid: 862b5fa804f90eb4784174f1c8757fde, type: 2}
-    weight: 25
+    weight: 20
+    sliceSprite: {fileID: 0}
   - effect: {fileID: 11400000, guid: 06a89f776491ff545b28332aad1fa152, type: 2}
-    weight: 25
+    weight: 20
+    sliceSprite: {fileID: 0}
   - effect: {fileID: 11400000, guid: c4cdfc0d8a1deda45bb9037e7bf50cdf, type: 2}
-    weight: 25
+    weight: 20
+    sliceSprite: {fileID: 0}
   - effect: {fileID: 11400000, guid: 4198f3db834b8a3458e1e3e41c70fbf8, type: 2}
-    weight: 25
+    weight: 20
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: f0513387f9f7778419e933f44337e2e5, type: 2}
+    weight: 20
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: 72ad8cd86d3900b42b334313e497c3e4, type: 2}
+    weight: 20
+    sliceSprite: {fileID: 0}
+  spinCooldown: 2

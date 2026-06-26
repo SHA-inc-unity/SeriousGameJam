@@ -14,7 +14,7 @@ public struct BattleStateSound
 public class BattleSoundSet : ScriptableObject
 {
     [SerializeField] private List<BattleStateSound> sounds;
-    [SerializeField] private AudioClip wheelSpinClip;
+    [SerializeField] private List<AudioClip> wheelSpinClips;
 
     public AudioClip GetClip(BattleState state)
     {
@@ -38,6 +38,6 @@ public class BattleSoundSet : ScriptableObject
 
     public AudioClip GetWheelSpinClip()
     {
-        return wheelSpinClip;
+        return wheelSpinClips[UnityEngine.Random.Range(0, wheelSpinClips.Count)];
     }
 }

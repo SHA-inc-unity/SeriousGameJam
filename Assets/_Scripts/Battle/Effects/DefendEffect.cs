@@ -1,13 +1,17 @@
 using UnityEngine;
 
-// Sets attacker.isDefending = true, which Combatant.TakeDamage() already
-// reads to halve incoming damage on the NEXT hit this combatant takes.
 [CreateAssetMenu(fileName = "DefendEffect", menuName = "Battle/Effects/Defend")]
 public class DefendEffect : WheelSlotEffect
 {
     public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager)
     {
-        attacker.isDefending = true;
-        Debug.Log($"{attacker.displayName} braces to defend (reduced damage next hit).");
+        if (battleManager.HasPendingDamageReduction(attacker))
+        {
+            battleManager.Announce($"{attacker.displayName} is already braced! Defend wasted.");
+            return;
+        }
+
+        battleManager.SetPendingDamageReduction(attacker, 1);
+        battleManager.Announce($"{attacker.displayName} braces! Next hit reduced by 1.");
     }
 }

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: Dialogue_Clown
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Gamez
+    text: "Honk! Hello there, rust bucket! I\u2019m Gamez the Clown! ;oD"
+    voice: {fileID: 8300000, guid: e556d20dbb29c904282dcfe5492e95bd, type: 3}
+    answers: []
+  - who: Sirius
+    text: I should cut you down on the spot, but my liege would have me hung.
+    voice: {fileID: 8300000, guid: 51ff288df92909c4aa329ded13185ba8, type: 3}
+    answers: []
+  - who: Sirius
+    text: "Why are you not at my liege\u2019s side, jester?"
+    voice: {fileID: 8300000, guid: 6d5c0da4a861a1b4ca5e036251292a90, type: 3}
+    answers: []
+  - who: Gamez
+    text: Honk honk! Ohoho? I LOOOOVE roleplay :o)
+    voice: {fileID: 8300000, guid: 98df188576af1af4785254890c171158, type: 3}
+    answers: []
+  - who: Gamez
+    text: "Honk honk honk! Didn\u2019t you know? Today's my day off! :o)"
+    voice: {fileID: 8300000, guid: 1c795ddbc06820b4ca726c1400f390b0, type: 3}
+    answers: []
+  - who: Sirius
+    text: "Curious\u2026 I will have to inform Her Majesty about this\u2026 AND ENOUGH
+      HONKING FOOL!"
+    voice: {fileID: 8300000, guid: bfd78e444a89164469c46ff157fe1f30, type: 3}
+    answers: []
+  - who: Gamez
+    text: Honk honk honk honk! Ah-hyuck, ah-hyuck! Enough fwordplay!
+    voice: {fileID: 8300000, guid: 10491efea9f9c20489f60135f7a5e86d, type: 3}
+    answers: []
+  - who: Gamez
+    text: Would you like to play a (totally not rigged) game? Get a prize if you
+      win! ;o)
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: "Enough jesting, let\u2019s get to it fool."
+    voice: {fileID: 8300000, guid: 51ff288df92909c4aa329ded13185ba8, type: 3}
+    answers: []
+  - who: Gamez
+    text: "Honk Honk Honk Honk Honk! LET\u2019S GET OUR GAMEZ ON!!!"
+    voice: {fileID: 8300000, guid: 98df188576af1af4785254890c171158, type: 3}
+    answers: []

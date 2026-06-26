@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: Dialogue_Twins
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Bingle
+    text: Hello mister! Would you like some snacks! Hehehe!
+    voice: {fileID: 8300000, guid: 57efac700d473c34f9c9faa10f9f496f, type: 3}
+    answers: []
+  - who: Bangle
+    text: "Hehehe! \u2018ave some mista! \u2018ave some!"
+    voice: {fileID: 8300000, guid: 26ba720d6a0a70b4a8086fcc22710186, type: 3}
+    answers: []
+  - who: Sirius
+    text: "What is this DUBIOUS confectionary you are serving\u2026"
+    voice: {fileID: 8300000, guid: 6d5c0da4a861a1b4ca5e036251292a90, type: 3}
+    answers: []
+  - who: Sirius
+    text: "BY THE GODDESS!! COBWEBS!? I knew it\u2026  this truly is a den of FIENDS!"
+    voice: {fileID: 8300000, guid: dd0dd4c1fe8d5024fb923c5a4ec7fdf4, type: 3}
+    answers: []
+  - who: Bingle
+    text: Would you like some? Hehehe!
+    voice: {fileID: 8300000, guid: 5db00591937a50148b15fdd7312fd760, type: 3}
+    answers: []
+  - who: Bangle
+    text: "Hehehe! We\u2019ll give it to ya!"
+    voice: {fileID: 8300000, guid: 129e798f162849741bb11e118a229b90, type: 3}
+    answers:
+    - text: aaa
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
+  triggerBattleOnEnd: 0
+  canRepeat: 1

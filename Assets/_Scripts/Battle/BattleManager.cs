@@ -1,22 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 public class BattleManager : MonoBehaviour
 {
     [Header("Test Fallback (used only if BattleSetup isn't configured)")]
-    [Tooltip("Used when testing the Battle scene directly (Play button on this scene), " +
-             "bypassing the overworld trigger flow.")]
     public CombatantData testPlayerData;
     public CombatantData testEnemyData;
 
     [Header("Tuning")]
-    [Tooltip("Seconds to 'pretend' the wheel is spinning before resolving. Stub for now - swap for real animation later.")]
-    public float spinDelaySeconds = 1.0f;
-
-    [Tooltip("Seconds to show the Win/Lose message before returning to the overworld.")]
     public float endBattleDelaySeconds = 2.0f;
-
     public float wheelSpinDuration = 3.0f;
     public float enemyTurnEndPause = 3.0f;
 
@@ -24,11 +18,11 @@ public class BattleManager : MonoBehaviour
              "Battle scene (useful while you don't have an overworld scene wired up yet).")]
     public string overworldSceneName = "";
 
-    [Tooltip("Key the player presses to spin their wheel on their turn.")]
     public Key playerSpinKey = Key.Space;
 
     [Header("UI")]
     [SerializeField] private BattleCanvas battleCanvas;
+    [SerializeField] private WheelUpgradeScreen upgradeScreen;
 
     [Header("Audio")]
     [SerializeField] private BattleAudio battleAudio;
@@ -39,10 +33,19 @@ public class BattleManager : MonoBehaviour
 
     private Combatant player;
     private Combatant enemy;
+    private CombatantData playerSourceData;
     private BattleDialogueHolder battleDialogue = null;
 
-    private bool battleEndedEarly;
-    private bool waitingForPlayerSpin;
+    private bool battleOver;
+    private bool playerOnCooldown;
+
+    private Dictionary<Combatant, int> pendingDamageReductions = new Dictionary<Combatant, int>();
+    private HashSet<Combatant> pendingDeflects = new HashSet<Combatant>();
+
+    public StatusEffectManager StatusEffects { get; private set; }
+    private Dictionary<Combatant, WheelSpinUI> combatantWheelUI = new Dictionary<Combatant, WheelSpinUI>();
+    private HashSet<Combatant> stunnedCombatants = new HashSet<Combatant>();
+    private Dictionary<Combatant, float> spinDurationMultipliers = new Dictionary<Combatant, float>();
 
     private void Start()
     {
@@ -53,217 +56,332 @@ public class BattleManager : MonoBehaviour
         playerSounds = playerData.soundSet;
         enemySounds = enemyData.soundSet;
 
-        if (BattleSetup.BattleMusic != null && BGMusicManager.Instance != null)
-            BGMusicManager.Instance.PlayForcedBattleTrack(BattleSetup.BattleMusic);
-
         IsActive.isInBattleCutscene = (battleDialogue != null);
         if (IsActive.isInBattleCutscene) StartDialogue();
 
         if (!BattleSetup.IsConfigured)
-            Debug.LogWarning("BattleSetup wasn't configured (scene opened directly?). Using Test Fallback data instead.");
+            Debug.LogWarning("BattleSetup wasn't configured. Using Test Fallback.");
 
         if (playerData == null || enemyData == null)
         {
-            Debug.LogError("BattleManager has no valid CombatantData (neither BattleSetup nor Test Fallback). Cannot start battle.");
+            Debug.LogError("BattleManager has no valid CombatantData. Cannot start battle.");
             return;
         }
 
         player = playerData.CreateRuntimeCombatant();
         enemy = enemyData.CreateRuntimeCombatant();
+        playerSourceData = playerData;
 
-        if (player.wheel == null)
-            Debug.LogError($"{player.displayName} has no wheel assigned in their CombatantData.");
-        if (enemy.wheel == null)
-            Debug.LogError($"{enemy.displayName} has no wheel assigned in their CombatantData.");
+        if (BGMusicManager.Instance != null)
+            BGMusicManager.Instance.PlayTrackForEnemy(enemy.displayName);
+
+        StatusEffects = gameObject.AddComponent<StatusEffectManager>();
+        StatusEffects.Init(this);
+        StatusEffects.Register(player);
+        StatusEffects.Register(enemy);
+
+        combatantWheelUI[player] = battleCanvas.PlayerWheelUI;
+        combatantWheelUI[enemy] = battleCanvas.EnemyWheelUI;
+        spinDurationMultipliers[player] = 1f;
+        spinDurationMultipliers[enemy] = 1f;
 
         battleCanvas.SetPlayerSprite(playerData.battleSprite);
         battleCanvas.SetEnemySprite(enemyData.battleSprite);
+        battleCanvas.SetBackground(BattleSetup.BattleBackground);
+
+        if (player.wheel != null) battleCanvas.BuildPlayerWheel(player.wheel);
+        if (enemy.wheel != null) battleCanvas.BuildEnemyWheel(enemy.wheel);
+
+        battleCanvas.InitPlayerHP(player.maxHP);
+        battleCanvas.InitEnemyHP(enemy.maxHP);
 
         BattleSetup.Clear();
 
-        ChangeState(BattleState.Intro);
+        CurrentState = BattleState.Intro;
+        Announce($"{enemy.displayName} appears! Press {playerSpinKey} to spin!");
+
+        StartCoroutine(EnemyLoop());
     }
 
     private void Update()
     {
-        if (!waitingForPlayerSpin) return;
+        if (battleOver) return;
+        if (CurrentState == BattleState.Intro) return;
+        if (playerOnCooldown) return;
         if (IsDialoguePlaying()) return;
 
         if (Keyboard.current[playerSpinKey].wasPressedThisFrame)
-        {
-            waitingForPlayerSpin = false;
-            OnPlayerSpinPressed();
-        }
+            StartCoroutine(PlayerSpin());
     }
 
     private bool IsDialoguePlaying()
     {
-        return DialogueSystem.Instance != null && DialogueSystem.Instance.IsBattleStepActive;
+        return DialogueSystemBattle.Instance != null && DialogueSystemBattle.Instance.IsBattleStepActive;
     }
 
-    private void ChangeState(BattleState newState)
+    private IEnumerator SetStateAndPlayDialogue(BattleState state)
     {
-        CurrentState = newState;
-        Debug.Log($"[Battle] State -> {newState}");
-        if (IsActive.isInBattleCutscene) IsActive.isInBattleCutscene = CheckDialogue(newState);
+        CurrentState = state;
 
-        StartCoroutine(PlayStateSoundAfterDialogue(newState));
-
-        switch (newState)
-        {
-            case BattleState.Intro:
-                Announce($"{enemy.displayName} challenges {player.displayName} to a spin!");
-                StartCoroutine(DelayThen(1.0f, () => ChangeState(BattleState.PlayerTurn)));
-                break;
-
-            case BattleState.PlayerTurn:
-                BeginTurn(player, enemy, isPlayerTurn: true);
-                break;
-
-            case BattleState.PlayerResolve:
-                break;
-
-            case BattleState.EnemyTurn:
-                BeginTurn(enemy, player, isPlayerTurn: false);
-                break;
-
-            case BattleState.EnemyResolve:
-                break;
-
-            case BattleState.Win:
-                Announce($"{player.displayName} wins! {enemy.displayName} is defeated.");
-                StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
-                break;
-
-            case BattleState.Lose:
-                Announce($"{player.displayName} has been defeated...");
-                StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
-                break;
-        }
-    }
-
-    private IEnumerator PlayStateSoundAfterDialogue(BattleState state)
-    {
-        yield return new WaitUntil(() => !IsDialoguePlaying());
-        PlayStateSound(state);
-    }
-
-    private void BeginTurn(Combatant actor, Combatant opponent, bool isPlayerTurn)
-    {
-        actor.isDefending = false;
-
-        if (isPlayerTurn)
-        {
-            Announce($"{player.displayName}'s turn. Press {playerSpinKey} to spin!");
-            waitingForPlayerSpin = true;
-        }
-        else
-        {
-            Announce($"{enemy.displayName}'s turn.");
-            StartCoroutine(DelayThen(spinDelaySeconds, OnEnemySpin));
-        }
-    }
-
-    public void OnPlayerSpinPressed()
-    {
-        if (CurrentState != BattleState.PlayerTurn) return;
-
-        StartCoroutine(SpinThenResolve(player, enemy, playerSounds, isPlayerTurn: true));
-    }
-
-    private void OnEnemySpin()
-    {
-        if (CurrentState != BattleState.EnemyTurn) return;
-
-        StartCoroutine(SpinThenResolve(enemy, player, enemySounds, isPlayerTurn: false));
-    }
-
-    private IEnumerator SpinThenResolve(Combatant actor, Combatant opponent, BattleSoundSet actorSounds, bool isPlayerTurn)
-    {
-        yield return new WaitUntil(() => !IsDialoguePlaying());
-
-        if (battleAudio != null) battleAudio.StartWheelSpin(actorSounds);
-
-        yield return new WaitForSeconds(wheelSpinDuration);
-
-        if (battleAudio != null) battleAudio.StopWheelSpin();
-
-        WheelSlotEffect effect = actor.wheel.Spin();
-
-        if (isPlayerTurn)
-            ChangeState(BattleState.PlayerResolve);
-        else
-            ChangeState(BattleState.EnemyResolve);
-
-        ResolveEffect(effect, actor, opponent);
-        if (battleEndedEarly) yield break;
+        if (IsActive.isInBattleCutscene)
+            CheckDialogue(state);
 
         yield return new WaitUntil(() => !IsDialoguePlaying());
+    }
 
-        if (opponent.IsDefeated)
+    private IEnumerator PlayerSpin()
+    {
+        playerOnCooldown = true;
+
+        yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerTurn));
+        if (battleOver) yield break;
+
+        if (stunnedCombatants.Contains(player))
         {
-            if (isPlayerTurn)
-                ChangeState(BattleState.Win);
-            else
-                ChangeState(BattleState.Lose);
+            Announce($"{player.displayName} is stunned and can't spin!");
+            yield return new WaitForSeconds(1f);
+            playerOnCooldown = false;
             yield break;
         }
 
-        if (isPlayerTurn)
+        // intendedIndex is just the spin's aim target now — the slot actually used for
+        // gameplay is whichever icon ends up closest to the pointer once the wheel stops,
+        // so the effect resolved always matches what's on screen.
+        ChooseIntendedSlot(player, out int intendedIndex);
+
+        yield return new WaitUntil(() => !IsDialoguePlaying());
+
+        bool animDone = false;
+        int confirmedIndex = intendedIndex;
+        float duration = player.wheel.spinCooldown * spinDurationMultipliers[player];
+
+        if (battleAudio != null) battleAudio.StartWheelSpin(playerSounds);
+        battleCanvas.PlayPlayerWheelSpin(intendedIndex, player.wheel.slots.Length, (resultIndex) =>
         {
-            ChangeState(BattleState.EnemyTurn);
-        }
-        else
+            confirmedIndex = resultIndex;
+            animDone = true;
+        }, duration);
+
+        yield return new WaitUntil(() => animDone);
+
+        if (battleOver) yield break;
+
+        StatusEffects.NotifySpinCompleted(player);
+        WheelSlotEffect effect = player.wheel.slots[confirmedIndex].effect;
+        PlayEffectSound(effect, player);
+
+        yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerResolve));
+        if (battleOver) yield break;
+
+        ResolveEffect(effect, attacker: player, defender: enemy);
+
+        if (CheckBattleOver()) yield break;
+
+        yield return new WaitForSeconds(player.wheel.spinCooldown);
+        playerOnCooldown = false;
+        Announce($"Press {playerSpinKey} to spin again!");
+    }
+
+    private IEnumerator EnemyLoop()
+    {
+        yield return new WaitForSeconds(enemy.wheel.spinCooldown);
+
+        while (!battleOver)
         {
-            yield return new WaitForSeconds(enemyTurnEndPause);
-            ChangeState(BattleState.PlayerTurn);
+            yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyTurn));
+            if (battleOver) yield break;
+
+            if (stunnedCombatants.Contains(enemy))
+            {
+                Announce($"{enemy.displayName} is stunned and can't spin!");
+                yield return new WaitForSeconds(enemy.wheel.spinCooldown);
+                continue;
+            }
+
+            Announce($"{enemy.displayName} spins!");
+            ChooseIntendedSlot(enemy, out int intendedIndex);
+
+            yield return new WaitUntil(() => !IsDialoguePlaying());
+
+            bool animDone = false;
+            int confirmedIndex = intendedIndex;
+            float duration = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
+
+            if (battleAudio != null) battleAudio.StartWheelSpin(enemySounds);
+            battleCanvas.PlayEnemyWheelSpin(intendedIndex, enemy.wheel.slots.Length, (resultIndex) =>
+            {
+                confirmedIndex = resultIndex;
+                animDone = true;
+            }, duration);
+
+            yield return new WaitUntil(() => animDone);
+
+            if (battleOver) yield break;
+
+            StatusEffects.NotifySpinCompleted(enemy);
+            WheelSlotEffect effect = enemy.wheel.slots[confirmedIndex].effect;
+            PlayEffectSound(effect, enemy);
+
+            yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyResolve));
+            if (battleOver) yield break;
+
+            ResolveEffect(effect, attacker: enemy, defender: player);
+
+            if (CheckBattleOver()) yield break;
+
+            yield return new WaitForSeconds(enemy.wheel.spinCooldown);
         }
+    }
+
+    /// <summary>
+    /// Picks which slot the spin should AIM for (rigged or random). This is no longer the
+    /// final word on which effect resolves — see confirmedIndex in PlayerSpin/EnemyLoop —
+    /// but it's still what determines the odds, since the animation targets this slot and
+    /// should land on it almost all the time.
+    /// </summary>
+    private void ChooseIntendedSlot(Combatant combatant, out int intendedIndex)
+    {
+        RiggedStatus rigged = StatusEffects.Get<RiggedStatus>(combatant);
+
+        if (rigged != null && Random.value < 0.5f)
+        {
+            intendedIndex = rigged.riggedSlotIndex;
+            return;
+        }
+
+        combatant.wheel.SpinWithIndex(out intendedIndex);
     }
 
     private void ResolveEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
     {
         if (effect == null)
         {
-            Announce($"{attacker.displayName}'s wheel returned no effect. Skipping turn.");
+            Announce($"{attacker.displayName}'s wheel returned no effect. Skipping.");
             return;
         }
-
-        PlayEffectSound(effect, attacker);
 
         effect.Execute(attacker, defender, this);
     }
 
-    public Combatant GetPlayer() => player;
+    private bool CheckBattleOver()
+    {
+        if (enemy.IsDefeated) { EndBattle(playerWon: true); return true; }
+        if (player.IsDefeated) { EndBattle(playerWon: false); return true; }
+        return false;
+    }
 
+    private void EndBattle(bool playerWon)
+    {
+        battleOver = true;
+        StopAllCoroutines();
+        if (battleAudio != null) battleAudio.StopWheelSpin();
+        CurrentState = playerWon ? BattleState.Win : BattleState.Lose;
+
+        if (IsActive.isInBattleCutscene)
+            CheckDialogue(CurrentState);
+
+        Announce(playerWon
+            ? $"{player.displayName} wins! {enemy.displayName} is defeated."
+            : $"{player.displayName} has been defeated...");
+
+        if (playerWon && upgradeScreen != null && WheelUpgradeScreen.HasAnyUpgradeAvailable(playerSourceData))
+        {
+            StartCoroutine(DelayThen(endBattleDelaySeconds, ShowUpgradeScreen));
+        }
+        else
+        {
+            StartCoroutine(DelayThen(endBattleDelaySeconds, ReturnToOverworld));
+        }
+    }
+
+    private void ShowUpgradeScreen()
+    {
+        upgradeScreen.Show(playerSourceData, onComplete: ReturnToOverworld);
+    }
+
+    public Combatant GetPlayer() => player;
     public Combatant GetEnemy() => enemy;
 
     public void ApplyEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
+        => ResolveEffect(effect, attacker, defender);
+
+    public void SetStunned(Combatant combatant, bool stunned)
     {
-        ResolveEffect(effect, attacker, defender);
+        if (stunned) stunnedCombatants.Add(combatant);
+        else stunnedCombatants.Remove(combatant);
     }
 
-    public void EndBattleImmediately(bool playerWon)
+    public void MultiplySpinDuration(Combatant combatant, float multiplier)
     {
-        battleEndedEarly = true;
-        waitingForPlayerSpin = false;
-        StopAllCoroutines();
-        if (battleAudio != null) battleAudio.StopWheelSpin();
-        ChangeState(playerWon ? BattleState.Win : BattleState.Lose);
+        if (!spinDurationMultipliers.ContainsKey(combatant))
+            spinDurationMultipliers[combatant] = 1f;
+        spinDurationMultipliers[combatant] *= multiplier;
+
+        if (combatantWheelUI.TryGetValue(combatant, out WheelSpinUI ui))
+            ui.spinDuration *= multiplier;
     }
 
-    public void Announce(string message)
+    public void ApplyDamage(Combatant attacker, Combatant defender, int rawDamage)
     {
-        Debug.Log(message);
+        if (pendingDeflects.Contains(defender))
+        {
+            pendingDeflects.Remove(defender);
+            Announce($"{defender.displayName} deflects! {attacker.displayName} takes {rawDamage} reflected damage!");
+            attacker.TakeDamage(rawDamage);
+            NotifyHPChanged(attacker);
+            CheckBattleOver();
+            return;
+        }
+
+        if (StatusEffects.Has<VulnerableStatus>(defender))
+        {
+            rawDamage *= 2;
+            StatusEffects.Remove(defender, StatusEffects.Get<VulnerableStatus>(defender));
+            Announce($"{defender.displayName} is Vulnerable! Hit deals double damage!");
+        }
+
+        int reduction = 0;
+        if (pendingDamageReductions.TryGetValue(defender, out reduction))
+            pendingDamageReductions.Remove(defender);
+
+        int finalDamage = Mathf.Max(0, rawDamage - reduction);
+        defender.TakeDamage(finalDamage);
+        NotifyHPChanged(defender);
+        Announce($"{attacker.displayName} hits for {finalDamage}! " +
+                 $"{defender.displayName} HP: {defender.currentHP}/{defender.maxHP}");
     }
+
+    public void NotifyHPChanged(Combatant combatant)
+    {
+        if (combatant == player)
+            battleCanvas.UpdatePlayerHP(player.currentHP, player.overhealth);
+        else
+            battleCanvas.UpdateEnemyHP(enemy.currentHP, enemy.overhealth);
+    }
+
+    public void SetPendingDamageReduction(Combatant defender, int amount)
+        => pendingDamageReductions[defender] = amount;
+
+    public bool HasPendingDamageReduction(Combatant combatant)
+        => pendingDamageReductions.ContainsKey(combatant);
+
+    public void SetPendingDeflect(Combatant combatant)
+        => pendingDeflects.Add(combatant);
+
+    public bool HasPendingDeflect(Combatant combatant)
+        => pendingDeflects.Contains(combatant);
+
+    public void EndBattleImmediately(bool playerWon) => EndBattle(playerWon);
+
+    public void Announce(string message) => Debug.Log(message);
 
     private void ReturnToOverworld()
     {
         if (string.IsNullOrEmpty(overworldSceneName))
         {
-            Announce("(overworldSceneName not set - staying on Battle scene. Set it in the Inspector once your overworld scene exists.)");
+            Announce("(overworldSceneName not set - staying on Battle scene.)");
             return;
         }
-
         UnityEngine.SceneManagement.SceneManager.LoadScene(overworldSceneName);
     }
 
@@ -275,42 +393,41 @@ public class BattleManager : MonoBehaviour
 
     private void StartDialogue()
     {
-        DialogueSystem.Instance.StartDialogue(battleDialogue);
+        DialogueSystemBattle.Instance.StartDialogue(battleDialogue);
     }
 
     private bool CheckDialogue(BattleState battleState)
     {
-        return DialogueSystem.Instance.TriggerPlayDialogue(battleState);
+        return DialogueSystemBattle.Instance.TriggerPlayDialogue(battleState);
     }
 
     private void PlayEffectSound(WheelSlotEffect effect, Combatant attacker)
     {
         if (battleAudio == null) return;
 
-        BattleSoundSet set;
-        if (attacker == player)
-            set = playerSounds;
-        else
-            set = enemySounds;
-
+        BattleSoundSet set = (attacker == player) ? playerSounds : enemySounds;
         AudioClip clip = set != null ? set.GetClip(effect) : null;
         if (clip != null)
             battleAudio.PlayClip(clip);
     }
 
-    private void PlayStateSound(BattleState state)
+
+    // I'm not sure how the skills work
+    public void UseSkill(int skillIndex)
     {
-        if (battleAudio == null) return;
+        switch (skillIndex)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
 
-        BattleSoundSet set = GetSoundSetForState(state);
-        battleAudio.PlayState(set, state);
-    }
-
-    private BattleSoundSet GetSoundSetForState(BattleState state)
-    {
-        if (state == BattleState.PlayerTurn || state == BattleState.PlayerResolve) return playerSounds;
-        if (state == BattleState.EnemyTurn || state == BattleState.EnemyResolve) return enemySounds;
-
-        return playerSounds;
     }
 }

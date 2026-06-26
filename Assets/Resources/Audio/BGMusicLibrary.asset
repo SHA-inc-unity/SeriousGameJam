@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: BGMusicLibrary
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
   tracks:
-  - clip: {fileID: 8300000, guid: 0be40cc3fe8cbc74d9465bb9b0839150, type: 3}
-    usage: -1
+  - clip: {fileID: 8300000, guid: 7165864da6b8885439e7779521fdd42a, type: 3}
+    usage: 4
+    loopMarker: 35
+    enemyNames: []
+  - clip: {fileID: 8300000, guid: 65de717ac2e27b04a8248f7a5d05100b, type: 3}
+    usage: 1
+    loopMarker: 35
+    enemyNames: []
+  - clip: {fileID: 8300000, guid: 8ad69ae8b24d9a7448fe217fa601f04d, type: 3}
+    usage: 2
+    loopMarker: 35
+    enemyNames: []

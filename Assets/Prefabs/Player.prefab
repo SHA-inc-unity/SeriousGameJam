@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3036358449158558440}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 7160347108608540403}
   - component: {fileID: 5299984140575722593}
   - component: {fileID: 4695758966503021939}
+  - component: {fileID: 3214899079119828947}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -346,6 +347,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioManager
   effectsGroup: {fileID: 1577854016963985234, guid: 76219847798e214428a59bc582b1fcff, type: 2}
+--- !u!114 &3214899079119828947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2679324120157916284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29c6a19278ec0d3459eeff9acb884cb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
 --- !u!1 &5363563035577732098
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +372,7 @@ GameObject:
   - component: {fileID: 8881228634629538824}
   m_Layer: 0
   m_Name: Square (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -473,7 +486,7 @@ GameObject:
   - component: {fileID: 2424722736890533168}
   m_Layer: 0
   m_Name: PlayerObj
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -660,7 +673,7 @@ GameObject:
   - component: {fileID: 6598381308626971919}
   m_Layer: 0
   m_Name: PlayerInteract
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -22,4 +22,14 @@ MonoBehaviour:
   - state: 4
     effect: {fileID: 0}
     clip: {fileID: 8300000, guid: 93782141eaf7bd64f9faeb4104f72916, type: 3}
-  wheelSpinClip: {fileID: 8300000, guid: 4f7ae3cb9a9870c40a2ded1ee834bb04, type: 3}
+  wheelSpinClips:
+  - {fileID: 8300000, guid: de5d5b0129dd5d840b548e236a14432f, type: 3}
+  - {fileID: 8300000, guid: 0255d7f62a24b17498e0741a4c00ceb4, type: 3}
+  - {fileID: 8300000, guid: d6fea3b6168fa5546988ecfd38778995, type: 3}
+  - {fileID: 8300000, guid: ae0957bcac3e4b748b0baec3e76b1d31, type: 3}
+  - {fileID: 8300000, guid: cf4f079a05515d44295a4e59b1b0410f, type: 3}
+  - {fileID: 8300000, guid: 056e6b6a8b91ed846ab4c051f125a73f, type: 3}
+  - {fileID: 8300000, guid: 6c0861a28d032304d80f4dc6d8d292f6, type: 3}
+  - {fileID: 8300000, guid: afd970c681342ea4187151d977d77524, type: 3}
+  - {fileID: 8300000, guid: d9981eed93c84c14d8878f2dec12cb05, type: 3}
+  - {fileID: 8300000, guid: a903964aee108fb4e94cf2dfb529da7c, type: 3}

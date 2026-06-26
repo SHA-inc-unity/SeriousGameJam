@@ -11,14 +11,19 @@ public class BGMusicManager : MonoBehaviour
 
     [SerializeField] private AudioMixerGroup musicGroup;
     [SerializeField] private MusicLibrary library;
-    [SerializeField] private float fadeDuration = 1.0f;
     [SerializeField] private float maxVolume = 1.0f;
+    [SerializeField] private string menuSceneName = "MainMenu";
 
-    private AudioSource source;
+    private AudioSource sourceA;
+    private AudioSource sourceB;
+    private AudioSource active;
+
     private MusicUsage currentMode = MusicUsage.None;
-    private AudioClip lastClip;
-    private Coroutine fadeRoutine;
+    private MusicEntry currentEntry;
+    private bool hasEntry;
     private bool forcedTrackActive;
+
+    private Coroutine loopRoutine;
 
     private void Awake()
     {
@@ -31,11 +36,20 @@ public class BGMusicManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        source = GetComponent<AudioSource>();
-        source.outputAudioMixerGroup = musicGroup;
-        source.loop = true;
-        source.playOnAwake = false;
-        source.spatialBlend = 0f;
+        sourceA = GetComponent<AudioSource>();
+        sourceB = gameObject.AddComponent<AudioSource>();
+        ConfigureSource(sourceA);
+        ConfigureSource(sourceB);
+        active = sourceA;
+    }
+
+    private void ConfigureSource(AudioSource s)
+    {
+        s.outputAudioMixerGroup = musicGroup;
+        s.loop = false;
+        s.playOnAwake = false;
+        s.spatialBlend = 0f;
+        s.volume = maxVolume;
     }
 
     private void OnEnable()
@@ -66,101 +80,120 @@ public class BGMusicManager : MonoBehaviour
 
     private void UpdateModeForScene()
     {
+        if (forcedTrackActive) return;
+
         MusicUsage mode;
-        if (IsBattleScene())
+        if (SceneManager.GetActiveScene().name == menuSceneName)
+            mode = MusicUsage.Menu;
+        else if (IsBattleScene())
             mode = MusicUsage.Battle;
         else
             mode = MusicUsage.Overworld;
 
-        if (mode == currentMode && source.isPlaying)
-            return;
+        if (mode == currentMode && active.isPlaying) return;
 
         currentMode = mode;
-        PlayRandomForMode();
-    }
 
-    public void PlayForcedBattleTrack(AudioClip clip)
-    {
-        if (clip == null) return;
-
-        forcedTrackActive = true;
-        currentMode = MusicUsage.Battle;
-
-        if (source.clip == clip && source.isPlaying) return;
-
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(CrossFadeTo(clip));
-    }
-
-    private void PlayRandomForMode()
-    {
-        if (forcedTrackActive) return;
-
-        List<AudioClip> pool = library.GetClipsFor(currentMode);
+        List<MusicEntry> pool = library.GetEntriesFor(currentMode);
         if (pool.Count == 0)
         {
             Debug.LogWarning($"MusicLibrary: no tracks for mode {currentMode}");
             return;
         }
 
-        AudioClip next = PickNonRepeating(pool);
-
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(CrossFadeTo(next));
+        MusicEntry pick = PickNonRepeating(pool);
+        StartEntry(pick);
     }
 
-    private AudioClip PickNonRepeating(List<AudioClip> pool)
+    public void PlayTrackForEnemy(string enemyName)
     {
-        if (pool.Count == 1)
-            return pool[0];
-
-        AudioClip next;
-        do
-            next = pool[Random.Range(0, pool.Count)];
-        while (next == lastClip);
-
-        return next;
+        if (library.TryGetEntryForEnemy(enemyName, out MusicEntry entry))
+        {
+            forcedTrackActive = true;
+            currentMode = MusicUsage.Battle;
+            StartEntry(entry);
+        }
+        else
+        {
+            Debug.LogWarning($"MusicLibrary: no track found for enemy '{enemyName}', falling back to Battle pool.");
+            forcedTrackActive = false;
+            UpdateModeForScene();
+        }
     }
 
-    private IEnumerator CrossFadeTo(AudioClip next)
+    private void StartEntry(MusicEntry entry)
     {
-        if (source.isPlaying)
+        if (hasEntry && currentEntry.clip == entry.clip && active.isPlaying)
         {
-            float t = 0f;
-            float startVol = source.volume;
-            while (t < fadeDuration)
-            {
-                t += Time.deltaTime;
-                source.volume = Mathf.Lerp(startVol, 0f, t / fadeDuration);
-                yield return null;
-            }
+            Debug.Log($"[Music] StartEntry SKIP (same clip already playing): {entry.clip.name}");
+            return;
         }
 
-        source.clip = next;
-        lastClip = next;
-        source.volume = 0f;
-        source.Play();
+        Debug.Log($"[Music] StartEntry: {entry.clip.name}. Stopping both sources. A.playing={sourceA.isPlaying}, B.playing={sourceB.isPlaying}");
 
-        float t2 = 0f;
-        while (t2 < fadeDuration)
+        currentEntry = entry;
+        hasEntry = true;
+
+        if (loopRoutine != null) StopCoroutine(loopRoutine);
+
+        sourceA.Stop();
+        sourceB.Stop();
+        active = sourceA;
+
+        loopRoutine = StartCoroutine(PlayWithSeamlessLoop(entry));
+    }
+
+    private IEnumerator PlayWithSeamlessLoop(MusicEntry entry)
+    {
+        if (entry.loopMarker <= 0f || entry.loopMarker >= entry.clip.length)
         {
-            t2 += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, maxVolume, t2 / fadeDuration);
+            Debug.LogWarning($"[Music] invalid marker, simple loop. marker={entry.loopMarker}, len={entry.clip.length}");
+            active.clip = entry.clip;
+            active.volume = maxVolume;
+            active.loop = true;
+            active.Play();
+            yield break;
+        }
+
+        Debug.Log($"[Music] seamless start: {entry.clip.name}, marker={entry.loopMarker}, len={entry.clip.length}");
+
+        active.clip = entry.clip;
+        active.volume = maxVolume;
+        active.loop = false;
+        active.Play();
+
+        while (true)
+        {
+            AudioSource current = active;
+
+            yield return new WaitUntil(() =>
+                !current.isPlaying || current.time >= entry.loopMarker);
+
+            AudioSource next = (current == sourceA) ? sourceB : sourceA;
+
+            Debug.Log($"[Music] LOOP SWITCH at time={current.time:F2}. {(current == sourceA ? "A" : "B")}→{(next == sourceA ? "A" : "B")}");
+
+            next.Stop();
+            next.clip = entry.clip;
+            next.volume = maxVolume;
+            next.loop = false;
+            next.Play();
+
+            active = next;
+
             yield return null;
         }
-        source.volume = maxVolume;
-
-        fadeRoutine = null;
     }
 
-    public void PlayNext()
+    private MusicEntry PickNonRepeating(List<MusicEntry> pool)
     {
-        PlayRandomForMode();
+        if (pool.Count == 1) return pool[0];
+
+        MusicEntry next;
+        do
+            next = pool[Random.Range(0, pool.Count)];
+        while (hasEntry && next.clip == currentEntry.clip);
+
+        return next;
     }
 }

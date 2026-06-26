@@ -8,11 +8,20 @@ public class DepthSorter : MonoBehaviour
     [SerializeField]
     private float precision = 100f;
 
-    void Update()
+    private int so = 0;
+
+    public int GetSO()
     {
+        return so;
+    }
+
+    private void Update()
+    {
+        so = -Mathf.RoundToInt(transform.position.z * precision);
+
         foreach (var spriteRenderer in sr)
         {
-            spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.z * precision);
+            spriteRenderer.sortingOrder = so;
         }
     }
 }
