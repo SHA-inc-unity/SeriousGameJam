@@ -9,7 +9,8 @@ public enum MusicUsage
     Overworld = 1 << 0,
     Battle = 1 << 1,
     Menu = 1 << 2,
-    Cinematic = 2 << 3
+    Cinematic = 1 << 3,
+    Boss = 1 << 4
 }
 
 [Serializable]

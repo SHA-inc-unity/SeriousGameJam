@@ -13,6 +13,7 @@ public class BGMusicManager : MonoBehaviour
     [SerializeField] private MusicLibrary library;
     [SerializeField] private float maxVolume = 1.0f;
     [SerializeField] private string menuSceneName = "MainMenu";
+    [SerializeField] private string bossSceneName = "BossBattle";
 
     private AudioSource sourceA;
     //private AudioSource sourceB;
@@ -81,12 +82,14 @@ public class BGMusicManager : MonoBehaviour
     private void UpdateModeForScene()
     {
         if (forcedTrackActive) return;
-
+        Debug.Log(SceneManager.GetActiveScene().name);
         MusicUsage mode;
         if (SceneManager.GetActiveScene().name == menuSceneName)
             mode = MusicUsage.Menu;
         else if (IsBattleScene())
             mode = MusicUsage.Battle;
+        else if (SceneManager.GetActiveScene().name == bossSceneName)
+            mode = MusicUsage.Boss;
         else
             mode = MusicUsage.Overworld;
 

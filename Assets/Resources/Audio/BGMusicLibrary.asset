@@ -26,7 +26,7 @@ MonoBehaviour:
     loopMarker: 35
     enemyNames: []
   - clip: {fileID: 8300000, guid: dac5e43e05a9bd747a945a2f9a9c404e, type: 3}
-    usage: 2
+    usage: 16
     loopMarker: 35
     enemyNames:
     - Otter
@@ -36,9 +36,5 @@ MonoBehaviour:
     enemyNames: []
   - clip: {fileID: 8300000, guid: c0f7ef6c9b3574a428a0394eee0f126e, type: 3}
     usage: 0
-    loopMarker: 35
-    enemyNames: []
-  - clip: {fileID: 0}
-    usage: 16
     loopMarker: 35
     enemyNames: []
