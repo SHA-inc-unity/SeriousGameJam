@@ -38,3 +38,7 @@ MonoBehaviour:
     usage: 0
     loopMarker: 35
     enemyNames: []
+  - clip: {fileID: 0}
+    usage: 8
+    loopMarker: 35
+    enemyNames: []

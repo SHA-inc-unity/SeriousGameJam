@@ -14,6 +14,7 @@ public class BGMusicManager : MonoBehaviour
     [SerializeField] private float maxVolume = 1.0f;
     [SerializeField] private string menuSceneName = "MainMenu";
     [SerializeField] private string bossSceneName = "BossBattle";
+    [SerializeField] private string cinematicSceneName = "CinematicScene";
 
     private AudioSource sourceA;
     //private AudioSource sourceB;
@@ -90,6 +91,8 @@ public class BGMusicManager : MonoBehaviour
             mode = MusicUsage.Battle;
         else if (SceneManager.GetActiveScene().name == bossSceneName)
             mode = MusicUsage.Boss;
+        else if (SceneManager.GetActiveScene().name == cinematicSceneName)
+            mode = MusicUsage.None;
         else
             mode = MusicUsage.Overworld;
 
@@ -101,6 +104,14 @@ public class BGMusicManager : MonoBehaviour
         if (pool.Count == 0)
         {
             Debug.LogWarning($"MusicLibrary: no tracks for mode {currentMode}");
+            if (loopRoutine != null)
+            {
+                StopCoroutine(loopRoutine);
+                loopRoutine = null;
+            }
+            active.Stop();
+            active.clip = null;
+            hasEntry = false;
             return;
         }
 
@@ -148,45 +159,52 @@ public class BGMusicManager : MonoBehaviour
 
     private IEnumerator PlayWithSeamlessLoop(MusicEntry entry)
     {
-        if (entry.loopMarker <= 0f || entry.loopMarker >= entry.clip.length)
-        {
-            Debug.LogWarning($"[Music] invalid marker, simple loop. marker={entry.loopMarker}, len={entry.clip.length}");
-            active.clip = entry.clip;
-            active.volume = maxVolume;
-            active.loop = true;
-            active.Play();
-            yield break;
-        }
-
-        Debug.Log($"[Music] seamless start: {entry.clip.name}, marker={entry.loopMarker}, len={entry.clip.length}");
 
         active.clip = entry.clip;
         active.volume = maxVolume;
-        active.loop = false;
+        active.loop = true;
         active.Play();
+        yield break;
 
-        while (true)
-        {
-            AudioSource current = active;
+        //if (entry.loopMarker <= 0f || entry.loopMarker >= entry.clip.length)
+        //{
+        //    Debug.LogWarning($"[Music] invalid marker, simple loop. marker={entry.loopMarker}, len={entry.clip.length}");
+        //    active.clip = entry.clip;
+        //    active.volume = maxVolume;
+        //    active.loop = true;
+        //    active.Play();
+        //    yield break;
+        //}
 
-            yield return new WaitUntil(() =>
-                !current.isPlaying || current.time >= entry.loopMarker);
+        //Debug.Log($"[Music] seamless start: {entry.clip.name}, marker={entry.loopMarker}, len={entry.clip.length}");
 
-            //AudioSource next = (current == sourceA) ? sourceB : sourceA;
-            AudioSource next = sourceA;
+        //active.clip = entry.clip;
+        //active.volume = maxVolume;
+        //active.loop = false;
+        //active.Play();
 
-            Debug.Log($"[Music] LOOP SWITCH at time={current.time:F2}. {(current == sourceA ? "A" : "B")}→{(next == sourceA ? "A" : "B")}");
+        //while (true)
+        //{
+        //    AudioSource current = active;
 
-            next.Stop();
-            next.clip = entry.clip;
-            next.volume = maxVolume;
-            next.loop = false;
-            next.Play();
+        //    yield return new WaitUntil(() =>
+        //        !current.isPlaying || current.time >= entry.loopMarker);
 
-            active = next;
+        //    //AudioSource next = (current == sourceA) ? sourceB : sourceA;
+        //    AudioSource next = sourceA;
 
-            yield return null;
-        }
+        //    Debug.Log($"[Music] LOOP SWITCH at time={current.time:F2}. {(current == sourceA ? "A" : "B")}→{(next == sourceA ? "A" : "B")}");
+
+        //    next.Stop();
+        //    next.clip = entry.clip;
+        //    next.volume = maxVolume;
+        //    next.loop = false;
+        //    next.Play();
+
+        //    active = next;
+
+        //    yield return null;
+        //}
     }
 
     private MusicEntry PickNonRepeating(List<MusicEntry> pool)
