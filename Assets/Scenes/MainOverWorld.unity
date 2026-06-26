@@ -227,10 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ec8dad2481d354f8b080f3b851f278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogGuard
-  battles:
-  - {fileID: 775057823}
-  - {fileID: 358820246}
-  - {fileID: 1586059521}
+  door: {fileID: 9152508215287825969}
+  goOff: {fileID: 1059347574}
+  moveDuration: 1
 --- !u!4 &42797186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5816983714487296470, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
@@ -701,17 +700,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
---- !u!114 &358820246 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 208519658577931757, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
-  m_PrefabInstance: {fileID: 358820245}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
 --- !u!1 &370308547
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,17 +1577,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
---- !u!114 &775057823 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4382902087258439377, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
-  m_PrefabInstance: {fileID: 775057822}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
 --- !u!4 &820531522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
@@ -3282,17 +3259,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
---- !u!114 &1586059521 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8214541384736550744, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
-  m_PrefabInstance: {fileID: 1586059520}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
 --- !u!1 &1590069995
 GameObject:
   m_ObjectHideFlags: 0
@@ -4761,6 +4727,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8742741735854823066, guid: b6146b4a820b1b344addec08d66b2934, type: 3}
   m_PrefabInstance: {fileID: 2325200848097442523}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9152508215287825969 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5513936443861147377, guid: b6146b4a820b1b344addec08d66b2934, type: 3}
+  m_PrefabInstance: {fileID: 2325200848097442523}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba8b1f8d3a28264cab05daaa5985920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
