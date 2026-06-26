@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class PlayerMove : MonoBehaviour
     private AudioClip lastStep;
     private Vector3 startScenePos;
 
+    private bool isEnterDoor;
+    private Vector3 posDoor;
+    private string sceneName;
+
     void Start()
     {
         audioManager = GetComponent<PlayerAudioManager>();
@@ -39,7 +44,19 @@ public class PlayerMove : MonoBehaviour
 
         currentFOV = cam.fieldOfView;
         zoom = cam.fieldOfView;
-        Load();
+
+        sceneName = SceneManager.GetActiveScene().name;
+        PlayerPrefs.SetString("LastScene", sceneName);
+
+        if (isEnterDoor)
+        {
+            rb.position = posDoor;
+            playerTrans.position = posDoor;
+        }
+        else
+        {
+            Load();
+        }
     }
 
     void Update()
@@ -53,15 +70,15 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 dir = Vector3.zero;
 
-        bool up    = Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
-        bool down  = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+        bool up = Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
+        bool down = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
         bool right = Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed;
-        bool left  = Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed;
+        bool left = Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed;
 
-        if (up)    dir += playerTrans.forward;
-        if (down)  dir -= playerTrans.forward;
+        if (up) dir += playerTrans.forward;
+        if (down) dir -= playerTrans.forward;
         if (right) dir += playerTrans.right;
-        if (left)  dir -= playerTrans.right;
+        if (left) dir -= playerTrans.right;
 
         dir.y = 0f;
         dir.Normalize();
@@ -95,6 +112,12 @@ public class PlayerMove : MonoBehaviour
     public void BackToStart()
     {
         transform.position = startScenePos;
+    }
+
+    public void EnterTheDoor(Vector3 pos)
+    {
+        isEnterDoor = true;
+        posDoor = pos;
     }
 
     private void PlayFootstep()

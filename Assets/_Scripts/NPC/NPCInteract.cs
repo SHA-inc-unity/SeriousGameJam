@@ -7,13 +7,13 @@ public class NPCInteract : ObjectInteract
     private string npcName;
 
     [SerializeField]
-    private bool isDefeated;
-    [SerializeField]
     private GameObject NPCBooth;
     [SerializeField]
     private GameObject NPC;
     [SerializeField]
     private List<Sprite> ObjectStates;
+
+    public bool isDefeated;
 
     private BattleTrigger battleTrigger;
 
