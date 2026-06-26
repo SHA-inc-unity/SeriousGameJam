@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: ClownDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Bingle
+    text: Hello mister! Would you like some snacks! Hehehe!
+    voice: {fileID: 0}
+    answers: []
+  - who: Bangle
+    text: Hehehe! 'ave some mista! 'ave some!
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: What is this DUBIOUS confectionary you are serving...
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: BY THE GODDESS!!! COBWEBS!? I knew it... this truly is a den of FIENDS!
+    voice: {fileID: 0}
+    answers: []
+  - who: Bingle
+    text: Would you like some? Hehehe!
+    voice: {fileID: 0}
+    answers: []
+  - who: Bangle
+    text: Hehehe! We'll give it to ya!
+    voice: {fileID: 0}
+    answers:
+    - text: BATTLE!!!
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
+  triggerBattleOnEnd: 1
+  canRepeat: 1

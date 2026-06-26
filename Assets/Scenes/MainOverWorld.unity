@@ -224,7 +224,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 30585466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1af2ed2228997ab4cb60b3c05cc06234, type: 3}
+m_Script: {fileID: 11500000, guid: 1af2ed2228997ab4cb60b3c05cc06234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Doorkeeper
   door: {fileID: 6572030503178466967}
@@ -818,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 4958a7368c0d8c747971fc25becb5e79, type: 2}
   forwardHelperDistance: 1.5
   npcName: Caroline
   NPCBooth: {fileID: 183484622}
@@ -881,6 +881,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 62b417ca5c606c34283ef113651ce339, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!1 &237942519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,6 +1012,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 12aa7dc561a835f4a9af6b8c031b8116, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!1 &320640486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,7 +1614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 2afc214440557854894f4668938a74ca, type: 2}
   forwardHelperDistance: 1.5
   npcName: Caroline
   NPCBooth: {fileID: 1561827112}
@@ -1673,6 +1677,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 325e069b471e287488163cd6afac6928, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!1 &500336783
 GameObject:
   m_ObjectHideFlags: 0
