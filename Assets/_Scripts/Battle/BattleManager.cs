@@ -99,6 +99,7 @@ public class BattleManager : MonoBehaviour
 
         CurrentState = BattleState.Intro;
         Announce($"{enemy.displayName} appears! Press {playerSpinKey} to spin!");
+        CheckDialogueState(BattleState.Intro);
 
         StartCoroutine(EnemyLoop());
     }
@@ -108,33 +109,17 @@ public class BattleManager : MonoBehaviour
         if (battleOver) return;
         if (CurrentState == BattleState.Intro) return;
         if (playerOnCooldown) return;
-        if (IsDialoguePlaying()) return;
 
         if (Keyboard.current[playerSpinKey].wasPressedThisFrame)
             StartCoroutine(PlayerSpin());
-    }
-
-    private bool IsDialoguePlaying()
-    {
-        return DialogueSystemBattle.Instance != null && DialogueSystemBattle.Instance.IsBattleStepActive;
-    }
-
-    private IEnumerator SetStateAndPlayDialogue(BattleState state)
-    {
-        CurrentState = state;
-
-        if (IsActive.isInBattleCutscene)
-            CheckDialogue(state);
-
-        yield return new WaitUntil(() => !IsDialoguePlaying());
     }
 
     private IEnumerator PlayerSpin()
     {
         playerOnCooldown = true;
 
-        yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerTurn));
-        if (battleOver) yield break;
+        CurrentState = BattleState.PlayerTurn;
+        CheckDialogueState(BattleState.PlayerTurn);
 
         if (stunnedCombatants.Contains(player))
         {
@@ -144,12 +129,7 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        // intendedIndex is just the spin's aim target now — the slot actually used for
-        // gameplay is whichever icon ends up closest to the pointer once the wheel stops,
-        // so the effect resolved always matches what's on screen.
         ChooseIntendedSlot(player, out int intendedIndex);
-
-        yield return new WaitUntil(() => !IsDialoguePlaying());
 
         bool animDone = false;
         int confirmedIndex = intendedIndex;
@@ -166,14 +146,13 @@ public class BattleManager : MonoBehaviour
 
         if (battleOver) yield break;
 
-        // Read the effect BEFORE ticking statuses so that expiry (e.g. DuckedStatus
-        // restoring the wheel) cannot affect which effect resolves this spin.
         WheelSlotEffect effect = player.wheel.slots[confirmedIndex].effect;
         StatusEffects.NotifySpinCompleted(player);
         PlayEffectSound(effect, player);
 
-        yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerResolve));
-        if (battleOver) yield break;
+        CurrentState = BattleState.PlayerResolve;
+        CheckDialogueState(BattleState.PlayerResolve);
+        CheckDialogueEffect(effect);
 
         ResolveEffect(effect, attacker: player, defender: enemy);
 
@@ -190,8 +169,8 @@ public class BattleManager : MonoBehaviour
 
         while (!battleOver)
         {
-            yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyTurn));
-            if (battleOver) yield break;
+            CurrentState = BattleState.EnemyTurn;
+            CheckDialogueState(BattleState.EnemyTurn);
 
             if (stunnedCombatants.Contains(enemy))
             {
@@ -202,8 +181,6 @@ public class BattleManager : MonoBehaviour
 
             Announce($"{enemy.displayName} spins!");
             ChooseIntendedSlot(enemy, out int intendedIndex);
-
-            yield return new WaitUntil(() => !IsDialoguePlaying());
 
             bool animDone = false;
             int confirmedIndex = intendedIndex;
@@ -220,14 +197,13 @@ public class BattleManager : MonoBehaviour
 
             if (battleOver) yield break;
 
-            // Read the effect BEFORE ticking statuses so that expiry (e.g. DuckedStatus
-            // restoring the wheel) cannot affect which effect resolves this spin.
             WheelSlotEffect effect = enemy.wheel.slots[confirmedIndex].effect;
             StatusEffects.NotifySpinCompleted(enemy);
             PlayEffectSound(effect, enemy);
 
-            yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyResolve));
-            if (battleOver) yield break;
+            CurrentState = BattleState.EnemyResolve;
+            CheckDialogueState(BattleState.EnemyResolve);
+            CheckDialogueEffect(effect);
 
             ResolveEffect(effect, attacker: enemy, defender: player);
 
@@ -284,8 +260,7 @@ public class BattleManager : MonoBehaviour
         if (playerWon)
             playerSourceData.GrantPermanentHP(1);
 
-        if (IsActive.isInBattleCutscene)
-            CheckDialogue(CurrentState);
+        CheckDialogueState(CurrentState);
 
         Announce(playerWon
             ? $"{player.displayName} wins! {enemy.displayName} is defeated."
@@ -411,9 +386,19 @@ public class BattleManager : MonoBehaviour
         DialogueSystemBattle.Instance.StartDialogue(battleDialogue);
     }
 
-    private bool CheckDialogue(BattleState battleState)
+    private void CheckDialogueState(BattleState battleState)
     {
-        return DialogueSystemBattle.Instance.TriggerPlayDialogue(battleState);
+        if (!IsActive.isInBattleCutscene) return;
+        if (DialogueSystemBattle.Instance == null) return;
+        DialogueSystemBattle.Instance.TriggerByState(battleState);
+    }
+
+    private void CheckDialogueEffect(WheelSlotEffect effect)
+    {
+        if (!IsActive.isInBattleCutscene) return;
+        if (DialogueSystemBattle.Instance == null) return;
+        if (effect == null) return;
+        DialogueSystemBattle.Instance.TriggerByEffect(effect);
     }
 
     private void PlayEffectSound(WheelSlotEffect effect, Combatant attacker)
@@ -427,7 +412,6 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    // I'm not sure how the skills work
     public void UseSkill(int skillIndex)
     {
         switch (skillIndex)
@@ -443,6 +427,5 @@ public class BattleManager : MonoBehaviour
             default:
                 break;
         }
-
     }
 }

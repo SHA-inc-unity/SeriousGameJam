@@ -16,29 +16,36 @@ MonoBehaviour:
   - who: Splingo
     text: Yip yip! Spin! Spin! Spin! The wheel goes round and rooooound!
     voice: {fileID: 8300000, guid: 99da06e07ced44a48b4af2a1474f6efd, type: 3}
-    nextBattleState: 4
+    nextBattleState: 0
+    nextWheelEffect: {fileID: 11400000, guid: 06a89f776491ff545b28332aad1fa152, type: 2}
   - who: Splingo
     text: The rule of this land is spin to win! The wheel shall decide our fates!!
     voice: {fileID: 8300000, guid: fa8ebafe0e70867479b555639d8c7063, type: 3}
     nextBattleState: 0
+    nextWheelEffect: {fileID: 0}
   - who: Sirius
     text: Foolish wretch, only Sir Lady Sirius shall decide her fate.
     voice: {fileID: 8300000, guid: f677f160d35c55c49b6b1787dc57cdb4, type: 3}
     nextBattleState: 4
+    nextWheelEffect: {fileID: 0}
   - who: Splingo
     text: "Yip yip! That\u2019s the spirit friend!"
     voice: {fileID: 8300000, guid: fd3d1c931574c304c8f0685834f40888, type: 3}
     nextBattleState: 0
+    nextWheelEffect: {fileID: 0}
   - who: Splingo
     text: We all have a say in how fate can twiiiist and turn, but in the end, all
       things one must earn!!
     voice: {fileID: 8300000, guid: 6a2451ca18eeb124495b31fae65d0771, type: 3}
     nextBattleState: 0
+    nextWheelEffect: {fileID: 0}
   - who: Sirius
     text: Quit thine blabbering rhymes, for I am pressed for time
     voice: {fileID: 8300000, guid: e95a298b791496e408e8662e37f6d0bd, type: 3}
     nextBattleState: 4
+    nextWheelEffect: {fileID: 0}
   - who: Sirius
     text: I shall end it thus, pest.
     voice: {fileID: 8300000, guid: a332caa29ea2ad741ade2e07eb402e29, type: 3}
     nextBattleState: 0
+    nextWheelEffect: {fileID: 0}
