@@ -290,6 +290,12 @@ public class BattleManager : MonoBehaviour
         Announce(playerWon
             ? $"{player.displayName} wins! {enemy.displayName} is defeated."
             : $"{player.displayName} has been defeated...");
+        
+        if (playerWon)
+        {
+            BattleSetup.OnBattleWon?.Invoke();
+            BattleSetup.OnBattleWon = null;
+        }
 
         if (playerWon && upgradeScreen != null && WheelUpgradeScreen.HasAnyUpgradeAvailable(playerSourceData))
         {
