@@ -24,12 +24,14 @@ public class BattleTrigger : MonoBehaviour
     [Header("On Win")]
     [Tooltip("If assigned, replaces one Miss slot on the player's wheel with this effect on victory.")]
     [SerializeField] private WheelSlotEffect replacementEffect;
+    [SerializeField]
+    private NPCInteract nPCInteract;
 
-    public bool defeated = false;
+    public NPCInteract NPCInteract { get => nPCInteract; }
 
     public void StartBattle()
     {
-        if (defeated) return;
+        if (NPCInteract.isDefeated) return;
 
         if (enemyData == null)
         {
@@ -60,7 +62,7 @@ public class BattleTrigger : MonoBehaviour
 
     private void OnWon()
     {
-        defeated = true;
+        NPCInteract.isDefeated = true;
 
         if (replacementEffect == null) return;
         if (playerData == null || playerData.wheel == null) return;
@@ -79,6 +81,6 @@ public class BattleTrigger : MonoBehaviour
 
     private void OnLost()
     {
-        defeated = false;
+        NPCInteract.isDefeated = false;
     }
 }

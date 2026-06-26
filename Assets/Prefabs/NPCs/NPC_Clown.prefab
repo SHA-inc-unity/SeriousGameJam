@@ -328,6 +328,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 208519658577931757}
   m_SourcePrefab: {fileID: 100100000, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+--- !u!114 &3132079141038550949 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 562115905687678195, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+  m_PrefabInstance: {fileID: 3223002910981817174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779046035130596549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
 --- !u!4 &4976284567717787911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7617056332604815953, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
@@ -359,6 +370,8 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
   battleBackground: {fileID: 21300000, guid: f89342ac528c04941a1c4aba4492846f, type: 3}
   battleSceneName: BattleScene
+  winSceneName: 
+  loseSceneName: 
   dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
   replacementEffect: {fileID: 0}
-  defeated: 0
+  nPCInteract: {fileID: 3132079141038550949}

@@ -606,14 +606,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  npcName: Caroline
   holder: {fileID: 11400000, guid: bb0dfc1e0db103642be3a3c6d13b59d9, type: 2}
-  isDefeated: 0
+  forwardHelperDistance: 1.5
+  npcName: Caroline
   NPCBooth: {fileID: 6375687505564711090}
   NPC: {fileID: 1707818235076282252}
   ObjectStates:
   - {fileID: 21300000, guid: 6ba47e8f008a9f7468ee1047507a9a06, type: 3}
   - {fileID: 21300000, guid: 74c5f6ed2c385c041b0d988ed47d2d69, type: 3}
+  isDefeated: 0
 --- !u!114 &8823523279630351359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +645,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
   playerData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
   enemyData: {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
-  battleMusic: {fileID: 8300000, guid: 0be40cc3fe8cbc74d9465bb9b0839150, type: 3}
   battleBackground: {fileID: 21300000, guid: e323bf633e79f70429a77c794162b357, type: 3}
   battleSceneName: BattleScene
+  winSceneName: 
+  loseSceneName: 
   dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
+  replacementEffect: {fileID: 0}
+  nPCInteract: {fileID: 7635709396188405854}

@@ -7,7 +7,7 @@ public class DogGuard : MonoBehaviour
     private void Update()
     {
         foreach (var battle in battles)
-            if (!battle.defeated) return;
+            if (!battle.NPCInteract.isDefeated) return;
 
         gameObject.SetActive(false);
     }
