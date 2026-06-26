@@ -166,8 +166,10 @@ public class BattleManager : MonoBehaviour
 
         if (battleOver) yield break;
 
-        StatusEffects.NotifySpinCompleted(player);
+        // Read the effect BEFORE ticking statuses so that expiry (e.g. DuckedStatus
+        // restoring the wheel) cannot affect which effect resolves this spin.
         WheelSlotEffect effect = player.wheel.slots[confirmedIndex].effect;
+        StatusEffects.NotifySpinCompleted(player);
         PlayEffectSound(effect, player);
 
         yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.PlayerResolve));
@@ -218,8 +220,10 @@ public class BattleManager : MonoBehaviour
 
             if (battleOver) yield break;
 
-            StatusEffects.NotifySpinCompleted(enemy);
+            // Read the effect BEFORE ticking statuses so that expiry (e.g. DuckedStatus
+            // restoring the wheel) cannot affect which effect resolves this spin.
             WheelSlotEffect effect = enemy.wheel.slots[confirmedIndex].effect;
+            StatusEffects.NotifySpinCompleted(enemy);
             PlayEffectSound(effect, enemy);
 
             yield return StartCoroutine(SetStateAndPlayDialogue(BattleState.EnemyResolve));
@@ -277,6 +281,9 @@ public class BattleManager : MonoBehaviour
         if (battleAudio != null) battleAudio.StopWheelSpin();
         CurrentState = playerWon ? BattleState.Win : BattleState.Lose;
 
+        if (playerWon)
+            playerSourceData.GrantPermanentHP(1);
+
         if (IsActive.isInBattleCutscene)
             CheckDialogue(CurrentState);
 
@@ -301,6 +308,7 @@ public class BattleManager : MonoBehaviour
 
     public Combatant GetPlayer() => player;
     public Combatant GetEnemy() => enemy;
+    public BattleCanvas BattleCanvasRef => battleCanvas;
 
     public void ApplyEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
         => ResolveEffect(effect, attacker, defender);
@@ -323,6 +331,13 @@ public class BattleManager : MonoBehaviour
 
     public void ApplyDamage(Combatant attacker, Combatant defender, int rawDamage)
     {
+        if (StatusEffects.Has<EvadeStatus>(defender))
+        {
+            StatusEffects.Remove(defender, StatusEffects.Get<EvadeStatus>(defender));
+            Announce($"{defender.displayName} evades the attack!");
+            return;
+        }
+
         if (pendingDeflects.Contains(defender))
         {
             pendingDeflects.Remove(defender);

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b968bc72742be8a448f6a0cabf0ae414, type: 3}
   m_Name: Twins Wheel
   m_EditorClassIdentifier: Assembly-CSharp::Wheel
-  backgroundSprite: {fileID: 0}
-  overlaySprite: {fileID: 0}
+  backgroundSprite: {fileID: 21300000, guid: 75f96d0a55cfd004ebafb983351ce306, type: 3}
   slots:
   - effect: {fileID: 11400000, guid: ed3e1603100e30648881c178e308a2fa, type: 2}
     weight: 5
@@ -24,7 +23,7 @@ MonoBehaviour:
   - effect: {fileID: 11400000, guid: ed3e1603100e30648881c178e308a2fa, type: 2}
     weight: 5
     sliceSprite: {fileID: 0}
-  - effect: {fileID: 11400000, guid: 9e6696c6e7e3a7149a1db87eaf4a7fae, type: 2}
+  - effect: {fileID: 11400000, guid: 446030bb5bfa5464daac0a02d391388b, type: 2}
     weight: 5
     sliceSprite: {fileID: 0}
   - effect: {fileID: 11400000, guid: ed3e1603100e30648881c178e308a2fa, type: 2}
@@ -33,4 +32,4 @@ MonoBehaviour:
   - effect: {fileID: 11400000, guid: 446030bb5bfa5464daac0a02d391388b, type: 2}
     weight: 5
     sliceSprite: {fileID: 0}
-  spinCooldown: 2
+  spinCooldown: 1.5

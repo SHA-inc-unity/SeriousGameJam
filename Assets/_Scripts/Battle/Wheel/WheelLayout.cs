@@ -21,7 +21,6 @@ public static class WheelLayout
         float iconDistanceFromCenter, float iconSizeRatio, float slotZeroOffsetDegrees)
     {
         CreateImage("Base", parent, wheel.backgroundSprite, wheelSize);
-        CreateImage("SliceOverlay", parent, wheel.overlaySprite, wheelSize);
 
         float iconDist   = wheelSize * iconDistanceFromCenter;
         float iconSizePx = wheelSize * iconSizeRatio;

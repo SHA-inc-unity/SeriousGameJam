@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b968bc72742be8a448f6a0cabf0ae414, type: 3}
+  m_Name: Dog Wheel
+  m_EditorClassIdentifier: Assembly-CSharp::Wheel
+  backgroundSprite: {fileID: 21300000, guid: b7065cf20c25e7b409c57e2511339559, type: 3}
+  slots:
+  - effect: {fileID: 11400000, guid: 06a89f776491ff545b28332aad1fa152, type: 2}
+    weight: 10
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: 862b5fa804f90eb4784174f1c8757fde, type: 2}
+    weight: 10
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: a00c54a02ee7bbe4985bd6c7e69ab5aa, type: 2}
+    weight: 10
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: 862b5fa804f90eb4784174f1c8757fde, type: 2}
+    weight: 10
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: a00c54a02ee7bbe4985bd6c7e69ab5aa, type: 2}
+    weight: 10
+    sliceSprite: {fileID: 0}
+  - effect: {fileID: 11400000, guid: 862b5fa804f90eb4784174f1c8757fde, type: 2}
+    weight: 10
+    sliceSprite: {fileID: 0}
+  spinCooldown: 1.5
