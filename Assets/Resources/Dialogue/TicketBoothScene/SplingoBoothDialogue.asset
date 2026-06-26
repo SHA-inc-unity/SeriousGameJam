@@ -45,9 +45,6 @@ MonoBehaviour:
   - who: Sirius
     text: Prepare to feel my unrelenting fury, knave!!
     voice: {fileID: 0}
-    answers:
-    - text: A
-      nextDialogue: {fileID: 0}
-      goToBattle: 1
+    answers: []
   triggerBattleOnEnd: 1
-  canRepeat: 1
+  canRepeat: 0
