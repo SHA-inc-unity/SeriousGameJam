@@ -7,21 +7,18 @@ public class DialogueSystemBattle : DialogueSystemBase
 {
     [SerializeField] private GameObject heroObj;
     [SerializeField] private TMP_Text heroText;
-    [SerializeField] private TMP_Text heroNameField;
     [SerializeField] private GameObject enemyObj;
     [SerializeField] private TMP_Text enemyText;
-    [SerializeField] private TMP_Text enemyNameField;
     [SerializeField] private float charDelay = 0.03f;
     [SerializeField] private float timeToReadDelay = 1f;
 
     protected override float charDelayValue { get => charDelay; }
 
-    public bool IsBattleStepActive { get => battleStepRoutine != null; }
+    public bool IsBattleStepActive { get => playRoutine != null; }
 
-    private List<BattleDialogueLine> valuesInBattle;
-    private BattleState nextBattleState;
-    private int n = 0;
-    private Coroutine battleStepRoutine = null;
+    private List<BattleDialogueLine> lines;
+    private int queueIndex;
+    private Coroutine playRoutine = null;
 
     public static DialogueSystemBattle Instance { get; private set; }
 
@@ -34,86 +31,87 @@ public class DialogueSystemBattle : DialogueSystemBase
         }
         Instance = this;
 
-        heroNameField.text = heroNameStr;
-
         heroObj.SetActive(false);
         enemyObj.SetActive(false);
     }
 
     public void StartDialogue(BattleDialogueHolder battleDialogue)
     {
-        valuesInBattle = battleDialogue.GetDialogueLines();
-
-        SetEnemyName();
+        lines = battleDialogue.GetDialogueLines();
+        queueIndex = 0;
 
         IsActive.isInDialogue = true;
-        n = 0;
 
-        nextBattleState = valuesInBattle[0].nextBattleState;
-        TriggerPlayDialogue(BattleState.Null);
+        TryAdvanceQueue();
     }
 
-    private void SetEnemyName()
+    public bool TriggerByState(BattleState state)
     {
-        foreach (var line in valuesInBattle)
-        {
-            if (line.who != heroNameStr)
-            {
-                enemyNameField.text = line.who;
-                return;
-            }
-        }
-    }
+        if (queueIndex >= lines.Count) return IsActive.isInDialogue;
+        if (playRoutine != null) return IsActive.isInDialogue;
 
-    public bool TriggerPlayDialogue(BattleState battleState)
-    {
-        if (nextBattleState == battleState)
-        {
-            if (battleStepRoutine != null) StopCoroutine(battleStepRoutine);
-            battleStepRoutine = StartCoroutine(PlayBattleSteps());
-        }
+        BattleDialogueLine head = lines[queueIndex];
+
+        if (head.nextWheelEffect == null && head.nextBattleState == state && state != BattleState.Null)
+            PlayFromHead();
 
         return IsActive.isInDialogue;
     }
 
-    private IEnumerator PlayBattleSteps()
+    public bool TriggerByEffect(WheelSlotEffect effect)
+    {
+        if (queueIndex >= lines.Count) return IsActive.isInDialogue;
+        if (playRoutine != null) return IsActive.isInDialogue;
+
+        BattleDialogueLine head = lines[queueIndex];
+
+        if (head.nextWheelEffect != null && head.nextWheelEffect == effect)
+            PlayFromHead();
+
+        return IsActive.isInDialogue;
+    }
+
+    private void PlayFromHead()
+    {
+        if (playRoutine != null) StopCoroutine(playRoutine);
+        playRoutine = StartCoroutine(PlayHeadThenNulls());
+    }
+
+    private IEnumerator PlayHeadThenNulls()
     {
         do
         {
-            PlayNextBattleDialogue();
+            PlayLine(queueIndex);
+            queueIndex++;
 
             yield return new WaitUntil(() => typingRoutine == null);
-
-            if (n < valuesInBattle.Count) nextBattleState = valuesInBattle[n].nextBattleState;
-
             yield return new WaitForSeconds(timeToReadDelay);
         }
-        while (nextBattleState == BattleState.Null && IsActive.isInDialogue);
+        while (queueIndex < lines.Count && IsConditionless(lines[queueIndex]) && IsActive.isInDialogue);
 
         heroObj.SetActive(false);
         enemyObj.SetActive(false);
 
-        battleStepRoutine = null;
-    }
-
-    private void PlayNextBattleDialogue()
-    {
-        if (n < valuesInBattle.Count)
-        {
-            PlayBattleDialogue(n);
-            n++;
-        }
-        else
-        {
+        if (queueIndex >= lines.Count)
             IsActive.isInDialogue = false;
-            heroObj.SetActive(false);
-            enemyObj.SetActive(false);
-        }
+
+        playRoutine = null;
     }
 
-    private void PlayBattleDialogue(int n)
+    private void TryAdvanceQueue()
     {
-        var line = valuesInBattle[n];
+        if (queueIndex < lines.Count && IsConditionless(lines[queueIndex]))
+            PlayFromHead();
+    }
+
+    private bool IsConditionless(BattleDialogueLine line)
+    {
+        return line.nextWheelEffect == null && line.nextBattleState == BattleState.Null;
+    }
+
+    private void PlayLine(int index)
+    {
+        var line = lines[index];
 
         bool isHero = (line.who == heroNameStr);
 

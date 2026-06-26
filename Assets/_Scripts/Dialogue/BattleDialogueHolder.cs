@@ -10,8 +10,11 @@ public struct BattleDialogueLine
 
     public AudioClip voice;
 
+    [Header("Chouse Only one or null")]
     [SerializeField]
     public BattleState nextBattleState;
+    [SerializeField]
+    public WheelSlotEffect nextWheelEffect;
 }
 
 [CreateAssetMenu(fileName = "BattleDialogue", menuName = "Dialogue/BattleDialogueHolder")]
