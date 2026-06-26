@@ -11,10 +11,10 @@ using UnityEngine;
 /// </summary>
 public class WheelSpinUI : MonoBehaviour
 {
-    [Range(0.5f, 5f)] public float spinDuration   = 2.5f;
-    [Range(1, 8)]     public int   extraFullSpins = 4;
-    public AnimationCurve easeCurve                = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    public float slotZeroOffsetDegrees             = 0f;
+    [Range(0.5f, 5f)] public float spinDuration = 2.5f;
+    [Range(1, 8)] public int extraFullSpins = 4;
+    public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    public float slotZeroOffsetDegrees = 0f;
     public float scale = 2.4f;
 
     [Tooltip("Angle in degrees used only to choose which way to spin toward at the start " +
@@ -25,6 +25,8 @@ public class WheelSpinUI : MonoBehaviour
     [Tooltip("The pointer marker in the scene. Whichever icon ends up closest to this " +
              "Transform when the spin stops is the winning slot.")]
     public Transform pointerTransform;
+    public List<AudioClip> pegSounds;
+    public BattleAudio battleAudio;
 
     private RectTransform rect;
     private bool isSpinning;
@@ -38,9 +40,9 @@ public class WheelSpinUI : MonoBehaviour
 
     public void Init(RectTransform rootRect, Transform pointer)
     {
-        rect             = rootRect;
+        rect = rootRect;
         pointerTransform = pointer;
-        currentAngle     = 0f;
+        currentAngle = 0f;
         gameObject.transform.localScale = new Vector3(scale, scale, scale);
     }
 
@@ -68,33 +70,45 @@ public class WheelSpinUI : MonoBehaviour
     {
         isSpinning = true;
 
-        float duration       = durationOverride > 0f ? durationOverride : spinDuration;
+        float duration = durationOverride > 0f ? durationOverride : spinDuration;
         float degreesPerSlot = 360f / slotCount;
 
         // This is only the spin's AIM, to pick a direction/target to rotate toward. The
         // actual reported winner is measured below from real icon positions, so the result
         // always matches what's drawn on screen regardless of how accurate this aim is.
-        float slotCurrentAngle             = 90f + slotZeroOffsetDegrees - (winningIndex * degreesPerSlot);
+        float slotCurrentAngle = 90f + slotZeroOffsetDegrees - (winningIndex * degreesPerSlot);
         float targetAngleWithinOneRotation = (slotCurrentAngle - pointerAngle + 720f) % 360f;
 
-        float startAngle    = currentAngle;
+        float startAngle = currentAngle;
         float totalRotation = (extraFullSpins * 360f) + targetAngleWithinOneRotation;
-        float endAngle      = startAngle + totalRotation;
+        float endAngle = startAngle + totalRotation;
 
         float elapsed = 0f;
+
+        // Track how many slot boundaries we've crossed
+        int lastSlotIndex = Mathf.FloorToInt(startAngle / degreesPerSlot);
+        int pegSoundsIndex = 0; // alternates between 0 and 1
+
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float t      = Mathf.Clamp01(elapsed / duration);
+            float t = Mathf.Clamp01(elapsed / duration);
             float easedT = easeCurve.Evaluate(t);
-            currentAngle          = Mathf.Lerp(startAngle, endAngle, easedT);
+            currentAngle = Mathf.Lerp(startAngle, endAngle, easedT);
             rect.localEulerAngles = new Vector3(0f, 0f, -currentAngle);
+            int currentSlotIndex = Mathf.FloorToInt(currentAngle / degreesPerSlot);
+            if (currentSlotIndex != lastSlotIndex)
+            {
+                battleAudio.PlayClip(pegSounds[pegSoundsIndex]);
+                pegSoundsIndex = 1 - pegSoundsIndex;
+                lastSlotIndex = currentSlotIndex;
+            }
             yield return null;
         }
 
-        currentAngle           = endAngle;
-        rect.localEulerAngles  = new Vector3(0f, 0f, -currentAngle);
-        isSpinning             = false;
+        currentAngle = endAngle;
+        rect.localEulerAngles = new Vector3(0f, 0f, -currentAngle);
+        isSpinning = false;
 
         int actualWinningIndex = ReadWinnerFromClosestIcon(winningIndex);
         onComplete?.Invoke(actualWinningIndex);
@@ -119,8 +133,8 @@ public class WheelSpinUI : MonoBehaviour
             return fallbackIndex;
         }
 
-        int   closestIndex = fallbackIndex;
-        float closestDist  = float.MaxValue;
+        int closestIndex = fallbackIndex;
+        float closestDist = float.MaxValue;
 
         for (int i = 0; i < slotIcons.Count; i++)
         {
@@ -129,7 +143,7 @@ public class WheelSpinUI : MonoBehaviour
             float dist = Vector3.Distance(slotIcons[i].position, pointerTransform.position);
             if (dist < closestDist)
             {
-                closestDist  = dist;
+                closestDist = dist;
                 closestIndex = i;
             }
         }

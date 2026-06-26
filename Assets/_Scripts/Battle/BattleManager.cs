@@ -1,7 +1,7 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BattleManager : MonoBehaviour
 {
@@ -155,6 +155,7 @@ public class BattleManager : MonoBehaviour
         int confirmedIndex = intendedIndex;
         float duration = player.wheel.spinCooldown * spinDurationMultipliers[player];
 
+        if (battleAudio != null) battleAudio.StartWheelSpin(playerSounds);
         battleCanvas.PlayPlayerWheelSpin(intendedIndex, player.wheel.slots.Length, (resultIndex) =>
         {
             confirmedIndex = resultIndex;
@@ -206,6 +207,7 @@ public class BattleManager : MonoBehaviour
             int confirmedIndex = intendedIndex;
             float duration = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
 
+            if (battleAudio != null) battleAudio.StartWheelSpin(enemySounds);
             battleCanvas.PlayEnemyWheelSpin(intendedIndex, enemy.wheel.slots.Length, (resultIndex) =>
             {
                 confirmedIndex = resultIndex;

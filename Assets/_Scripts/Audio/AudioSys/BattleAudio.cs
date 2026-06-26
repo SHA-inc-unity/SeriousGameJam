@@ -37,9 +37,9 @@ public class BattleAudio : MonoBehaviour
         AudioClip clip = set.GetWheelSpinClip();
         if (clip == null) return;
 
-        source.loop = true;
-        source.clip = clip;
-        source.Play();
+        //source.loop = true;
+        //source.clip = clip;
+        source.PlayOneShot(clip);
     }
 
     public void StopWheelSpin()
