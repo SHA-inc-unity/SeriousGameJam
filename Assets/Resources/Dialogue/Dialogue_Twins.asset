@@ -36,9 +36,6 @@ MonoBehaviour:
   - who: Bangle
     text: "Hehehe! We\u2019ll give it to ya!"
     voice: {fileID: 8300000, guid: 129e798f162849741bb11e118a229b90, type: 3}
-    answers:
-    - text: aaa
-      nextDialogue: {fileID: 0}
-      goToBattle: 1
-  triggerBattleOnEnd: 0
+    answers: []
+  triggerBattleOnEnd: 1
   canRepeat: 1

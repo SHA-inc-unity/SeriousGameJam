@@ -251,6 +251,10 @@ PrefabInstance:
       propertyPath: holder
       value: 
       objectReference: {fileID: 11400000, guid: 8104996aa2664434096d59637a3115f9, type: 2}
+    - target: {fileID: 562115905687678195, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+      propertyPath: npcName
+      value: Gamez
+      objectReference: {fileID: 0}
     - target: {fileID: 642261305383768808, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
       propertyPath: 'sr.Array.data[0]'
       value: 
@@ -353,7 +357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
   playerData: {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
   enemyData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
-  battleMusic: {fileID: 8300000, guid: 8ad69ae8b24d9a7448fe217fa601f04d, type: 3}
   battleBackground: {fileID: 21300000, guid: f89342ac528c04941a1c4aba4492846f, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
+  replacementEffect: {fileID: 0}
+  defeated: 0

@@ -260,15 +260,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6156147776680738707}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d752805a0f8b81e469b7a3527e64f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthSorter
   sr:
-  - {fileID: 3767877143124171901}
-  - {fileID: 5444118198991308217}
-  - {fileID: 5796822456749937551}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   precision: 100
 --- !u!65 &5345086193237761989
 BoxCollider:
@@ -289,8 +289,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.52246094, y: 0.56444895, z: 0.5446987}
-  m_Center: {x: 0.0040245056, y: -0.21777552, z: -0.22765064}
+  m_Size: {x: 5.137724, y: 3.759336, z: 2.6925106}
+  m_Center: {x: 0.4282236, y: 1.379668, z: -1.3015566}
 --- !u!114 &562115905687678195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +303,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
+  holder: {fileID: 0}
+  forwardHelperDistance: 1.5
   npcName: Caroline
+  NPCBooth: {fileID: 0}
+  NPC: {fileID: 0}
+  ObjectStates: []
+  isDefeated: 0
 --- !u!1 &8434037739850758135
 GameObject:
   m_ObjectHideFlags: 0
