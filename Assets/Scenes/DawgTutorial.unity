@@ -1240,6 +1240,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: f89342ac528c04941a1c4aba4492846f, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!114 &452156894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,12 +1273,12 @@ MonoBehaviour:
   holder: {fileID: 11400000, guid: bb0dfc1e0db103642be3a3c6d13b59d9, type: 2}
   forwardHelperDistance: 1.5
   npcName: Caroline
-  isDefeated: 0
   NPCBooth: {fileID: 384873212}
   NPC: {fileID: 532090083}
   ObjectStates:
   - {fileID: 21300000, guid: 6ba47e8f008a9f7468ee1047507a9a06, type: 3}
   - {fileID: 21300000, guid: 74c5f6ed2c385c041b0d988ed47d2d69, type: 3}
+  isDefeated: 0
 --- !u!65 &452156896
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1652,7 +1654,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1665,13 +1667,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704927209}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ba8b1f8d3a28264cab05daaa5985920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  nextSceneName: 
-  tpPos: {fileID: 0}
+  nextSceneName: MainOverWorld
+  tpPos: {fileID: 2144748114}
+  doorKeepers:
+  - {fileID: 452156895}
 --- !u!1 &704943646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2163,7 +2167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5522257857946445647, guid: d3323144c054b9540a7f8826218d7882, type: 3}
       propertyPath: m_fontSize
-      value: 54.5
+      value: 48.7
       objectReference: {fileID: 0}
     - target: {fileID: 5829014676194679164, guid: d3323144c054b9540a7f8826218d7882, type: 3}
       propertyPath: m_Name
@@ -2275,7 +2279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8803997520410135810, guid: d3323144c054b9540a7f8826218d7882, type: 3}
       propertyPath: m_fontSize
-      value: 54.5
+      value: 48.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
