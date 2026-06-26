@@ -532,6 +532,8 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: e323bf633e79f70429a77c794162b357, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!114 &237619872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,10 +549,10 @@ MonoBehaviour:
   holder: {fileID: 0}
   forwardHelperDistance: 1.5
   npcName: Otter
-  isDefeated: 0
   NPCBooth: {fileID: 0}
   NPC: {fileID: 0}
   ObjectStates: []
+  isDefeated: 0
 --- !u!1 &249231584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,6 +1499,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
   m_PrefabInstance: {fileID: 1022855360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1044512499
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1678116951}
+    m_Modifications:
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352852531590269147, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+      propertyPath: m_Name
+      value: Invisible walls (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+--- !u!4 &1044512500 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3236091154228399722, guid: 17e46ad7be7d9e74bb8d5eaf2f163f00, type: 3}
+  m_PrefabInstance: {fileID: 1044512499}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1047720711
 GameObject:
@@ -3061,6 +3125,7 @@ Transform:
   - {fileID: 237619869}
   - {fileID: 1459382471}
   - {fileID: 2048099746}
+  - {fileID: 1044512500}
   - {fileID: 392403322}
   - {fileID: 1657247018}
   - {fileID: 136112381}
@@ -3516,7 +3581,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2048099746
 Transform:
   m_ObjectHideFlags: 0
@@ -3622,8 +3687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba8b1f8d3a28264cab05daaa5985920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  nextSceneName: InDoorScene
+  nextSceneName: MainOverWorld
   tpPos: {fileID: 4932060260128177606}
+  doorKeepers:
+  - {fileID: 237619872}
 --- !u!1 &1820669631270203955
 GameObject:
   m_ObjectHideFlags: 0
