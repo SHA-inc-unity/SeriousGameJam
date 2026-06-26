@@ -224,9 +224,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 30585466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-m_Script: {fileID: 11500000, guid: 1af2ed2228997ab4cb60b3c05cc06234, type: 3}
+  m_Script: {fileID: 11500000, guid: 1af2ed2228997ab4cb60b3c05cc06234, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Doorkeeper
+  m_EditorClassIdentifier: 
   door: {fileID: 6572030503178466967}
   goOff: {fileID: 1059347574}
   moveDuration: 1
