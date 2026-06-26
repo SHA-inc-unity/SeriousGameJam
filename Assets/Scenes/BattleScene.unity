@@ -765,11 +765,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5236442320000035710, guid: d3323144c054b9540a7f8826218d7882, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5829014676194679164, guid: d3323144c054b9540a7f8826218d7882, type: 3}
       propertyPath: m_Name
       value: DialogueSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5829014676194679164, guid: d3323144c054b9540a7f8826218d7882, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6398872888596557736, guid: d3323144c054b9540a7f8826218d7882, type: 3}
       propertyPath: m_AnchorMax.y
@@ -993,6 +997,8 @@ MonoBehaviour:
   testEnemyData: {fileID: 0}
   spinDelaySeconds: 2
   endBattleDelaySeconds: 2
+  wheelSpinDuration: 3
+  enemyTurnEndPause: 3
   overworldSceneName: OverWorld
   playerSpinKey: 1
   battleCanvas: {fileID: 363946008}
