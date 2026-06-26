@@ -17,9 +17,6 @@ public class Wheel : ScriptableObject
     [Header("Visual")]
     [Tooltip("The base wheel background. Spins together with the slices.")]
     public Sprite backgroundSprite;
-    
-    [Tooltip("The black and white slice divider, drawn on top of the base.")]
-    public Sprite overlaySprite;
 
     public int slotCount => slots != null ? slots.Length : 0;
 

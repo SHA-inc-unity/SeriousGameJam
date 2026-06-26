@@ -129,4 +129,10 @@ public class BattleCanvas : MonoBehaviour
 
     public void PlayEnemyWheelSpin(int winningIndex, int slotCount, System.Action<int> onComplete, float durationOverride = -1f)
         => enemyWheel.PlaySpin(winningIndex, slotCount, onComplete, durationOverride);
+
+    // Re-skins a wheel's icons in place to match its current slots (e.g. after a status
+    // effect mutates the underlying Wheel asset's slots, like DuckedStatus). Does not
+    // rebuild, reposition, or reparent anything, so it's safe to call mid-battle.
+    public void RefreshPlayerWheelSprites(Wheel wheel) => playerWheel?.RefreshSlotSprites(wheel);
+    public void RefreshEnemyWheelSprites(Wheel wheel) => enemyWheel?.RefreshSlotSprites(wheel);
 }

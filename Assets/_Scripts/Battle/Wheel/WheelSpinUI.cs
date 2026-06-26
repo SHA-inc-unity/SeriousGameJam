@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Spins the wheel, then determines the winning slot by finding which icon is physically
@@ -54,6 +55,37 @@ public class WheelSpinUI : MonoBehaviour
     public void RegisterSlotIcons(List<RectTransform> icons)
     {
         slotIcons = icons;
+    }
+
+    /// <summary>
+    /// Re-skins the already-built icons to match wheel.slots[i].sliceSprite, in place.
+    /// Does not touch rotation, spin state, or icon layout/parenting - only swaps each
+    /// icon's displayed sprite. Safe to call mid-battle (e.g. when a status effect
+    /// temporarily reskins a wheel) since it never rebuilds or destroys anything, and
+    /// has no effect on IsSpinning or any in-flight spin coroutine.
+    /// </summary>
+    public void RefreshSlotSprites(Wheel wheel)
+    {
+        if (wheel == null || wheel.slots == null) return;
+
+        for (int i = 0; i < slotIcons.Count && i < wheel.slots.Length; i++)
+        {
+            if (slotIcons[i] == null) continue;
+
+            Image img = slotIcons[i].GetComponent<Image>();
+            if (img == null) img = slotIcons[i].GetComponentInChildren<Image>();
+
+            if (img != null)
+            {
+                var slot = wheel.slots[i];
+                // Prefer the slot's own sprite override; fall back to the effect's sprite.
+                // This matters on restore: original slots store their sprite on the effect,
+                // not on the struct, so slot.sliceSprite would be null without this fallback.
+                img.sprite = slot.sliceSprite != null ? slot.sliceSprite : slot.effect?.sliceSprite;
+            }
+            else
+                Debug.LogWarning($"WheelSpinUI: slot icon {i} has no Image component to refresh.");
+        }
     }
 
     public void PlaySpin(int winningIndex, int slotCount, System.Action<int> onComplete = null, float durationOverride = -1f)
