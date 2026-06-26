@@ -15,7 +15,7 @@ public class BGMusicManager : MonoBehaviour
     [SerializeField] private string menuSceneName = "MainMenu";
 
     private AudioSource sourceA;
-    private AudioSource sourceB;
+    //private AudioSource sourceB;
     private AudioSource active;
 
     private MusicUsage currentMode = MusicUsage.None;
@@ -37,9 +37,9 @@ public class BGMusicManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         sourceA = GetComponent<AudioSource>();
-        sourceB = gameObject.AddComponent<AudioSource>();
+        //sourceB = gameObject.AddComponent<AudioSource>();
         ConfigureSource(sourceA);
-        ConfigureSource(sourceB);
+        //ConfigureSource(sourceB);
         active = sourceA;
     }
 
@@ -129,7 +129,7 @@ public class BGMusicManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"[Music] StartEntry: {entry.clip.name}. Stopping both sources. A.playing={sourceA.isPlaying}, B.playing={sourceB.isPlaying}");
+        //Debug.Log($"[Music] StartEntry: {entry.clip.name}. Stopping both sources. A.playing={sourceA.isPlaying}, B.playing={sourceB.isPlaying}");
 
         currentEntry = entry;
         hasEntry = true;
@@ -137,7 +137,7 @@ public class BGMusicManager : MonoBehaviour
         if (loopRoutine != null) StopCoroutine(loopRoutine);
 
         sourceA.Stop();
-        sourceB.Stop();
+        //sourceB.Stop();
         active = sourceA;
 
         loopRoutine = StartCoroutine(PlayWithSeamlessLoop(entry));
@@ -169,7 +169,8 @@ public class BGMusicManager : MonoBehaviour
             yield return new WaitUntil(() =>
                 !current.isPlaying || current.time >= entry.loopMarker);
 
-            AudioSource next = (current == sourceA) ? sourceB : sourceA;
+            //AudioSource next = (current == sourceA) ? sourceB : sourceA;
+            AudioSource next = sourceA;
 
             Debug.Log($"[Music] LOOP SWITCH at time={current.time:F2}. {(current == sourceA ? "A" : "B")}→{(next == sourceA ? "A" : "B")}");
 
