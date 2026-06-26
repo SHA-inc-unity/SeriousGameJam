@@ -10,10 +10,6 @@ public class Door : MonoBehaviour
     private Transform tpPos;
     [SerializeField]
     private List<NPCInteract> doorKeepers;
-    [SerializeField]
-    private Sprite openDoor;
-    [SerializeField]
-    private GameObject doorImg;
 
     private bool isOpen = false;
 
@@ -55,7 +51,6 @@ public class Door : MonoBehaviour
 
         if(x == 0)
         {
-            doorImg.GetComponent<SpriteRenderer>().sprite = openDoor;
             isOpen = true;
         }
     }
