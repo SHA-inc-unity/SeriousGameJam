@@ -251,17 +251,9 @@ PrefabInstance:
       propertyPath: holder
       value: 
       objectReference: {fileID: 11400000, guid: cd54668b1d63f58449d1108ceb65f64c, type: 2}
-    - target: {fileID: 642261305383768808, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
-      propertyPath: 'sr.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 642261305383768808, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
-      propertyPath: 'sr.Array.data[1]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 642261305383768808, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
-      propertyPath: 'sr.Array.data[2]'
-      value: 
+    - target: {fileID: 562115905687678195, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
+      propertyPath: npcName
+      value: Duckles
       objectReference: {fileID: 0}
     - target: {fileID: 6156147776680738707, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
       propertyPath: m_Name
@@ -343,10 +335,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
   playerData: {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
   enemyData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
-  battleMusic: {fileID: 8300000, guid: 8ad69ae8b24d9a7448fe217fa601f04d, type: 3}
   battleBackground: {fileID: 21300000, guid: 979de2a52332da4468cc7d043811cd31, type: 3}
   battleSceneName: BattleScene
   dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
+  replacementEffect: {fileID: 0}
+  defeated: 0
 --- !u!4 &2912019722246223998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8598425607683297141, guid: 6fd59e04e090df047b8bed4b8363d192, type: 3}
