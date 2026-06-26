@@ -36,6 +36,9 @@ MonoBehaviour:
   - who: Duckles
     text: "Just go with the flow, I\u2019m sure you fit the bill!"
     voice: {fileID: 8300000, guid: e51176435b30d4145b6ad945d573b88b, type: 3}
-    answers: []
+    answers:
+    - text: BATTLE!!!!
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
   triggerBattleOnEnd: 1
   canRepeat: 1

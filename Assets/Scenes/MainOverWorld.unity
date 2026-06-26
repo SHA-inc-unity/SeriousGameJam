@@ -224,12 +224,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 30585466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1af2ed2228997ab4cb60b3c05cc06234, type: 3}
+  m_Script: {fileID: 11500000, guid: 10ec8dad2481d354f8b080f3b851f278, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  door: {fileID: 6572030503178466967}
-  goOff: {fileID: 1059347574}
-  moveDuration: 1
+  m_EditorClassIdentifier: Assembly-CSharp::DogGuard
+  battles:
+  - {fileID: 775057823}
+  - {fileID: 358820246}
+  - {fileID: 1586059521}
 --- !u!4 &42797186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5816983714487296470, guid: 5467a22081a5c5341aaec68568f7ad33, type: 3}
@@ -632,6 +633,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 676338042}
     m_Modifications:
     - target: {fileID: 208519658577931757, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 375830ad38bc9144bb8be2f40f3064bc, type: 2}
+    - target: {fileID: 208519658577931757, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+    - target: {fileID: 208519658577931757, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
       propertyPath: winSceneName
       value: MainOverWorld
       objectReference: {fileID: 0}
@@ -639,6 +648,10 @@ PrefabInstance:
       propertyPath: loseSceneName
       value: MainOverWorld
       objectReference: {fileID: 0}
+    - target: {fileID: 208519658577931757, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: replacementEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 4198f3db834b8a3458e1e3e41c70fbf8, type: 2}
     - target: {fileID: 6623060687806188579, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.26
@@ -688,6 +701,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+--- !u!114 &358820246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 208519658577931757, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+  m_PrefabInstance: {fileID: 358820245}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
 --- !u!1 &370308547
 GameObject:
   m_ObjectHideFlags: 0
@@ -1541,6 +1565,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4382902087258439377, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ee46b842cbc2b947a899d9f4bc15298, type: 2}
+    - target: {fileID: 4382902087258439377, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+    - target: {fileID: 4382902087258439377, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
       propertyPath: winSceneName
       value: MainOverWorld
       objectReference: {fileID: 0}
@@ -1548,11 +1580,26 @@ PrefabInstance:
       propertyPath: loseSceneName
       value: MainOverWorld
       objectReference: {fileID: 0}
+    - target: {fileID: 4382902087258439377, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: replacementEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 72ad8cd86d3900b42b334313e497c3e4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+--- !u!114 &775057823 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4382902087258439377, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+  m_PrefabInstance: {fileID: 775057822}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
 --- !u!4 &820531522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
@@ -3171,6 +3218,14 @@ PrefabInstance:
       value: NPC_Twins
       objectReference: {fileID: 0}
     - target: {fileID: 8214541384736550744, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ae2ed4c70e6fac4c90240623532d326, type: 2}
+    - target: {fileID: 8214541384736550744, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+    - target: {fileID: 8214541384736550744, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
       propertyPath: winSceneName
       value: MainOverWorld
       objectReference: {fileID: 0}
@@ -3178,6 +3233,10 @@ PrefabInstance:
       propertyPath: loseSceneName
       value: MainOverWorld
       objectReference: {fileID: 0}
+    - target: {fileID: 8214541384736550744, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: replacementEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: e23117344c581ec4cbacf2c541c5fd5c, type: 2}
     - target: {fileID: 8812482516416562430, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.12
@@ -3223,6 +3282,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+--- !u!114 &1586059521 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8214541384736550744, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+  m_PrefabInstance: {fileID: 1586059520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
 --- !u!1 &1590069995
 GameObject:
   m_ObjectHideFlags: 0
@@ -4656,17 +4726,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
---- !u!114 &6572030503178466967 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5513936443861147377, guid: b6146b4a820b1b344addec08d66b2934, type: 3}
-  m_PrefabInstance: {fileID: 2325200848097442523}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ba8b1f8d3a28264cab05daaa5985920, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
 --- !u!4 &7858830872927727042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}

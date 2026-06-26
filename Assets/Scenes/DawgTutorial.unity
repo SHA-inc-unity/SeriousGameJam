@@ -1175,6 +1175,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7935340265798125274, guid: 6980907ceafb1c14fb8b229ce07f6a74, type: 3}
+      propertyPath: winSceneName
+      value: MainOverWorld
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935340265798125274, guid: 6980907ceafb1c14fb8b229ce07f6a74, type: 3}
+      propertyPath: loseSceneName
+      value: DawgTutorial
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

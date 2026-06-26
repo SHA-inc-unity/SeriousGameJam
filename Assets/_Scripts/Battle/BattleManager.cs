@@ -35,6 +35,12 @@ public class BattleManager : MonoBehaviour
     private bool battleOver;
     private bool playerOnCooldown;
 
+    // Cached scene names and callbacks (must be stored before BattleSetup.Clear() is called)
+    private string winSceneName;
+    private string loseSceneName;
+    private System.Action onBattleWon;
+    private System.Action onBattleLost;
+
     private Dictionary<Combatant, int> pendingDamageReductions = new Dictionary<Combatant, int>();
     private HashSet<Combatant> pendingDeflects = new HashSet<Combatant>();
 
@@ -90,6 +96,12 @@ public class BattleManager : MonoBehaviour
 
         battleCanvas.InitPlayerHP(player.maxHP);
         battleCanvas.InitEnemyHP(enemy.maxHP);
+
+        // Cache scene names and callbacks BEFORE clearing BattleSetup
+        winSceneName = BattleSetup.WinSceneName;
+        loseSceneName = BattleSetup.LoseSceneName;
+        onBattleWon = BattleSetup.OnBattleWon;
+        onBattleLost = BattleSetup.OnBattleLost;
 
         BattleSetup.Clear();
 
@@ -258,13 +270,13 @@ public class BattleManager : MonoBehaviour
 
         if (playerWon)
         {
-            BattleSetup.OnBattleWon?.Invoke();
-            BattleSetup.OnBattleWon = null;
+            onBattleWon?.Invoke();
+            onBattleWon = null;
         }
         else
         {
-            BattleSetup.OnBattleLost?.Invoke();
-            BattleSetup.OnBattleLost = null;
+            onBattleLost?.Invoke();
+            onBattleLost = null;
         }
 
         if (playerWon && upgradeScreen != null && WheelUpgradeScreen.HasAnyUpgradeAvailable(playerSourceData))
@@ -365,8 +377,8 @@ public class BattleManager : MonoBehaviour
     private void ReturnToOverworld()
     {
         string scene = CurrentState == BattleState.Win
-            ? BattleSetup.WinSceneName
-            : BattleSetup.LoseSceneName;
+            ? winSceneName
+            : loseSceneName;
 
         if (string.IsNullOrEmpty(scene))
         {
