@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuButtonController
   continueBtn: {fileID: 857449941}
-  newGameSceneName: DawgTutorial
+  newGameSceneName: CinematicScene
 --- !u!1 &638209084
 GameObject:
   m_ObjectHideFlags: 0
