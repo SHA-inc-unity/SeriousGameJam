@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Greater Heal
   m_EditorClassIdentifier: Assembly-CSharp::BigHealEffect
   sliceSprite: {fileID: 21300000, guid: b6fce1c41f6d56d4f97557a6fceda62b, type: 3}
+  sliceSpriteScale: 1
+  priority: 1
+  upgradedVersion: {fileID: 0}
+  effectSounds: []
   healAmount: 2

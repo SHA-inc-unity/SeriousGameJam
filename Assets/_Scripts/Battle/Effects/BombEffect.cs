@@ -9,7 +9,7 @@ public class BombEffect : WheelSlotEffect
     [Tooltip("The effect that permanently replaces this bomb slot after it explodes.")]
     public WheelSlotEffect revealedEffect;
 
-    public override void Execute(Combatant attacker, Combatant defender, BattleManager battle)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battle, SpinResult spinResult)
     {
         // Self-damage
         attacker.TakeDamage(selfDamage);

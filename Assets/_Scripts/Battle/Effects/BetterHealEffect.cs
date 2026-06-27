@@ -6,7 +6,7 @@ public class BigHealEffect : WheelSlotEffect
     [Tooltip("Total HP restored. Anything beyond max HP becomes overhealth.")]
     public int healAmount = 2;
 
-    public override void Execute(Combatant attacker, Combatant defender, BattleManager battle)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battle, SpinResult spinResult)
     {
         attacker.HealWithOverhealth(healAmount);
         battle.NotifyHPChanged(attacker);

@@ -34,6 +34,7 @@ public class BattleManager : MonoBehaviour
 
     private bool battleOver;
     private bool playerOnCooldown;
+    private SpinResult currentSpinResult;
 
     // Cached scene names and callbacks (must be stored before BattleSetup.Clear() is called)
     private string winSceneName;
@@ -43,6 +44,7 @@ public class BattleManager : MonoBehaviour
 
     private Dictionary<Combatant, int> pendingDamageReductions = new Dictionary<Combatant, int>();
     private HashSet<Combatant> pendingDeflects = new HashSet<Combatant>();
+    private List<System.Action> pendingNextSpinEffects = new List<System.Action>();
 
     public StatusEffectManager StatusEffects { get; private set; }
     private Dictionary<Combatant, WheelSpinUI> combatantWheelUI = new Dictionary<Combatant, WheelSpinUI>();
@@ -108,8 +110,7 @@ public class BattleManager : MonoBehaviour
         CurrentState = BattleState.Intro;
         Announce($"{enemy.displayName} appears! Press {playerSpinKey} to spin!");
         CheckDialogueState(BattleState.Intro);
-
-        StartCoroutine(EnemyLoop());
+        StartCoroutine(DelayThen(1f, () => CurrentState = BattleState.PlayerTurn));
     }
 
     private void Update()
@@ -119,106 +120,144 @@ public class BattleManager : MonoBehaviour
         if (playerOnCooldown) return;
 
         if (Keyboard.current[playerSpinKey].wasPressedThisFrame)
-            StartCoroutine(PlayerSpin());
+            StartCoroutine(SimultaneousSpin());
     }
 
-    private IEnumerator PlayerSpin()
+    // Called by UI Button on the player's wheel
+    public void TryPlayerSpin()
+    {
+        if (battleOver) return;
+        if (CurrentState == BattleState.Intro) return;
+        if (playerOnCooldown) return;
+        StartCoroutine(SimultaneousSpin());
+    }
+
+    private IEnumerator SimultaneousSpin()
     {
         playerOnCooldown = true;
 
         CurrentState = BattleState.PlayerTurn;
         CheckDialogueState(BattleState.PlayerTurn);
 
-        if (stunnedCombatants.Contains(player))
+        // --- Determine intended slots for both combatants ---
+        bool playerStunned = stunnedCombatants.Contains(player);
+        bool enemyStunned = stunnedCombatants.Contains(enemy);
+
+        if (playerStunned) Announce($"{player.displayName} is stunned and can't spin!");
+        if (enemyStunned) Announce($"{enemy.displayName} is stunned and can't spin!");
+
+        ChooseIntendedSlot(player, out int playerIntended);
+        ChooseIntendedSlot(enemy, out int enemyIntended);
+
+        // --- Spin both wheels simultaneously ---
+        bool playerAnimDone = false;
+        bool enemyAnimDone = false;
+        int playerConfirmed = playerIntended;
+        int enemyConfirmed = enemyIntended;
+
+        // Pass -1f so WheelSpinUI uses its own spinDuration set on BattleCanvas.
+        // spinCooldown on the Wheel asset is only for the between-round pause, not animation length.
+        float playerDuration = -1f;
+        float enemyDuration = -1f;
+
+        if (!playerStunned)
         {
-            Announce($"{player.displayName} is stunned and can't spin!");
-            yield return new WaitForSeconds(1f);
-            playerOnCooldown = false;
-            yield break;
+            if (battleAudio != null) battleAudio.StartWheelSpin(playerSounds);
+            battleCanvas.PlayPlayerWheelSpin(playerIntended, player.wheel.slots.Length, (result) =>
+            {
+                playerConfirmed = result;
+                playerAnimDone = true;
+            }, playerDuration);
+        }
+        else
+        {
+            playerAnimDone = true;
         }
 
-        ChooseIntendedSlot(player, out int intendedIndex);
-
-        bool animDone = false;
-        int confirmedIndex = intendedIndex;
-        float duration = player.wheel.spinCooldown * spinDurationMultipliers[player];
-
-        if (battleAudio != null) battleAudio.StartWheelSpin(playerSounds);
-        battleCanvas.PlayPlayerWheelSpin(intendedIndex, player.wheel.slots.Length, (resultIndex) =>
+        if (!enemyStunned)
         {
-            confirmedIndex = resultIndex;
-            animDone = true;
-        }, duration);
+            if (battleAudio != null) battleAudio.StartWheelSpin(enemySounds);
+            battleCanvas.PlayEnemyWheelSpin(enemyIntended, enemy.wheel.slots.Length, (result) =>
+            {
+                enemyConfirmed = result;
+                enemyAnimDone = true;
+            }, enemyDuration);
+        }
+        else
+        {
+            enemyAnimDone = true;
+        }
 
-        yield return new WaitUntil(() => animDone);
+        // Wait for both wheels to finish
+        yield return new WaitUntil(() => playerAnimDone && enemyAnimDone);
 
         if (battleOver) yield break;
 
-        WheelSlotEffect effect = player.wheel.slots[confirmedIndex].effect;
+        // --- Collect effects ---
+        WheelSlotEffect playerEffect = playerStunned ? null : player.wheel.slots[playerConfirmed].effect;
+        WheelSlotEffect enemyEffect = enemyStunned ? null : enemy.wheel.slots[enemyConfirmed].effect;
+
+        currentSpinResult = new SpinResult { playerEffect = playerEffect, enemyEffect = enemyEffect };
+
         StatusEffects.NotifySpinCompleted(player);
-        PlayEffectSound(effect, player);
+        StatusEffects.NotifySpinCompleted(enemy);
+
+        if (!playerStunned) PlayEffectSound(playerEffect, player);
+        if (!enemyStunned) PlayEffectSound(enemyEffect, enemy);
 
         CurrentState = BattleState.PlayerResolve;
         CheckDialogueState(BattleState.PlayerResolve);
-        CheckDialogueEffect(effect);
 
-        ResolveEffect(effect, attacker: player, defender: enemy);
+        // --- Resolve in priority order (higher priority first, player wins ties) ---
+        bool playerGoesFirst = true;
+        if (playerEffect != null && enemyEffect != null)
+            playerGoesFirst = playerEffect.priority >= enemyEffect.priority;
+        else if (playerEffect == null)
+            playerGoesFirst = false;
 
-        if (CheckBattleOver()) yield break;
+        if (playerGoesFirst)
+        {
+            if (playerEffect != null)
+            {
+                CheckDialogueEffect(playerEffect);
+                ResolveEffect(playerEffect, attacker: player, defender: enemy);
+                if (CheckBattleOver()) yield break;
+            }
+            if (enemyEffect != null)
+            {
+                CheckDialogueEffect(enemyEffect);
+                ResolveEffect(enemyEffect, attacker: enemy, defender: player);
+                if (CheckBattleOver()) yield break;
+            }
+        }
+        else
+        {
+            if (enemyEffect != null)
+            {
+                CheckDialogueEffect(enemyEffect);
+                ResolveEffect(enemyEffect, attacker: enemy, defender: player);
+                if (CheckBattleOver()) yield break;
+            }
+            if (playerEffect != null)
+            {
+                CheckDialogueEffect(playerEffect);
+                ResolveEffect(playerEffect, attacker: player, defender: enemy);
+                if (CheckBattleOver()) yield break;
+            }
+        }
 
         yield return new WaitForSeconds(player.wheel.spinCooldown);
+
+        // Apply any effects that were queued to trigger at the START of the next spin
+        if (pendingNextSpinEffects.Count > 0)
+        {
+            foreach (var action in pendingNextSpinEffects)
+                action?.Invoke();
+            pendingNextSpinEffects.Clear();
+        }
+
         playerOnCooldown = false;
         Announce($"Press {playerSpinKey} to spin again!");
-    }
-
-    private IEnumerator EnemyLoop()
-    {
-        yield return new WaitForSeconds(enemy.wheel.spinCooldown);
-
-        while (!battleOver)
-        {
-            CurrentState = BattleState.EnemyTurn;
-            CheckDialogueState(BattleState.EnemyTurn);
-
-            if (stunnedCombatants.Contains(enemy))
-            {
-                Announce($"{enemy.displayName} is stunned and can't spin!");
-                yield return new WaitForSeconds(enemy.wheel.spinCooldown);
-                continue;
-            }
-
-            Announce($"{enemy.displayName} spins!");
-            ChooseIntendedSlot(enemy, out int intendedIndex);
-
-            bool animDone = false;
-            int confirmedIndex = intendedIndex;
-            float duration = enemy.wheel.spinCooldown * spinDurationMultipliers[enemy];
-
-            if (battleAudio != null) battleAudio.StartWheelSpin(enemySounds);
-            battleCanvas.PlayEnemyWheelSpin(intendedIndex, enemy.wheel.slots.Length, (resultIndex) =>
-            {
-                confirmedIndex = resultIndex;
-                animDone = true;
-            }, duration);
-
-            yield return new WaitUntil(() => animDone);
-
-            if (battleOver) yield break;
-
-            WheelSlotEffect effect = enemy.wheel.slots[confirmedIndex].effect;
-            StatusEffects.NotifySpinCompleted(enemy);
-            PlayEffectSound(effect, enemy);
-
-            CurrentState = BattleState.EnemyResolve;
-            CheckDialogueState(BattleState.EnemyResolve);
-            CheckDialogueEffect(effect);
-
-            ResolveEffect(effect, attacker: enemy, defender: player);
-
-            if (CheckBattleOver()) yield break;
-
-            yield return new WaitForSeconds(enemy.wheel.spinCooldown);
-        }
     }
 
     private void ChooseIntendedSlot(Combatant combatant, out int intendedIndex)
@@ -242,7 +281,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        effect.Execute(attacker, defender, this);
+        effect.Execute(attacker, defender, this, currentSpinResult);
     }
 
     private bool CheckBattleOver()
@@ -369,6 +408,13 @@ public class BattleManager : MonoBehaviour
 
     public bool HasPendingDeflect(Combatant combatant)
         => pendingDeflects.Contains(combatant);
+
+    /// <summary>
+    /// Queues an action to run at the start of the next spin (after the current one fully resolves).
+    /// Use this for effects like Duckify that should apply to the NEXT round, not the current one.
+    /// </summary>
+    public void QueueNextSpinEffect(System.Action action)
+        => pendingNextSpinEffects.Add(action);
 
     public void EndBattleImmediately(bool playerWon) => EndBattle(playerWon);
 

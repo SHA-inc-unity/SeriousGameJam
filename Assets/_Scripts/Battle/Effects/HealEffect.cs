@@ -6,7 +6,7 @@ public class HealEffect : WheelSlotEffect
     [Tooltip("Flat HP restored.")]
     public int healAmount = 1;
 
-    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager, SpinResult spinResult)
     {
         attacker.Heal(healAmount);
         battleManager.NotifyHPChanged(attacker);

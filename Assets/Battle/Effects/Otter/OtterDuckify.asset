@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: OtterDuckify
   m_EditorClassIdentifier: Assembly-CSharp::DuckifyEffect
   sliceSprite: {fileID: 0}
+  sliceSpriteScale: 1
+  priority: -1
   upgradedVersion: {fileID: 0}
   effectSounds:
   - {fileID: 8300000, guid: e51176435b30d4145b6ad945d573b88b, type: 3}

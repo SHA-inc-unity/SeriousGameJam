@@ -14,7 +14,7 @@ public class RandomEffect : WheelSlotEffect
     [Tooltip("Effects to randomly pick from, each with its own weight.")]
     public WeightedEffect[] effects;
 
-    public override void Execute(Combatant attacker, Combatant defender, BattleManager battle)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battle, SpinResult spinResult)
     {
         if (effects == null || effects.Length == 0)
         {
@@ -42,12 +42,12 @@ public class RandomEffect : WheelSlotEffect
             {
 
                 Debug.Log("Otter Random!");
-                e.effect?.Execute(attacker, defender, battle);
+                e.effect?.Execute(attacker, defender, battle, spinResult);
                 return;
             }
         }
 
         // Fallback (floating point edge case)
-        effects[effects.Length - 1].effect?.Execute(attacker, defender, battle);
+        effects[effects.Length - 1].effect?.Execute(attacker, defender, battle, spinResult);
     }
 }
