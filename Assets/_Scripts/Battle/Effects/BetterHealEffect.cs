@@ -13,5 +13,8 @@ public class BigHealEffect : WheelSlotEffect
         battle.Announce($"{attacker.displayName} heals for {healAmount}! " +
                         $"HP: {attacker.currentHP}/{attacker.maxHP} " +
                         $"(+{attacker.overhealth} overhealth)");
+
+        BattleAudio battleAudio = FindAnyObjectByType<BattleAudio>();
+        if (battleAudio && effectSounds.Count > 0) battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
     }
 }

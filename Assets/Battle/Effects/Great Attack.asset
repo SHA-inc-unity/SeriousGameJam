@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Great Attack
   m_EditorClassIdentifier: Assembly-CSharp::AttackEffect
   sliceSprite: {fileID: 21300000, guid: 473598b41fc65d541be1b3f93016258c, type: 3}
+  upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: d2c59561e2b1a3347914fea327ceecc6, type: 3}
   damage: 2

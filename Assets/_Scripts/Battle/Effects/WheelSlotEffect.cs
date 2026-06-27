@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Base class for "what happens when a wheel lands on this slot".
@@ -29,6 +30,8 @@ public abstract class WheelSlotEffect : ScriptableObject
              "upgrade screen. Leave empty if this effect has no upgrade (e.g. Miss). " +
              "Same pattern as BombEffect.revealedEffect - just generalized to every effect.")]
     public WheelSlotEffect upgradedVersion;
+
+    public List<AudioClip> effectSounds;
 
     public bool HasUpgrade => upgradedVersion != null;
 

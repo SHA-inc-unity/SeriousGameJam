@@ -17,6 +17,9 @@ public class BombEffect : WheelSlotEffect
         battle.Announce($"{attacker.displayName} triggered a bomb! Takes {selfDamage} self-damage. " +
                         $"HP: {attacker.currentHP}/{attacker.maxHP}");
 
+        BattleAudio battleAudio = FindAnyObjectByType<BattleAudio>();
+        if (battleAudio && effectSounds.Count > 0) battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
+
         // Replace this slot in the wheel with the revealed effect
         Wheel wheel = attacker.wheel;
         for (int i = 0; i < wheel.slots.Length; i++)

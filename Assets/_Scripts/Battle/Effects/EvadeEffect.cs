@@ -6,5 +6,7 @@ public class EvadeEffect : WheelSlotEffect
     public override void Execute(Combatant attacker, Combatant defender, BattleManager battle)
     {
         battle.StatusEffects.TryApply(attacker, new EvadeStatus());
+        BattleAudio battleAudio = FindAnyObjectByType<BattleAudio>();
+        if (battleAudio && effectSounds.Count > 0) battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
     }
 }

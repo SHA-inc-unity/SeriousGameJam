@@ -16,6 +16,9 @@ public class DuckifyEffect : WheelSlotEffect
 
         battle.Announce($"{attacker.displayName} turns {defender.displayName}'s wheel into ducks!");
 
+        BattleAudio battleAudio = FindAnyObjectByType<BattleAudio>();
+        if (battleAudio && effectSounds.Count > 0) battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
+
         bool defenderIsPlayer = defender == battle.GetPlayer();
         battle.StatusEffects.TryApply(
             defender,

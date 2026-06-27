@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DuckifyEffect
   sliceSprite: {fileID: 21300000, guid: 91f783e2c0c781643bf0c705358073fa, type: 3}
   upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: e51176435b30d4145b6ad945d573b88b, type: 3}
   duckEffect: {fileID: 11400000, guid: dde819464815dda4c96caf4f6983a063, type: 2}

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackEffect
   sliceSprite: {fileID: 21300000, guid: fd543336228d7384085972f24693b664, type: 3}
   upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: 6e62f7df0a9670c429ebd0d6d55e64da, type: 3}
   damage: 2

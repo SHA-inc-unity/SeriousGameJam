@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: Miss
   m_EditorClassIdentifier: Assembly-CSharp::MissEffect
   sliceSprite: {fileID: 21300000, guid: 7406ef671f06b0a43a1c692b36d354ec, type: 3}
+  upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: 2b3afe447c85df846bf75e7ba486ab07, type: 3}

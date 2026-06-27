@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BombEffect
   sliceSprite: {fileID: 21300000, guid: f4bfc2d07b1e166408a038b04feb5c68, type: 3}
   upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: 6accc7f26c2257540abe2e10f8b9c864, type: 3}
+  - {fileID: 8300000, guid: f9eb2238f7dd0c84e8e66cdad761a8b5, type: 3}
+  - {fileID: 8300000, guid: f3b25b5b5a9a0e84b82a26eee553cc82, type: 3}
+  - {fileID: 8300000, guid: 2fe091b460c3cf04db2d07d939b41e15, type: 3}
   selfDamage: 1
   revealedEffect: {fileID: 11400000, guid: 5e5171a63ae03b14bae6638f1eed8036, type: 2}

@@ -11,6 +11,9 @@ public class DeflectEffect : WheelSlotEffect
             return;
         }
 
+        BattleAudio battleAudio = FindAnyObjectByType<BattleAudio>();
+        if (battleAudio && effectSounds.Count > 0) battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
+
         battle.SetPendingDeflect(attacker);
         battle.Announce($"{attacker.displayName} readies a deflect! Next hit gets sent back.");
     }
