@@ -5,6 +5,8 @@ public class ObjectInteract : MonoBehaviour
     [SerializeField]
     protected DialogueHolder holder;
     [SerializeField]
+    protected DialogueHolder defeatDialogueHolder;
+    [SerializeField]
     protected float forwardHelperDistance = 1.5f;
 
     public float ForwardHelperDistance { get => forwardHelperDistance; }

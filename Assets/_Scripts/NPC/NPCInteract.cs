@@ -16,7 +16,6 @@ public class NPCInteract : ObjectInteract
 
     public bool isDefeated;
 
-    [SerializeField]
     private BattleTrigger battleTrigger;
 
 
@@ -45,8 +44,10 @@ public class NPCInteract : ObjectInteract
             return;
         }
 
-        if (battleTrigger)
+        if (battleTrigger && !isDefeated)
             DialogueSystem.Instance.StartDialogue(holder, battleTrigger);
+        else if(battleTrigger && isDefeated)
+            DialogueSystem.Instance.StartDialogue(defeatDialogueHolder);
         else
             DialogueSystem.Instance.StartDialogue(holder);
     }

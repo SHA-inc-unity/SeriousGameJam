@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Dog Attack
   m_EditorClassIdentifier: Assembly-CSharp::AttackEffect
   sliceSprite: {fileID: 21300000, guid: 0844853e69163c945b135de3a0a4c9d1, type: 3}
+  sliceSpriteScale: 0.25
+  priority: 0
   upgradedVersion: {fileID: 0}
   effectSounds:
   - {fileID: 8300000, guid: a64ad393ad06a4044bfaae6ce6f94a07, type: 3}

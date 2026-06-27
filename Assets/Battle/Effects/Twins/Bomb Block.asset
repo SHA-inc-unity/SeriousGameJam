@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Bomb Block
   m_EditorClassIdentifier: Assembly-CSharp::BombEffect
   sliceSprite: {fileID: 21300000, guid: f4bfc2d07b1e166408a038b04feb5c68, type: 3}
+  sliceSpriteScale: 0.25
+  priority: 0
   upgradedVersion: {fileID: 0}
   effectSounds:
   - {fileID: 8300000, guid: 8592d358c884cf44f93aed3dcd8e8fc2, type: 3}

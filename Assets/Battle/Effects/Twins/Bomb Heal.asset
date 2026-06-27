@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Bomb Heal
   m_EditorClassIdentifier: Assembly-CSharp::BombEffect
   sliceSprite: {fileID: 0}
+  sliceSpriteScale: 0.25
+  priority: 0
   upgradedVersion: {fileID: 0}
+  effectSounds: []
   selfDamage: 1
   revealedEffect: {fileID: 11400000, guid: f0513387f9f7778419e933f44337e2e5, type: 2}
