@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: Dialogue_Pony
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Pegasister
+    text: Oh my!! A NEIGH-t!!
+    voice: {fileID: 0}
+    answers: []
+  - who: Pegasister
+    text: Such noble armour you have! Your owner must take such good care of you.
+    voice: {fileID: 0}
+    answers: []
+  - who: Pegasister
+    text: "Don\u2019t worry pretty, I won\u2019t try to ride you!!"
+    voice: {fileID: 0}
+    answers: []
+  - who: Pegasister
+    text: "What\u2019s that? In your land NEIGHHH-ts ride HORSES??"
+    voice: {fileID: 0}
+    answers: []
+  - who: Pegasister
+    text: "Hehehe don\u2019t be ridiculous!! I know horseplay when I hear it!"
+    voice: {fileID: 0}
+    answers: []
+  - who: Pegasister
+    text: Here have a treat! I know you NEIGHH-ts love them <3
+    voice: {fileID: 0}
+    answers:
+    - text: BATTLE!!!
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
+  triggerBattleOnEnd: 0
+  canRepeat: 1
