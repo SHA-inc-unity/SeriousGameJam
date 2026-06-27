@@ -69,8 +69,8 @@ MonoBehaviour:
     - line: '|   m_VirtualRealitySplashScreen: {instanceID: 0}'
     - line: '|   defaultScreenWidth: 1024'
     - line: '|   defaultScreenHeight: 768'
-    - line: '|   defaultScreenWidthWeb: 960'
-    - line: '|   defaultScreenHeightWeb: 600'
+    - line: '|   defaultScreenWidthWeb: 1920'
+    - line: '|   defaultScreenHeightWeb: 1080'
     - line: '|   m_StereoRenderingPath: 0'
     - line: '|   m_ActiveColorSpace: 1'
     - line: '|   unsupportedMSAAFallback: 0'
@@ -1014,7 +1014,7 @@ MonoBehaviour:
         m_InsightsSettingsContainer:
           m_BuildProfileEngineDiagnosticsState: 2
         m_AdaptivePerformanceEnabled: 0
-        m_CodeOptimization: 1
+        m_CodeOptimization: 4
         m_WebGLClientBrowserPath: 
         m_WebGLClientBrowserType: 0
         m_WebGLTextureSubtarget: 1
