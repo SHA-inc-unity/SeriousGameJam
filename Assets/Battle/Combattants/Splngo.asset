@@ -18,3 +18,4 @@ MonoBehaviour:
   bonusMaxHP: 0
   wheel: {fileID: 11400000, guid: 01368bef006da37458f30d3cc600718e, type: 2}
   soundSet: {fileID: 11400000, guid: f6d2b0cd49298c347be5629c2a98dfb1, type: 2}
+  isDefeated: 0
