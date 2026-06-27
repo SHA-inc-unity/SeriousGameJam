@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 2730ed1bc00a58544937b06f9d12b9eb, type: 2}
   forwardHelperDistance: 1.5
   npcName: 
   NPCBooth: {fileID: 0}
@@ -4208,7 +4208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 254f9419e8cf8114da9dfe38fc09fa07, type: 2}
   forwardHelperDistance: 1.5
   npcName: 
   NPCBooth: {fileID: 0}
@@ -4418,7 +4418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: 15f3f4d33b9562a4db37e271b5c2ccf9, type: 2}
   forwardHelperDistance: 1.5
   npcName: 
   NPCBooth: {fileID: 0}
