@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 478133709434120468}
   - component: {fileID: 8669453383230544103}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: OverworldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
