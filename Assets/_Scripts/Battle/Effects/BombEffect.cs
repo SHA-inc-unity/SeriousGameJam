@@ -18,7 +18,8 @@ public class BombEffect : WheelSlotEffect
                         $"HP: {attacker.currentHP}/{attacker.maxHP}");
 
         BattleAudio battleAudio = FindAnyObjectByType<BattleAudio>();
-        if (battleAudio && effectSounds.Count > 0) battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
+        if (battleAudio && effectSounds.Count > 0)
+            battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
 
         // Replace this slot in the wheel with the revealed effect
         Wheel wheel = attacker.wheel;
@@ -29,12 +30,15 @@ public class BombEffect : WheelSlotEffect
                 wheel.slots[i] = new Wheel.WheelSlot
                 {
                     effect = revealedEffect,
-                    weight = wheel.slots[i].weight  // keep the same weight
+                    weight = wheel.slots[i].weight
                 };
                 battle.Announce($"The bomb reveals a new slot: {(revealedEffect != null ? revealedEffect.name : "nothing")}!");
                 break;
             }
         }
+
+        // Refresh the wheel visuals so the new sprite shows immediately
+        battle.NotifyWheelChanged(attacker);
 
         // Check if the self-damage finished the attacker
         if (attacker.IsDefeated)

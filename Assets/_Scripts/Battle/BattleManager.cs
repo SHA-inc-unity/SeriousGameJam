@@ -396,6 +396,14 @@ public class BattleManager : MonoBehaviour
         else
             battleCanvas.UpdateEnemyHP(enemy.currentHP, enemy.overhealth);
     }
+    
+    public void NotifyWheelChanged(Combatant combatant)
+    {
+        if (combatant == player)
+            battleCanvas.RefreshPlayerWheelSprites(player.wheel);
+        else
+            battleCanvas.RefreshEnemyWheelSprites(enemy.wheel);
+    }
 
     public void SetPendingDamageReduction(Combatant defender, int amount)
         => pendingDamageReductions[defender] = amount;

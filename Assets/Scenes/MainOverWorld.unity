@@ -2114,6 +2114,7 @@ Transform:
   - {fileID: 30585467}
   - {fileID: 2051591298}
   - {fileID: 2106063801}
+  - {fileID: 1843555062}
   - {fileID: 852535160}
   - {fileID: 1059347574}
   m_Father: {fileID: 211145456}
@@ -2145,7 +2146,7 @@ Transform:
   m_GameObject: {fileID: 1187140318}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -0.48, y: 2.39, z: -2.39}
+  m_LocalPosition: {x: -0.48, y: 2.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2220,7 +2221,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 8f6dbefd015c21d438883dfdd93175e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3826,6 +3827,96 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8490175367246466963, guid: d20ce1a973f2bcc4caa6c5f221e977ca, type: 3}
   m_PrefabInstance: {fileID: 445236379}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1843555061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1843555062}
+  - component: {fileID: 1843555065}
+  - component: {fileID: 1843555064}
+  - component: {fileID: 1843555063}
+  m_Layer: 0
+  m_Name: ponygirl (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1843555062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843555061}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.79, y: -1.71, z: -0.61}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1108513150}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1843555063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843555061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
+  holder: {fileID: 0}
+  defeatDialogueHolder: {fileID: 0}
+  forwardHelperDistance: 1.5
+  npcName: 
+  NPCBooth: {fileID: 0}
+  NPC: {fileID: 0}
+  ObjectStates: []
+  isDefeated: 0
+--- !u!65 &1843555064
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843555061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.7406006, y: 1.5767107, z: 1.2181791}
+  m_Center: {x: 0.21033987, y: -0.9843294, z: -1.1509914}
+--- !u!114 &1843555065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843555061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d752805a0f8b81e469b7a3527e64f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DepthSorter
+  sr:
+  - {fileID: 1187140321}
+  precision: 100
 --- !u!4 &1845712326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
@@ -4211,7 +4302,7 @@ Transform:
   m_GameObject: {fileID: 2051591297}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.9, y: -2.78, z: 0.91}
+  m_LocalPosition: {x: 4.9, y: -2.78, z: -0.71}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4252,8 +4343,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.6330312, y: 1.3539863, z: 0.91253537}
-  m_Center: {x: -0.4363912, y: 1.1377742, z: -3.9662685}
+  m_Size: {x: 1.6330312, y: 1.3539863, z: 1.166387}
+  m_Center: {x: -0.4363912, y: 1.1377742, z: -1.2974727}
 --- !u!114 &2051591301
 MonoBehaviour:
   m_ObjectHideFlags: 0
