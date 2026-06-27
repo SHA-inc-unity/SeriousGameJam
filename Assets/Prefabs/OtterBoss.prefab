@@ -127,6 +127,8 @@ GameObject:
   - component: {fileID: 9191860474006524524}
   - component: {fileID: 4603314449022088216}
   - component: {fileID: 7272952956093041005}
+  - component: {fileID: 1669361297191986374}
+  - component: {fileID: 2273186564813201720}
   m_Layer: 0
   m_Name: OtterBoss
   m_TagString: Untagged
@@ -201,3 +203,43 @@ MonoBehaviour:
   isAngry: 0
   isDefeated: 0
   anim: {fileID: 930544904006173994}
+--- !u!114 &1669361297191986374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267737038357477568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
+  holder: {fileID: 11400000, guid: 8b3022aae11d5ec48a60cccc5a208641, type: 2}
+  forwardHelperDistance: 1.5
+  npcName: Otter
+  NPCBooth: {fileID: 0}
+  NPC: {fileID: 0}
+  ObjectStates: []
+  isDefeated: 0
+--- !u!114 &2273186564813201720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267737038357477568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4503d1363d9703d4cb64fbd3e0e2a47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleTrigger
+  playerData: {fileID: 11400000, guid: 112806a1b222a7341bd04f5af5e0817a, type: 2}
+  enemyData: {fileID: 11400000, guid: 17123fbf13dc4c144b977298b6619641, type: 2}
+  battleBackground: {fileID: 21300000, guid: e323bf633e79f70429a77c794162b357, type: 3}
+  battleSceneName: BattleScene
+  winSceneName: SplashScreen
+  loseSceneName: BossBattle
+  dialogue: {fileID: 0}
+  replacementEffect: {fileID: 0}
+  nPCInteract: {fileID: 1669361297191986374}

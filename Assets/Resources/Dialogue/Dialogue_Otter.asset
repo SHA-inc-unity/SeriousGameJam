@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: Dialogue_Otter
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Sirius
+    text: You there.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: :3?
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: Unhand my noble steed this instant.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: Nyo!
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: Filthy cur, do not force my hand.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: '*GRUMBLE GRUMBLE GRUMBLE*'
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: ...
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: No...
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: '>:3'
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: You shall watch as I devour your steed in its entirety.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: And I shall revel in glee as it slides into my stomach.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: But that will not fill me.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: Not as much as the joy I shall feel knowing your journey has been for naught.
+    voice: {fileID: 0}
+    answers: []
+  - who: Behemoth
+    text: Despair.
+    voice: {fileID: 0}
+    answers: []
+  - who: Sirius
+    text: MISCREANT!! IN THE NAME OF LEVIATHAN I SHALL VANQUISH YOU!!
+    voice: {fileID: 0}
+    answers:
+    - text: BATTLE!!!
+      nextDialogue: {fileID: 0}
+      goToBattle: 1
+  triggerBattleOnEnd: 1
+  canRepeat: 1

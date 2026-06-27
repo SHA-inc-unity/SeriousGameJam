@@ -40,6 +40,8 @@ public class RandomEffect : WheelSlotEffect
             cumulative += e.weight;
             if (roll <= cumulative)
             {
+
+                Debug.Log("Otter Random!");
                 e.effect?.Execute(attacker, defender, battle);
                 return;
             }

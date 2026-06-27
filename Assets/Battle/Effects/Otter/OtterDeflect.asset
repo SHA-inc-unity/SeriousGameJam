@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeflectEffect
   sliceSprite: {fileID: 0}
   upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: 8592d358c884cf44f93aed3dcd8e8fc2, type: 3}

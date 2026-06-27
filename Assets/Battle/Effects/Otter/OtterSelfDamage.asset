@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SelfDamageEffect
   sliceSprite: {fileID: 0}
   upgradedVersion: {fileID: 0}
+  effectSounds:
+  - {fileID: 8300000, guid: 0f025696936eb4642955ba3ec0587427, type: 3}
+  - {fileID: 8300000, guid: 459948ebb77d99941933323d5f72957c, type: 3}
+  - {fileID: 8300000, guid: 2fac64e770c5f23468e480f2c0c9baeb, type: 3}
   damage: 1
