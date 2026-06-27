@@ -34,13 +34,16 @@ public class DuckedStatus : StatusEffect
     public override void OnApply(Combatant owner, BattleManager battle)
     {
         Wheel wheel = owner.wheel;
+
+        var (duckScale, duckSprite) = duckEffect.SliceSprite;
+
         for (int i = 0; i < wheel.slots.Length; i++)
         {
             wheel.slots[i] = new Wheel.WheelSlot
             {
                 effect = duckEffect,
-                weight = wheel.slots[i].weight,        // keep odds identical
-                sliceSprite = duckEffect.sliceSprite   // show duck art if assigned
+                weight = wheel.slots[i].weight,
+                sliceSprite = duckSprite
             };
         }
 

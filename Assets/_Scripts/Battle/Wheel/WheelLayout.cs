@@ -17,28 +17,31 @@ public static class WheelLayout
     /// slots with no effect or no sliceSprite assigned, same convention BattleCanvas used.
     /// </summary>
     public static List<RectTransform> BuildWheelVisual(
-        Transform parent, Wheel wheel, float wheelSize,
-        float iconDistanceFromCenter, float iconSizeRatio, float slotZeroOffsetDegrees)
+    Transform parent, Wheel wheel, float wheelSize,
+    float iconDistanceFromCenter, float iconSizeRatio, float slotZeroOffsetDegrees)
     {
         CreateImage("Base", parent, wheel.backgroundSprite, wheelSize);
 
-        float iconDist   = wheelSize * iconDistanceFromCenter;
+        float iconDist = wheelSize * iconDistanceFromCenter;
         float iconSizePx = wheelSize * iconSizeRatio;
-        int   slotCount  = wheel.slots.Length;
+        int slotCount = wheel.slots.Length;
 
         var slotIcons = new List<RectTransform>(new RectTransform[slotCount]);
 
         for (int i = 0; i < slotCount; i++)
         {
             WheelSlotEffect effect = wheel.slots[i].effect;
-            if (effect == null || effect.sliceSprite == null) continue;
+            if (effect == null) continue;
 
-            GameObject iconGO  = new GameObject($"Icon_{i}", typeof(RectTransform), typeof(Image));
+            var (sliceScale, sliceSprite) = effect.SliceSprite;
+            if (sliceSprite == null) continue;
+
+            GameObject iconGO = new GameObject($"Icon_{i}", typeof(RectTransform), typeof(Image));
             iconGO.transform.SetParent(parent, worldPositionStays: false);
 
             RectTransform iconRect = iconGO.GetComponent<RectTransform>();
-            iconRect.sizeDelta     = new Vector2(iconSizePx, iconSizePx);
-            iconRect.pivot         = new Vector2(0.5f, 0.5f);
+            iconRect.sizeDelta = new Vector2(iconSizePx * sliceScale, iconSizePx * sliceScale);
+            iconRect.pivot = new Vector2(0.5f, 0.5f);
 
             float angleDeg = 90f + slotZeroOffsetDegrees - (i * (360f / slotCount));
             float angleRad = angleDeg * Mathf.Deg2Rad;
@@ -49,7 +52,7 @@ public static class WheelLayout
             );
 
             iconRect.localEulerAngles = new Vector3(0f, 0f, angleDeg - 90f);
-            iconGO.GetComponent<Image>().sprite = effect.sliceSprite;
+            iconGO.GetComponent<Image>().sprite = sliceSprite;
 
             slotIcons[i] = iconRect;
         }
