@@ -179,6 +179,7 @@ MonoBehaviour:
   NPC: {fileID: 0}
   ObjectStates: []
   isDefeated: 0
+  battleTrigger: {fileID: 0}
 --- !u!65 &30585469
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -651,6 +652,22 @@ PrefabInstance:
       propertyPath: replacementEffect
       value: 
       objectReference: {fileID: 11400000, guid: 4198f3db834b8a3458e1e3e41c70fbf8, type: 2}
+    - target: {fileID: 3132079141038550949, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: NPCBooth
+      value: 
+      objectReference: {fileID: 1103570391}
+    - target: {fileID: 3132079141038550949, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: ObjectStates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132079141038550949, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: 'ObjectStates.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 151d709b8e51f764693ba2d6f0596622, type: 3}
+    - target: {fileID: 3132079141038550949, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+      propertyPath: 'ObjectStates.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: cfb700ed05abc2643a5d8e56fcd4f0eb, type: 3}
     - target: {fileID: 6623060687806188579, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.26
@@ -790,6 +807,7 @@ MonoBehaviour:
   NPC: {fileID: 0}
   ObjectStates: []
   isDefeated: 0
+  battleTrigger: {fileID: 0}
 --- !u!1 &383840904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,6 +1609,22 @@ PrefabInstance:
       propertyPath: replacementEffect
       value: 
       objectReference: {fileID: 11400000, guid: 72ad8cd86d3900b42b334313e497c3e4, type: 2}
+    - target: {fileID: 6410633803854994424, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: NPCBooth
+      value: 
+      objectReference: {fileID: 1853377643}
+    - target: {fileID: 6410633803854994424, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: ObjectStates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410633803854994424, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: 'ObjectStates.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: f136fdeb2715e6c46b4e7d4e423e61d1, type: 3}
+    - target: {fileID: 6410633803854994424, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+      propertyPath: 'ObjectStates.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 16232a677a365674cb65ce01eba68027, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1905,6 +1939,11 @@ Transform:
   - {fileID: 1974781850}
   m_Father: {fileID: 211145456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1103570391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8876702051079102564, guid: 0044b1839b22c8c4c9d856be553b0ddf, type: 3}
+  m_PrefabInstance: {fileID: 358820245}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1108513149
 GameObject:
   m_ObjectHideFlags: 0
@@ -2343,6 +2382,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1507483, y: 2.2206159, z: 12.290046}
   m_Center: {x: 0.07537413, y: 0.6103077, z: 3.228356}
+--- !u!1 &1270508649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4849065089688158458, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+  m_PrefabInstance: {fileID: 1586059520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1332701765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
@@ -2955,6 +2999,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 676338042}
     m_Modifications:
+    - target: {fileID: 779841614155622264, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: NPCBooth
+      value: 
+      objectReference: {fileID: 1270508649}
+    - target: {fileID: 779841614155622264, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: ObjectStates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 779841614155622264, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: 'ObjectStates.Array.data[0]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 22d9d6f16fe6cc84c9cf56b567393514, type: 3}
+    - target: {fileID: 779841614155622264, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
+      propertyPath: 'ObjectStates.Array.data[1]'
+      value: 
+      objectReference: {fileID: 21300000, guid: 28f5dfd124755bb46a0a41eee3a9e04b, type: 3}
     - target: {fileID: 6372737962342478872, guid: 9ad146a1a2500e647b3937549636d2d3, type: 3}
       propertyPath: m_Name
       value: NPC_Twins
@@ -3630,6 +3690,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8025046187710685429, guid: 1d99b38e960c7a8419b79db02fbbd54b, type: 3}
   m_PrefabInstance: {fileID: 1989758427}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1853377643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8672427604365496463, guid: 46926b9de0fa5e54cb248f15669fa073, type: 3}
+  m_PrefabInstance: {fileID: 775057822}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1885377898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3915,6 +3980,7 @@ MonoBehaviour:
   NPC: {fileID: 0}
   ObjectStates: []
   isDefeated: 0
+  battleTrigger: {fileID: 0}
 --- !u!1001 &2053292600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4124,6 +4190,7 @@ MonoBehaviour:
   NPC: {fileID: 0}
   ObjectStates: []
   isDefeated: 0
+  battleTrigger: {fileID: 0}
 --- !u!1001 &2120773288
 PrefabInstance:
   m_ObjectHideFlags: 0
