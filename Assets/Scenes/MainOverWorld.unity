@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d50f3b3509a0c409e63c15c6662da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
-  holder: {fileID: 0}
+  holder: {fileID: 11400000, guid: e6fcd90824984e345ad05756015a38d6, type: 2}
   forwardHelperDistance: 1.5
   npcName: 
   NPCBooth: {fileID: 0}
