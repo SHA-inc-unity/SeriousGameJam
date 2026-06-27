@@ -36,9 +36,6 @@ MonoBehaviour:
   - who: Pegasister
     text: Here have a treat! I know you NEIGHH-ts love them <3
     voice: {fileID: 0}
-    answers:
-    - text: BATTLE!!!
-      nextDialogue: {fileID: 0}
-      goToBattle: 1
+    answers: []
   triggerBattleOnEnd: 0
   canRepeat: 1
