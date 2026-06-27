@@ -23,7 +23,10 @@ public abstract class WheelSlotEffect : ScriptableObject
     /// </summary>
     ///
     [Tooltip("The wedge sprite shown on the wheel for this effect slot.")]
-    public Sprite sliceSprite;
+    [SerializeField]
+    private Sprite sliceSprite;
+    [SerializeField]
+    private float sliceSpriteScale = 1f;
 
     [Header("Upgrade")]
     [Tooltip("The effect this slot upgrades into, if the player picks it on the post-battle " +
@@ -34,6 +37,8 @@ public abstract class WheelSlotEffect : ScriptableObject
     public List<AudioClip> effectSounds;
 
     public bool HasUpgrade => upgradedVersion != null;
+
+    public (float, Sprite) SliceSprite => (sliceSpriteScale, sliceSprite);
 
     public abstract void Execute(Combatant attacker, Combatant defender, BattleManager battle);
 }

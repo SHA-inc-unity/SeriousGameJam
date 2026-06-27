@@ -78,10 +78,28 @@ public class WheelSpinUI : MonoBehaviour
             if (img != null)
             {
                 var slot = wheel.slots[i];
-                // Prefer the slot's own sprite override; fall back to the effect's sprite.
-                // This matters on restore: original slots store their sprite on the effect,
-                // not on the struct, so slot.sliceSprite would be null without this fallback.
-                img.sprite = slot.sliceSprite != null ? slot.sliceSprite : slot.effect?.sliceSprite;
+
+                Sprite chosenSprite;
+                float chosenScale;
+
+                if (slot.sliceSprite != null)
+                {
+                    chosenSprite = slot.sliceSprite;
+                    chosenScale = 1f;
+                }
+                else if (slot.effect != null)
+                {
+                    var (effScale, effSprite) = slot.effect.SliceSprite;
+                    chosenSprite = effSprite;
+                    chosenScale = effScale;
+                }
+                else
+                {
+                    chosenSprite = null;
+                    chosenScale = 1f;
+                }
+
+                img.sprite = chosenSprite;
             }
             else
                 Debug.LogWarning($"WheelSpinUI: slot icon {i} has no Image component to refresh.");
