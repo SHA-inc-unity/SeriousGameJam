@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PuppyEyes
   m_EditorClassIdentifier: Assembly-CSharp::VulnerableSlotEffect
   sliceSprite: {fileID: 21300000, guid: af5b6b94da10e4d49bf872fa6776c2d1, type: 3}
-  sliceSpriteScale: 1
+  sliceSpriteScale: 0.25
   priority: 3
   upgradedVersion: {fileID: 0}
   effectSounds:

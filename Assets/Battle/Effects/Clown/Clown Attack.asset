@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Clown Attack
   m_EditorClassIdentifier: Assembly-CSharp::AttackEffect
   sliceSprite: {fileID: 21300000, guid: f71326ea0e0e79645ba940a1096be0be, type: 3}
+  sliceSpriteScale: 0.25
+  priority: 0
   upgradedVersion: {fileID: 0}
   effectSounds:
   - {fileID: 8300000, guid: 6ee80a9aed3064147a1e837af32472df, type: 3}

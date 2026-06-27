@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: OtterSelfDamage
   m_EditorClassIdentifier: Assembly-CSharp::SelfDamageEffect
   sliceSprite: {fileID: 0}
+  sliceSpriteScale: 0.25
+  priority: 0
   upgradedVersion: {fileID: 0}
   effectSounds:
   - {fileID: 8300000, guid: 0f025696936eb4642955ba3ec0587427, type: 3}
