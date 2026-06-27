@@ -12,6 +12,7 @@ public class Wheel : ScriptableObject
         [Min(0f)] public float weight;
         [Tooltip("The wedge sprite for this slot.")]
         public Sprite sliceSprite;
+        public float sliceSpriteScale;
     }
 
     [Header("Visual")]

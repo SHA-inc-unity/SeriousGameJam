@@ -43,7 +43,8 @@ public class DuckedStatus : StatusEffect
             {
                 effect = duckEffect,
                 weight = wheel.slots[i].weight,
-                sliceSprite = duckSprite
+                sliceSprite = duckSprite,
+                sliceSpriteScale = duckScale
             };
         }
 

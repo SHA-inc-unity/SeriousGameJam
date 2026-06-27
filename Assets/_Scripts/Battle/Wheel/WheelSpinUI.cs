@@ -75,35 +75,42 @@ public class WheelSpinUI : MonoBehaviour
             Image img = slotIcons[i].GetComponent<Image>();
             if (img == null) img = slotIcons[i].GetComponentInChildren<Image>();
 
-            if (img != null)
+            if (img == null)
             {
-                var slot = wheel.slots[i];
+                Debug.LogWarning($"WheelSpinUI: slot icon {i} has no Image component to refresh.");
+                continue;
+            }
 
-                Sprite chosenSprite;
-                float chosenScale;
+            var slot = wheel.slots[i];
 
-                if (slot.sliceSprite != null)
-                {
-                    chosenSprite = slot.sliceSprite;
-                    chosenScale = 1f;
-                }
-                else if (slot.effect != null)
-                {
-                    var (effScale, effSprite) = slot.effect.SliceSprite;
-                    chosenSprite = effSprite;
-                    chosenScale = effScale;
-                }
-                else
-                {
-                    chosenSprite = null;
-                    chosenScale = 1f;
-                }
+            Sprite chosenSprite;
+            float chosenScale;
 
-                img.sprite = chosenSprite;
+            if (slot.sliceSprite != null)
+            {
+                chosenSprite = slot.sliceSprite;
+                chosenScale = slot.sliceSpriteScale > 0f ? slot.sliceSpriteScale : 1f;
+            }
+            else if (slot.effect != null)
+            {
+                var (effScale, effSprite) = slot.effect.SliceSprite;
+                chosenSprite = effSprite;
+                chosenScale = effScale > 0f ? effScale : 1f;
             }
             else
-                Debug.LogWarning($"WheelSpinUI: slot icon {i} has no Image component to refresh.");
+            {
+                chosenSprite = null;
+                chosenScale = 1f;
+            }
+
+            img.sprite = chosenSprite;
+            ApplyIconScale(slotIcons[i], chosenScale);
         }
+    }
+
+    private void ApplyIconScale(RectTransform icon, float scale)
+    {
+        icon.localScale = new Vector3(scale, scale, 1f);
     }
 
     public void PlaySpin(int winningIndex, int slotCount, System.Action<int> onComplete = null, float durationOverride = -1f)
