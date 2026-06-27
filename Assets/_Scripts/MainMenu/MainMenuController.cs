@@ -18,6 +18,8 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private AudioMixerGroup effectsGroup;
     [SerializeField] private AudioClip selectClip;
     [SerializeField] private AudioClip changeScreenClip;
+    [SerializeField] private AudioClip returnButtonClip;
+    [SerializeField] private AudioClip pressedButtonClip;
 
     private AudioSource source;
     private Dictionary<string, GameObject> menuBox;
@@ -70,6 +72,17 @@ public class MainMenuController : MonoBehaviour
     {
         if (selectClip != null) source.PlayOneShot(selectClip);
     }
+
+    public void PlayPressed()
+    {
+        if (selectClip != null) source.PlayOneShot(pressedButtonClip);
+    }
+    public void PlayReturnButtonSound()
+    {
+        if (selectClip != null) source.PlayOneShot(returnButtonClip);
+    }
+
+
 
     public void PlayChangeScreen()
     {

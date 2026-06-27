@@ -1,7 +1,7 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
 
 [RequireComponent(typeof(AudioSource))]
 public class PauseMenuController : MonoBehaviour
@@ -12,6 +12,8 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private AudioMixerGroup effectsGroup;
     [SerializeField] private AudioClip selectClip;
     [SerializeField] private AudioClip changeScreenClip;
+    [SerializeField] private AudioClip returnButtonClip;
+    [SerializeField] private AudioClip pressedButtonClip;
 
     private AudioSource source;
 
@@ -48,6 +50,15 @@ public class PauseMenuController : MonoBehaviour
     public void PlaySelect()
     {
         if (selectClip != null) source.PlayOneShot(selectClip);
+    }
+    public void PlayPressed()
+    {
+        if (selectClip != null) source.PlayOneShot(pressedButtonClip);
+    }
+
+    public void PlayReturnButtonSound()
+    {
+        if (selectClip != null) source.PlayOneShot(returnButtonClip);
     }
 
     public void PlayChangeScreen()
