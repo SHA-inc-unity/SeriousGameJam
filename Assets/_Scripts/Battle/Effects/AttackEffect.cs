@@ -6,7 +6,7 @@ public class AttackEffect : WheelSlotEffect
     [Tooltip("Flat damage this slot deals.")]
     public int damage = 1;
 
-    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager, SpinResult spinResult)
     {
         battleManager.ApplyDamage(attacker, defender, damage);
 

@@ -12,8 +12,8 @@ using UnityEngine.UI;
 /// </summary>
 public class WheelSpinUI : MonoBehaviour
 {
-    [Range(0.5f, 5f)] public float spinDuration = 2.5f;
-    [Range(1, 8)] public int extraFullSpins = 4;
+    [Min(0.5f)] public float spinDuration = 2.5f;
+    [Min(1)] public int extraFullSpins = 4;
     public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public float slotZeroOffsetDegrees = 0f;
     public float scale = 2.4f;
@@ -121,6 +121,7 @@ public class WheelSpinUI : MonoBehaviour
         isSpinning = true;
 
         float duration = durationOverride > 0f ? durationOverride : spinDuration;
+        Debug.Log($"SpinRoutine started — spinDuration={spinDuration}, durationOverride={durationOverride}, final duration={duration}");
         float degreesPerSlot = 360f / slotCount;
 
         // This is only the spin's AIM, to pick a direction/target to rotate toward. The

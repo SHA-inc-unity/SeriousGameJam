@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: Normal Block
   m_EditorClassIdentifier: Assembly-CSharp::DefendEffect
   sliceSprite: {fileID: 21300000, guid: 7770e4a43adf8c04ca16e92a3d4aee87, type: 3}
+  sliceSpriteScale: 1
+  priority: 3
+  upgradedVersion: {fileID: 0}
+  effectSounds: []

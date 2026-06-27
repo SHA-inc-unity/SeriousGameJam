@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Normal Deflect
   m_EditorClassIdentifier: Assembly-CSharp::DeflectEffect
   sliceSprite: {fileID: 0}
+  sliceSpriteScale: 1
+  priority: 3
   upgradedVersion: {fileID: 0}
+  effectSounds: []

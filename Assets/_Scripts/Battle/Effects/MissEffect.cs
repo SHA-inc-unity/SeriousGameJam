@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MissEffect", menuName = "Battle/Effects/Miss")]
 public class MissEffect : WheelSlotEffect
 {
-    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager)
+    public override void Execute(Combatant attacker, Combatant defender, BattleManager battleManager, SpinResult spinResult)
     {
         Debug.Log($"{attacker.displayName}'s spin landed on nothing. No effect.");
 
