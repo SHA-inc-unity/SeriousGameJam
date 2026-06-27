@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class VideoScenePlayer : MonoBehaviour
 {
@@ -11,9 +10,18 @@ public class VideoScenePlayer : MonoBehaviour
 
     void Start()
     {
+        //videoPlayer.loopPointReached += OnVideoEnd;
+        //videoPlayer.Play();
+
+        videoPlayer.source = VideoSource.Url;
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "IntroCutscene2.mp4");
+
+        videoPlayer.prepareCompleted += OnPrepared;
         videoPlayer.loopPointReached += OnVideoEnd;
-        videoPlayer.Play();
+        videoPlayer.Prepare();
     }
+
+    void OnPrepared(VideoPlayer vp) => vp.Play();
 
     private void Update()
     {
