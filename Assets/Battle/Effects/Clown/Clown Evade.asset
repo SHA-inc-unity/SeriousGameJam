@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Clown Evade
   m_EditorClassIdentifier: Assembly-CSharp::EvadeEffect
   sliceSprite: {fileID: 21300000, guid: 40c7bd7459e3ae041b9a3c918a1ce9b7, type: 3}
-  sliceSpriteScale: 1
+  sliceSpriteScale: 0.25
   priority: 3
   upgradedVersion: {fileID: 0}
   effectSounds:

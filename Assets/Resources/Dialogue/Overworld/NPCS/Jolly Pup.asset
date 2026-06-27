@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c30283a333a443b4b63a507555694, type: 3}
+  m_Name: Jolly Pup
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
+  dialogue:
+  - who: Jolly Pup
+    text: "Oh boy I sure do love this mildly inconvenient spot I\u2019ve chosen to
+      stand on!"
+    voice: {fileID: 0}
+    answers: []
+  - who: Jolly Pup
+    text: "I\u2019d only move out of the way for\u2026 hmmmmm\u2026"
+    voice: {fileID: 0}
+    answers: []
+  - who: Jolly Pup
+    text: A kajillion snacks and prizes!! Hehehe!
+    voice: {fileID: 0}
+    answers: []
+  - who: Jolly Pup
+    text: Maybe you could grab me a bunch from the stalls over there?
+    voice: {fileID: 0}
+    answers: []
+  triggerBattleOnEnd: 0
+  canRepeat: 1

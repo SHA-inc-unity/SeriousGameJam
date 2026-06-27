@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OtterNormalHeal
   m_EditorClassIdentifier: Assembly-CSharp::HealEffect
   sliceSprite: {fileID: 21300000, guid: 1507e394616de1044b9b5681f9b00af6, type: 3}
-  sliceSpriteScale: 1
+  sliceSpriteScale: 0.25
   priority: 1
   upgradedVersion: {fileID: 0}
   effectSounds:

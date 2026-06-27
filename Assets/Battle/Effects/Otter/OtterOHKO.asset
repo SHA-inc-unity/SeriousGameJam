@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OtterOHKO
   m_EditorClassIdentifier: Assembly-CSharp::AttackEffect
   sliceSprite: {fileID: 0}
-  sliceSpriteScale: 1
+  sliceSpriteScale: 0.25
   priority: 10
   upgradedVersion: {fileID: 0}
   effectSounds:

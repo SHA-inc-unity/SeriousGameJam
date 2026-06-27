@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Twins Attack
   m_EditorClassIdentifier: Assembly-CSharp::AttackEffect
   sliceSprite: {fileID: 21300000, guid: 5c3357da37014e34c9354feb45ec6d72, type: 3}
+  sliceSpriteScale: 0.25
+  priority: 0
   upgradedVersion: {fileID: 0}
+  effectSounds: []
   damage: 2

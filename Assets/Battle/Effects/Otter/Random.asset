@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Random
   m_EditorClassIdentifier: Assembly-CSharp::RandomEffect
   sliceSprite: {fileID: 21300000, guid: 0025d2165a26f814992dbc559d805a9b, type: 3}
-  sliceSpriteScale: 1
+  sliceSpriteScale: 0.25
   priority: 2
   upgradedVersion: {fileID: 0}
   effectSounds: []
