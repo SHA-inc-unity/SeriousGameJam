@@ -21,20 +21,25 @@ public class BombEffect : WheelSlotEffect
         if (battleAudio && effectSounds.Count > 0)
             battleAudio.PlayClip(effectSounds[UnityEngine.Random.Range(0, effectSounds.Count)]);
 
-        // Replace this slot in the wheel with the revealed effect
+        // Use the exact slot index the wheel landed on, not a search by effect reference.
+        // This ensures the correct slot is replaced even when multiple bomb slots exist.
+        int landedIndex = (attacker == battle.GetPlayer())
+            ? spinResult.playerSlotIndex
+            : spinResult.enemySlotIndex;
+
         Wheel wheel = attacker.wheel;
-        for (int i = 0; i < wheel.slots.Length; i++)
+        if (landedIndex >= 0 && landedIndex < wheel.slots.Length)
         {
-            if (wheel.slots[i].effect == this)
+            wheel.slots[landedIndex] = new Wheel.WheelSlot
             {
-                wheel.slots[i] = new Wheel.WheelSlot
-                {
-                    effect = revealedEffect,
-                    weight = wheel.slots[i].weight
-                };
-                battle.Announce($"The bomb reveals a new slot: {(revealedEffect != null ? revealedEffect.name : "nothing")}!");
-                break;
-            }
+                effect = revealedEffect,
+                weight = wheel.slots[landedIndex].weight
+            };
+            battle.Announce($"The bomb reveals a new slot: {(revealedEffect != null ? revealedEffect.name : "nothing")}!");
+        }
+        else
+        {
+            Debug.LogWarning($"BombEffect: landedIndex {landedIndex} is out of range for wheel '{wheel.name}'.");
         }
 
         // Refresh the wheel visuals so the new sprite shows immediately
