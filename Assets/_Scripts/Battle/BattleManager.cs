@@ -155,8 +155,6 @@ public class BattleManager : MonoBehaviour
         int playerConfirmed = playerIntended;
         int enemyConfirmed = enemyIntended;
 
-        // Pass -1f so WheelSpinUI uses its own spinDuration set on BattleCanvas.
-        // spinCooldown on the Wheel asset is only for the between-round pause, not animation length.
         float playerDuration = -1f;
         float enemyDuration = -1f;
 
@@ -195,15 +193,23 @@ public class BattleManager : MonoBehaviour
 
         // --- Collect effects ---
         WheelSlotEffect playerEffect = playerStunned ? null : player.wheel.slots[playerConfirmed].effect;
-        WheelSlotEffect enemyEffect = enemyStunned ? null : enemy.wheel.slots[enemyConfirmed].effect;
+        WheelSlotEffect enemyEffect  = enemyStunned  ? null : enemy.wheel.slots[enemyConfirmed].effect;
 
-        currentSpinResult = new SpinResult { playerEffect = playerEffect, enemyEffect = enemyEffect };
+        // Store both effects AND the landed indices so effects like BombEffect
+        // can replace exactly the slot the wheel stopped on.
+        currentSpinResult = new SpinResult
+        {
+            playerEffect    = playerEffect,
+            enemyEffect     = enemyEffect,
+            playerSlotIndex = playerConfirmed,
+            enemySlotIndex  = enemyConfirmed
+        };
 
         StatusEffects.NotifySpinCompleted(player);
         StatusEffects.NotifySpinCompleted(enemy);
 
         if (!playerStunned) PlayEffectSound(playerEffect, player);
-        if (!enemyStunned) PlayEffectSound(enemyEffect, enemy);
+        if (!enemyStunned)  PlayEffectSound(enemyEffect,  enemy);
 
         CurrentState = BattleState.PlayerResolve;
         CheckDialogueState(BattleState.PlayerResolve);
@@ -286,7 +292,7 @@ public class BattleManager : MonoBehaviour
 
     private bool CheckBattleOver()
     {
-        if (enemy.IsDefeated) { EndBattle(playerWon: true); return true; }
+        if (enemy.IsDefeated)  { EndBattle(playerWon: true);  return true; }
         if (player.IsDefeated) { EndBattle(playerWon: false); return true; }
         return false;
     }
@@ -330,7 +336,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public Combatant GetPlayer() => player;
-    public Combatant GetEnemy() => enemy;
+    public Combatant GetEnemy()  => enemy;
     public BattleCanvas BattleCanvasRef => battleCanvas;
 
     public void ApplyEffect(WheelSlotEffect effect, Combatant attacker, Combatant defender)
@@ -339,7 +345,7 @@ public class BattleManager : MonoBehaviour
     public void SetStunned(Combatant combatant, bool stunned)
     {
         if (stunned) stunnedCombatants.Add(combatant);
-        else stunnedCombatants.Remove(combatant);
+        else         stunnedCombatants.Remove(combatant);
     }
 
     public void MultiplySpinDuration(Combatant combatant, float multiplier)
@@ -396,7 +402,7 @@ public class BattleManager : MonoBehaviour
         else
             battleCanvas.UpdateEnemyHP(enemy.currentHP, enemy.overhealth);
     }
-    
+
     public void NotifyWheelChanged(Combatant combatant)
     {
         if (combatant == player)

@@ -5,6 +5,8 @@ public class SpinResult
 {
     public WheelSlotEffect playerEffect;
     public WheelSlotEffect enemyEffect;
+    public int playerSlotIndex; 
+    public int enemySlotIndex;   
 
     public WheelSlotEffect GetOpponentEffect(Combatant combatant, Combatant player)
         => combatant == player ? enemyEffect : playerEffect;
