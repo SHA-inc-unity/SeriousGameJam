@@ -15,13 +15,13 @@ MonoBehaviour:
   sounds:
   - state: 0
     effect: {fileID: 11400000, guid: 06a89f776491ff545b28332aad1fa152, type: 2}
-    clip: {fileID: 8300000, guid: adbd41860eeb9c54285af63b66e6ff73, type: 3}
+    clip: {fileID: 0}
   - state: 0
     effect: {fileID: 11400000, guid: c4cdfc0d8a1deda45bb9037e7bf50cdf, type: 2}
-    clip: {fileID: 8300000, guid: 6a2ac8b2ec21a3e47b29c7dd9752dfcc, type: 3}
+    clip: {fileID: 0}
   - state: 4
     effect: {fileID: 0}
-    clip: {fileID: 8300000, guid: 93782141eaf7bd64f9faeb4104f72916, type: 3}
+    clip: {fileID: 0}
   wheelSpinClips:
   - {fileID: 8300000, guid: de5d5b0129dd5d840b548e236a14432f, type: 3}
   - {fileID: 8300000, guid: 0255d7f62a24b17498e0741a4c00ceb4, type: 3}
