@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueHolder
   dialogue:
   - who: Sirius
-    text: "Ugh.. the last trial.. leviathan is within reach\u2026"
+    text: "Ugh… is Leviathan finally within reach?…\u2026"
     voice: {fileID: 8300000, guid: bfd78e444a89164469c46ff157fe1f30, type: 3}
     answers: []
   - who: Duckles
