@@ -60,7 +60,7 @@ public class NPCInteract : ObjectInteract
     }
     private void Update()
     {
-        if (NPCBooth != null && ObjectStates != null && ObjectStates.Count > 1)
+        if (isDefeated && NPCBooth != null && ObjectStates != null && ObjectStates.Count > 1)
         {
             NPCBooth.GetComponent<SpriteRenderer>().sprite = ObjectStates[1];
             if (NPC != null)
