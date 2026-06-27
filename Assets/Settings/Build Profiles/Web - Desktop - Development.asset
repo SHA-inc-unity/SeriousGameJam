@@ -38,9 +38,6 @@ MonoBehaviour:
     m_path: Assets/Scenes/MainOverWorld.unity
     m_guid: 10f3351f40a16c34db3c649e1d920caa
   - m_enabled: 1
-    m_path: Assets/Scenes/InDoorScene.unity
-    m_guid: 67c51e904cd2ff9469566fd9b8f37eb0
-  - m_enabled: 1
     m_path: Assets/Scenes/BossBattle.unity
     m_guid: f6ad6b8c1812f3a45bb0dd2b2a53ef5e
   m_HasScriptingDefines: 0
