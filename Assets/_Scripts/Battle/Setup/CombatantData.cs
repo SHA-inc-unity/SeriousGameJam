@@ -20,6 +20,9 @@ public class CombatantData : ScriptableObject
     [Header("Audio")]
     public BattleSoundSet soundSet;
 
+    [Header("DefeatState")]
+    public bool isDefeated = false;
+
     /// <summary>
     /// Builds a fresh runtime Combatant from this data. Call this when a
     /// battle actually starts - never mutate the asset's own fields at runtime,

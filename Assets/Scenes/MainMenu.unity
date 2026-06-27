@@ -2677,6 +2677,56 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1953546334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1953546336}
+  - component: {fileID: 1953546335}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1953546335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953546334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df61aa1dcfb7394aa79c5a37e8ca1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  combatantDatas:
+  - {fileID: 11400000, guid: 375830ad38bc9144bb8be2f40f3064bc, type: 2}
+  - {fileID: 11400000, guid: 9ee46b842cbc2b947a899d9f4bc15298, type: 2}
+  - {fileID: 11400000, guid: 17123fbf13dc4c144b977298b6619641, type: 2}
+  - {fileID: 11400000, guid: 295ad3d06433520498c3ff61263fbef9, type: 2}
+  - {fileID: 11400000, guid: 2ae2ed4c70e6fac4c90240623532d326, type: 2}
+--- !u!4 &1953546336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953546334}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.16861, y: 0, z: 14.63601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2048103859
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,3 +3375,4 @@ SceneRoots:
   - {fileID: 9055221495421852812}
   - {fileID: 6909306558435259873}
   - {fileID: 1814931006}
+  - {fileID: 1953546336}

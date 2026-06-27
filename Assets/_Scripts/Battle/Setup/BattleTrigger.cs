@@ -29,6 +29,7 @@ public class BattleTrigger : MonoBehaviour
 
     public NPCInteract NPCInteract { get => nPCInteract; }
 
+ 
     public void StartBattle()
     {
         if (NPCInteract.isDefeated) return;
@@ -62,8 +63,8 @@ public class BattleTrigger : MonoBehaviour
 
     private void OnWon()
     {
-        NPCInteract.isDefeated = true;
-
+        //NPCInteract.isDefeated = true;
+        if (enemyData != null) enemyData.isDefeated = true;
         if (replacementEffect == null) return;
         if (playerData == null || playerData.wheel == null) return;
 
@@ -81,6 +82,7 @@ public class BattleTrigger : MonoBehaviour
 
     private void OnLost()
     {
-        NPCInteract.isDefeated = false;
+        //NPCInteract.isDefeated = false;
+        if (enemyData != null) enemyData.isDefeated = false;
     }
 }
