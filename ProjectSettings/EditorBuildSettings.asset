@@ -35,5 +35,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossBattle.unity
     guid: f6ad6b8c1812f3a45bb0dd2b2a53ef5e
+  - enabled: 1
+    path: Assets/Scenes/SplashScreen.unity
+    guid: e5d340b04d8aa164d978e00db66be07e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
