@@ -15,6 +15,7 @@ MonoBehaviour:
   displayName: Knight
   battleSprite: {fileID: 21300000, guid: 1d6387ea0cf85c244a4fbc4d62e630f5, type: 3}
   maxHP: 3
-  bonusMaxHP: 0
+  bonusMaxHP: 1
   wheel: {fileID: 11400000, guid: cd9c516e8a8a31b4394b5ca28e7adfa4, type: 2}
   soundSet: {fileID: 11400000, guid: cb71f5ef54495394ebbfa12041c551a2, type: 2}
+  isDefeated: 0

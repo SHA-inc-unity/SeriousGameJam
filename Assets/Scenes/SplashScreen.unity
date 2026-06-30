@@ -277,7 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SplashScreen
   image: {fileID: 21300000, guid: fd84debf8704ce84a872f299055b2110, type: 3}
   nextSceneName: MainMenu
-  displayDuration: 3
+  displayDuration: 10
 --- !u!4 &427772357
 Transform:
   m_ObjectHideFlags: 0

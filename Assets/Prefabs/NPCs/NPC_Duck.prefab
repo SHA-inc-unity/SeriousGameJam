@@ -339,7 +339,7 @@ MonoBehaviour:
   battleSceneName: BattleScene
   winSceneName: 
   loseSceneName: 
-  dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
+  dialogue: {fileID: 11400000, guid: 552b89665c797ec489691066b9dbc31a, type: 2}
   replacementEffect: {fileID: 0}
   nPCInteract: {fileID: 6410633803854994424}
 --- !u!4 &2912019722246223998 stripped

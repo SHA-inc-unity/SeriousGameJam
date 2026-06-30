@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af5560acc05d43f4d8e530da94eeee21, type: 3}
+  m_Name: binglebangle
+  m_EditorClassIdentifier: Assembly-CSharp::BattleDialogueHolder
+  dialogue:
+  - who: Bingle & Bangle
+    text: "Hehehe! Don\u2019t be salty now!"
+    voice: {fileID: 8300000, guid: 99da06e07ced44a48b4af2a1474f6efd, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
+  - who: Bingle & Bangle
+    text: This will butter you up! Hehehe!
+    voice: {fileID: 8300000, guid: fa8ebafe0e70867479b555639d8c7063, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
+  - who: Bingle & Bangle
+    text: "Hehehe! Let\u2019s not sugarcoat it!"
+    voice: {fileID: 8300000, guid: fd3d1c931574c304c8f0685834f40888, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
+  - who: Bingle & Bangle
+    text: Spin it like sugar! Hehehe!
+    voice: {fileID: 8300000, guid: 6a2451ca18eeb124495b31fae65d0771, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}

@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCInteract
   holder: {fileID: 11400000, guid: 8b3022aae11d5ec48a60cccc5a208641, type: 2}
+  defeatDialogueHolder: {fileID: 0}
   forwardHelperDistance: 1.5
   npcName: Otter
   NPCBooth: {fileID: 0}
@@ -240,6 +241,6 @@ MonoBehaviour:
   battleSceneName: BattleScene
   winSceneName: SplashScreen
   loseSceneName: BossBattle
-  dialogue: {fileID: 0}
+  dialogue: {fileID: 11400000, guid: abb6a289d7241f04da08adcef4cdb80a, type: 2}
   replacementEffect: {fileID: 0}
   nPCInteract: {fileID: 1669361297191986374}

@@ -39,10 +39,6 @@ MonoBehaviour:
     voice: {fileID: 8300000, guid: bfd78e444a89164469c46ff157fe1f30, type: 3}
     answers: []
   - who: Gamez
-    text: Honk honk honk honk! Ah-hyuck, ah-hyuck! Enough fwordplay!
-    voice: {fileID: 8300000, guid: 10491efea9f9c20489f60135f7a5e86d, type: 3}
-    answers: []
-  - who: Gamez
     text: Would you like to play a (totally not rigged) game? Get a prize if you
       win! ;o)
     voice: {fileID: 0}

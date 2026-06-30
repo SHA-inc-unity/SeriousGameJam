@@ -372,6 +372,6 @@ MonoBehaviour:
   battleSceneName: BattleScene
   winSceneName: 
   loseSceneName: 
-  dialogue: {fileID: 11400000, guid: bf074e90fe4a9f34eba35977ce59eaca, type: 2}
+  dialogue: {fileID: 11400000, guid: ff08e47efe1acd44ea739737044c478c, type: 2}
   replacementEffect: {fileID: 0}
   nPCInteract: {fileID: 3132079141038550949}

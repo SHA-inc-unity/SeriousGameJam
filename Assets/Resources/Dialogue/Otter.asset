@@ -10,42 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af5560acc05d43f4d8e530da94eeee21, type: 3}
-  m_Name: TUTORIAL
+  m_Name: Otter
   m_EditorClassIdentifier: Assembly-CSharp::BattleDialogueHolder
   dialogue:
-  - who: Splingo
-    text: Yip yip! Spin! Spin! Spin! The wheel goes round and rooooound!
+  - who: Otter
+    text: I am the alpha and the omega.
     voice: {fileID: 8300000, guid: 99da06e07ced44a48b4af2a1474f6efd, type: 3}
     nextBattleState: 2
     nextWheelEffect: {fileID: 0}
-  - who: Splingo
-    text: The rule of this land is spin to win! The wheel shall decide our fates!!
+  - who: Otter
+    text: The first and the last.
     voice: {fileID: 8300000, guid: fa8ebafe0e70867479b555639d8c7063, type: 3}
     nextBattleState: 2
     nextWheelEffect: {fileID: 0}
-  - who: Sirius
-    text: Foolish wretch, only Sir Lady Sirius shall decide her fate.
-    voice: {fileID: 8300000, guid: f677f160d35c55c49b6b1787dc57cdb4, type: 3}
+  - who: Otter
+    text: The beginning and the end.
+    voice: {fileID: 8300000, guid: fd3d1c931574c304c8f0685834f40888, type: 3}
     nextBattleState: 2
     nextWheelEffect: {fileID: 0}
-  - who: Splingo
-    text: "Yip yip! That\u2019s the spirit friend!"
-    voice: {fileID: 8300000, guid: fd3d1c931574c304c8f0685834f40888, type: 3}
-    nextBattleState: 0
-    nextWheelEffect: {fileID: 0}
-  - who: Splingo
-    text: We all have a say in how fate can twiiiist and turn, but in the end, all
-      things one must earn!!
+  - who: Otter
+    text: "And I\u2019m sooooooo hungry >:3"
     voice: {fileID: 8300000, guid: 6a2451ca18eeb124495b31fae65d0771, type: 3}
     nextBattleState: 2
     nextWheelEffect: {fileID: 0}
-  - who: Sirius
-    text: Quit thine blabbering rhymes, for I am pressed for time
-    voice: {fileID: 8300000, guid: e95a298b791496e408e8662e37f6d0bd, type: 3}
+  - who: Otter
+    text: "Mmmmm fibsh\u2026."
+    voice: {fileID: 8300000, guid: 6a2451ca18eeb124495b31fae65d0771, type: 3}
     nextBattleState: 2
     nextWheelEffect: {fileID: 0}
-  - who: Sirius
-    text: I shall end it thus, pest.
-    voice: {fileID: 8300000, guid: a332caa29ea2ad741ade2e07eb402e29, type: 3}
+  - who: Otter
+    text: I am the hungry and the hungrier.
+    voice: {fileID: 8300000, guid: 6a2451ca18eeb124495b31fae65d0771, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
+  - who: Otter
+    text: "The hungriest\u2026"
+    voice: {fileID: 8300000, guid: 6a2451ca18eeb124495b31fae65d0771, type: 3}
     nextBattleState: 2
     nextWheelEffect: {fileID: 0}

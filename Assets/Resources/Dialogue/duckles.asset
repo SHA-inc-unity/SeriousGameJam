@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af5560acc05d43f4d8e530da94eeee21, type: 3}
+  m_Name: duckles
+  m_EditorClassIdentifier: Assembly-CSharp::BattleDialogueHolder
+  dialogue:
+  - who: Duckles
+    text: Ohoho! Take a quack at it!
+    voice: {fileID: 8300000, guid: 99da06e07ced44a48b4af2a1474f6efd, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
+  - who: Duckles
+    text: Ohoho! Waddle you do if I do this?
+    voice: {fileID: 8300000, guid: fa8ebafe0e70867479b555639d8c7063, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
+  - who: Duckles
+    text: Put this on your bill!
+    voice: {fileID: 8300000, guid: fd3d1c931574c304c8f0685834f40888, type: 3}
+    nextBattleState: 2
+    nextWheelEffect: {fileID: 0}
